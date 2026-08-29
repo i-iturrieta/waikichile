@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    // lib/contenido/**/*.ts usa imports relativos con extensión ".ts"
+    // explícita (p. ej. "./cargar.ts"). Hace falta porque ese árbol también
+    // se ejecuta directo con `node scripts/reporte-contenido.ts` (Bloque 3,
+    // sin `tsx`): la resolución ESM nativa de Node exige la extensión, no
+    // la adivina. Válido solo junto con `noEmit`, que este proyecto ya tiene.
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
+}

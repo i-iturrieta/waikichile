@@ -1,0 +1,60 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# pipeline de imágenes (ARCHITECTURE.md §1.4): variantes AVIF/WebP generadas
+# en build por scripts/procesar-imagenes.ts. Los originales de
+# content/images/ sí se versionan — no están alcanzados por esta regla.
+/public/img/
+# Manifiesto derivado del mismo pipeline (mismo script, mismo prebuild) —
+# igual criterio que /public/img/: se regenera solo, no se versiona.
+/lib/imagenes/manifiesto.json
+
+# cloudflare / wrangler
+.wrangler/
+# Secretos locales para `wrangler dev` (ARCHITECTURE.md §12: nunca al
+# repositorio) — no calza con el patrón `.env*` de abajo por el nombre.
+.dev.vars
+.dev.vars.*
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+# ...salvo la plantilla de referencia (Bloque 10 de PHASE_1_PLAN.md, tarea
+# 10.3): no lleva valores reales, solo nombres de variables comentados —
+# ver el propio archivo para el detalle de cuáles son públicas/privadas.
+!.env.example
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts

@@ -1,0 +1,104 @@
+# Redirecciones 301 desde las URLs del sitio WordPress anterior hacia el
+# sitio nuevo (ARCHITECTURE.md §4 "URLs con slash final", §9 "SEO"; Bloque
+# 11 de PHASE_1_PLAN.md, tarea 11.4 — fuente: AUDITORIA_SITIO_ACTUAL.md §7).
+# Todo origen y destino lleva slash final, para calzar 1:1 con
+# `trailingSlash: true` (ARCHITECTURE.md §9: "así la tabla de 301 queda 1:1
+# sin tener que manejar dos formas de cada dirección").
+#
+# **Verificar una por una tras el despliegue, no por muestreo** — cada URL
+# lleva años indexada y es posicionamiento acumulado (AUDITORIA §7,
+# PHASE_1_PLAN.md tarea 11.4).
+#
+# --- Discrepancia con "22 reglas" (PHASE_1_PLAN.md, tarea 11.4) ----------
+# La tabla de AUDITORIA_SITIO_ACTUAL.md §7 tiene 31 filas. Contando cada URL
+# de origen por separado en las filas multi-URL (/cart/ · /checkout/ ·
+# /my-account/; /nuestros-colaboradores/ · /colaboradores/; /author/caro/ ·
+# /author/carofuentes/) son 35 URLs de origen en total — más que las "22
+# reglas" que menciona el plan. Se documenta acá en vez de tratarla como
+# bloqueante, tal como pide la tarea.
+#
+# De esas 35 URLs, este archivo implementa 30 reglas 301. Quedan fuera 5,
+# por dos motivos distintos:
+#
+#   1. `/wp-content/uploads/**` — sin destino: la fila dice explícitamente
+#      "Se pierden" (ver AUDITORIA §4, respaldo pendiente aparte). Convertir
+#      esto en una regla sin destino real no tiene sentido.
+#
+#   2. Cuatro filas cuyo origen y destino son, tras agregar el slash final,
+#      **la misma ruta**: `/` → `/`, `/garantia/` → `/garantia/`,
+#      `/productos/` → `/productos/` y `/blog/` → `/blog/`. La tarea 11.4 ya
+#      pide excluir la primera por ser "no-op"; las otras tres son
+#      exactamente el mismo caso (URLs de WordPress que ya coinciden con la
+#      ruta del sitio nuevo) y se excluyen por la misma razón — un 301 de
+#      una ruta hacia sí misma no es una redirección, es un bucle infinito
+#      en el navegador (ERR_TOO_MANY_REDIRECTS), el resultado opuesto al que
+#      busca esta tarea. No hay nada que redirigir: quien visita esas cuatro
+#      URLs ya llega al contenido correcto sin ninguna regla.
+# ---------------------------------------------------------------------------
+
+# /que-es-waiki/ — página de producto Waiki
+/que-es-waiki/ /productos/waiki/ 301
+
+# /sobre-nosotros/ — página institucional
+/sobre-nosotros/ /nosotros/ 301
+
+# /preguntas-de-los-usuarios/ — FAQ
+/preguntas-de-los-usuarios/ /preguntas-frecuentes/ 301
+
+# /comentarios/ — reseñas de clientes, ahora sección de Nosotros
+/comentarios/ /nosotros/#resenas 301
+
+# /escribe-tu-resena/ — Página podada (sin formulario de reseñas en el sitio
+# nuevo, ARCHITECTURE.md §11): destino es contacto directo.
+/escribe-tu-resena/ /contacto/ 301
+
+# Blog: portada y categorías (todas vacías o genéricas) van al blog nuevo
+/noticias/ /blog/ 301
+/category/articulos/ /blog/ 301
+/category/sin-categoria/ /blog/ 301
+
+# Artículos de blog con destino propio
+/por-que-pellets/ /blog/por-que-pellets/ 301
+/conveccion-o-radiacion/ /blog/conveccion-o-radiacion/ 301
+
+# Páginas de producto individuales
+/nahuen-el-equipo-a-pellets-sin-electricidad/ /productos/nahuen/ 301
+/medidas-de-equipo-wikai-y-chakay/ /productos/chakay/ 301
+/controlador-de-presion-para-cocinas-wikai-y-chakay/ /accesorios/controlador-de-presion/ 301
+
+# Galerías de fotos y videos de instalaciones — todas confluyen en la
+# galería única del sitio nuevo
+/imagenes-waiki/ /instalaciones/ 301
+/imagenes-de-instalaciones/ /instalaciones/ 301
+/imagenes-de-instalaciones-y-cocinas-wikai-y-chakay/ /instalaciones/ 301
+/videos-de-nuestros-equipos-de-tiro-natural/ /instalaciones/ 301
+
+# /calculadora-de-consumo/ — calculadora
+/calculadora-de-consumo/ /calculadora/ 301
+
+# Nueva — tienda WooCommerce: fichas de producto individuales
+/product/waiki/ /productos/waiki/ 301
+/product/chakay/ /productos/chakay/ 301
+
+# Nuevas — no hay e-commerce en el sitio nuevo (ARCHITECTURE.md §11): las
+# tres rutas de carrito/checkout/cuenta de WooCommerce van a contacto
+/cart/ /contacto/ 301
+/checkout/ /contacto/ 301
+/my-account/ /contacto/ 301
+
+# Nueva — página que no estaba en el menú del sitio anterior
+/regulador-de-tiro/ /accesorios/controlador-de-presion/ 301
+
+# Nueva — artículo completo, no estaba en el menú del sitio anterior
+/por-que-preferir-pellets/ /blog/por-que-preferir-pellets/ 301
+
+# Nueva — duplicado exacto de /conveccion-o-radiacion/
+/mas-sobre-waiki/ /blog/conveccion-o-radiacion/ 301
+
+# Nuevas — una rota, otra vacía: ambas a la página institucional
+/nuestros-colaboradores/ /nosotros/ 301
+/colaboradores/ /nosotros/ 301
+
+# Dos perfiles de la misma persona (Carolina) — ambos a la página institucional
+/author/caro/ /nosotros/ 301
+/author/carofuentes/ /nosotros/ 301

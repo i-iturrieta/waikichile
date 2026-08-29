@@ -1,0 +1,41 @@
+/**
+ * Carga de `Producto` (ARCHITECTURE.md §3, §7; Bloque 3 de PHASE_1_PLAN.md,
+ * tarea 3.3).
+ *
+ * Importa cada `content/productos/*.ts` (un producto por archivo, vía
+ * `export default`), valida contra `productoSchema` y expone la colección
+ * ordenada por `orden`.
+ *
+ * `content/productos/` está vacío en este bloque (solo `.gitkeep` — el
+ * Bloque 3b, del turno siguiente, es el que agrega `waiki.ts`, `chakay.ts`,
+ * `nahuen.ts`). Por eso `productos` es `[]` hasta entonces: es el estado
+ * esperado, no un error. `obtenerSlugsProductos()` devolverá
+ * `['waiki', 'chakay', 'nahuen']` recién cuando exista ese contenido.
+ */
+
+import { productoSchema, type Producto } from './esquemas.ts';
+import { cargarColeccion, filtrarPublicables, importarModulosDirectorio } from './cargar.ts';
+
+async function cargar(): Promise<Producto[]> {
+  const datos = await importarModulosDirectorio('productos');
+  const productos = cargarColeccion('productos', productoSchema, datos);
+  return productos.sort((a, b) => a.orden - b.orden);
+}
+
+/**
+ * Todos los productos válidos, sin filtrar por `borrador` — es lo que
+ * consume `scripts/reporte-contenido.ts` (tarea 3.7) para poder listar
+ * justamente los que están en borrador. Las páginas del sitio deben usar
+ * `productos`, no esto.
+ */
+export const todosLosProductos: Producto[] = await cargar();
+
+export const productos: Producto[] = filtrarPublicables(todosLosProductos);
+
+export function obtenerProducto(slug: string): Producto | undefined {
+  return productos.find((producto) => producto.slug === slug);
+}
+
+export function obtenerSlugsProductos(): string[] {
+  return productos.map((producto) => producto.slug);
+}

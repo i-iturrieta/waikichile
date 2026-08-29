@@ -1,0 +1,186 @@
+@import "tailwindcss";
+
+/*
+ * Tokens de la dirección visual — "1a — Hogar y leña" (bloque 4, tarea 4.3).
+ * Elegida por la clienta (tarea 4.2) entre las direcciones generadas con
+ * Claude Design (tarea 4.1). Fuente literal: "Waiki - Dirección Visual.dc.html",
+ * sección #1a. Ver ARCHITECTURE.md §13.
+ *
+ * Por qué esto vive en @theme y no en tailwind.config.ts: el proyecto usa
+ * Tailwind CSS v4 (bloque 1), que es CSS-first — no existe tailwind.config.ts
+ * y no se crea uno. Cualquier variable declarada aquí dentro de --namespace-nombre
+ * genera automáticamente la utilidad correspondiente:
+ *   --color-marca   → bg-marca, text-marca, border-marca, ...
+ *   --font-titulos  → font-titulos
+ *   --text-h1       → text-h1
+ *   --radius-tarjeta→ rounded-tarjeta
+ *   --shadow-md     → shadow-md
+ *   --container-sitio → max-w-sitio (namespace --container-* de Tailwind v4)
+ *
+ * Nomenclatura de color: por rol funcional (marca, superficie, texto, acento...),
+ * no por nombre de material — es la instrucción explícita de ARCHITECTURE §13.
+ * El nombre de material original del diseño va en el comentario de cada línea
+ * para poder cruzar contra el mockup.
+ */
+
+@theme inline {
+  /* ---- Paleta ---------------------------------------------------------- */
+  --color-fondo: oklch(93% 0.006 70);             /* fondo de <body> / canvas exterior del mockup */
+  --color-superficie: oklch(97% 0.012 70);        /* Lino — superficie base de contenido */
+  --color-superficie-alta: oklch(99% 0.005 70);   /* panel / tarjeta elevada (más clara que la superficie base) */
+  --color-texto: oklch(24% 0.025 45);             /* Tizón — texto principal */
+  --color-texto-tenue: oklch(45% 0.02 50);        /* texto secundario / muted */
+  --color-marca: oklch(60% 0.15 40);              /* Greda — color primario / marca */
+  --color-secundario: oklch(40% 0.075 145);       /* Musgo */
+  --color-acento: oklch(72% 0.13 135);            /* Hoja */
+  --color-borde: oklch(88% 0.015 60);             /* Arena — líneas / bordes */
+
+  /* ---- Tipografía -------------------------------------------------------
+   * --font-bitter y --font-archivo las define next/font/google en
+   * app/layout.tsx (pesos 400/500/600/700 de ambas familias). Acá se
+   * mapean a nombres de rol: titulos = encabezados (Bitter, serif),
+   * cuerpo = texto de párrafo (Archivo, sans). */
+  --font-titulos: var(--font-bitter);
+  --font-cuerpo: var(--font-archivo);
+
+  /* Escala tipográfica del style tile (fuente de verdad de la dirección
+   * elegida). Cada entrada es solo el tamaño: el peso se compone aparte
+   * con las utilidades de peso que Tailwind ya trae de fábrica
+   * (font-normal=400, font-medium=500, font-semibold=600, font-bold=700),
+   * así que no hace falta un token nuevo para eso.
+   *
+   *   Rol        Tamaño  Familia + peso   Clases a componer
+   *   H1         64px    Bitter 600       text-h1 font-titulos font-semibold
+   *   H2         40px    Bitter 600       text-h2 font-titulos font-semibold
+   *   H3         28px    Bitter 500       text-h3 font-titulos font-medium
+   *   Destacado  20px    Archivo 600      text-destacado font-cuerpo font-semibold
+   *   Cuerpo     17px    Archivo 400      text-cuerpo font-cuerpo font-normal
+   *   Caption    14px    Archivo 500      text-caption font-cuerpo font-medium
+   *
+   * Nota para bloques 5/6/8: en los mockups "aplicados" (Portada, Ficha de
+   * producto) los tamaños reales usados varían de esta escala canónica
+   * (H1 del hero mide 56px, no 64px; H1 de ficha mide 44px; hay un H2 de
+   * 36px). Es normal — el style tile es la referencia abstracta; qué paso
+   * de la escala usa cada elemento concreto lo deciden esos bloques, no
+   * esta tarea. */
+  --text-h1: 4rem;         /* 64px */
+  --text-h2: 2.5rem;       /* 40px */
+  --text-h3: 1.75rem;      /* 28px */
+  --text-destacado: 1.25rem;   /* 20px */
+  --text-cuerpo: 1.0625rem;    /* 17px */
+  --text-caption: 0.875rem;    /* 14px */
+
+  /* ---- Retícula -----------------------------------------------------------
+   * Contenedor máximo 1280px, márgenes 64px, 12 columnas (ARCHITECTURE §13).
+   * --container-* es el namespace de Tailwind v4 para tamaños de contenedor:
+   * genera la utilidad max-w-sitio. No toca la utilidad `container` incorporada
+   * (esa sigue el paso de los breakpoints vía --breakpoint-*, y no es lo que
+   * pide la retícula acá). El patrón para bloque 5 (components/ui/Contenedor.tsx)
+   * es `mx-auto max-w-sitio px-16`.
+   *   - Los 64px de margen no requieren token propio: con la escala de spacing
+   *     por defecto de Tailwind (--spacing: 0.25rem) ya existen como px-16
+   *     (16 × 0.25rem = 4rem = 64px).
+   *   - Las 12 columnas tampoco: grid-cols-12 ya es una utilidad incorporada. */
+  --container-sitio: 80rem;   /* 1280px */
+
+  /* ---- Radios de borde ----------------------------------------------------
+   * Observados en el mockup. El pill/full de badges y el CTA de WhatsApp del
+   * header no necesita token: ya existe rounded-full en Tailwind. */
+  --radius-boton: 0.5rem;              /* 8px — botones */
+  --radius-tarjeta: 1rem;              /* 16px — tarjetas / imágenes de producto e instalaciones */
+  --radius-imagen-principal: 1.25rem;  /* 20px — imagen principal de ficha, panel de style tile */
+
+  /* ---- Sombras --------------------------------------------------------
+   * Mismo tono en todas las observadas (Tizón / --color-texto con alpha
+   * bajo). Se agrupan en 3 niveles por tamaño en vez de un token por cada
+   * uso exacto — los pares casi idénticos del mockup quedan documentados
+   * abajo para no perder la referencia:
+   *   sm — tarjetas de producto/instalación: 0 14px 28px -8px / 0.18
+   *        (la muestra de estilo fotográfico usa el mismo offset/blur con
+   *        alpha 0.22 — cubierta por este mismo token)
+   *   md — imagen principal de ficha: 0 20px 40px -12px / 0.22
+   *        (el hero de portada usa el mismo offset/blur con alpha 0.25 —
+   *        cubierta por este mismo token)
+   *   lg — el mockup completo de portada / contenedores grandes:
+   *        0 24px 48px -16px / 0.25 */
+  --shadow-sm: 0 14px 28px -8px oklch(24% 0.025 45 / 0.18);
+  --shadow-md: 0 20px 40px -12px oklch(24% 0.025 45 / 0.22);
+  --shadow-lg: 0 24px 48px -16px oklch(24% 0.025 45 / 0.25);
+}
+
+/*
+ * Tratamiento fotográfico de la dirección "1a" (información para los
+ * bloques 5/6/8 — NO se implementa acá, 4.3 es solo tokens):
+ * recorte 4:5 retrato, esquinas 16px (rounded-tarjeta), marco 1px color
+ * Lino (border-superficie), sombra cálida suave (shadow-sm o shadow-md
+ * según el tamaño de la imagen), sin filtro.
+ */
+
+body {
+  background: var(--color-fondo);
+  color: var(--color-texto);
+  font-family: var(--font-cuerpo), system-ui, sans-serif;
+}
+
+/*
+ * `.prosa` — estilos para el HTML que emite `marked` al convertir Markdown
+ * (blog, `content/paginas/*.md`; Bloque 9, tareas 9.3/9.5/9.6).
+ *
+ * `@tailwindcss/typography` no está en package.json. Agregar la dependencia
+ * solo para ~5 páginas de prosa (3 artículos de blog + 2 páginas fijas) es
+ * más superficie de la que el proyecto necesita cuando los tokens
+ * tipográficos ya existen arriba en @theme — se escribe la docena de reglas
+ * que hacen falta a mano, con esos mismos tokens, en vez de traer un plugin
+ * completo para usar una fracción de lo que ofrece.
+ */
+.prosa {
+  font-family: var(--font-cuerpo), system-ui, sans-serif;
+  font-size: var(--text-cuerpo);
+  line-height: 1.75;
+  color: var(--color-texto);
+}
+.prosa > * + * {
+  margin-top: 1.25em;
+}
+.prosa h2 {
+  font-family: var(--font-titulos), serif;
+  font-size: var(--text-h3);
+  font-weight: 500;
+  margin-top: 2em;
+}
+.prosa h3 {
+  font-family: var(--font-titulos), serif;
+  font-size: var(--text-destacado);
+  font-weight: 600;
+  margin-top: 1.75em;
+}
+.prosa ul,
+.prosa ol {
+  padding-left: 1.5em;
+}
+.prosa ul {
+  list-style: disc;
+}
+.prosa ol {
+  list-style: decimal;
+}
+.prosa li + li {
+  margin-top: 0.5em;
+}
+.prosa a {
+  color: var(--color-marca);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.prosa strong {
+  font-weight: 600;
+}
+.prosa blockquote {
+  border-left: 4px solid var(--color-borde);
+  padding-left: 1em;
+  font-style: italic;
+  color: var(--color-texto-tenue);
+}
+.prosa img {
+  border-radius: var(--radius-tarjeta);
+}

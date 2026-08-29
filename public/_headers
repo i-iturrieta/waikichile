@@ -1,0 +1,83 @@
+# Cabeceras HTTP (ARCHITECTURE.md §9 "SEO" y "Accesibilidad"; Bloque 11 de
+# PHASE_1_PLAN.md, tarea 11.5). Sintaxis de Cloudflare (idéntica en Pages y
+# en Workers con `assets.directory`, ver docs de "Headers"): la ruta va sola
+# en su línea, las cabeceras van indentadas debajo. Solo aplica a las
+# respuestas servidas directamente desde `./out` — no a `/api/*`, que
+# `wrangler.jsonc` hace pasar primero por el Worker (`run_worker_first`) y
+# que de todas formas no sirve HTML ni necesita estas cabeceras.
+
+# Variantes AVIF/WebP generadas por el pipeline de imágenes
+# (scripts/procesar-imagenes.ts): el nombre de archivo no cambia si el
+# contenido no cambia, pero tampoco lleva hash de contenido — "immutable"
+# es una promesa nuestra (Bloque 2), no una garantía del navegador por sí
+# sola. Un año es el máximo práctico de `Cache-Control`.
+/img/*
+	Cache-Control: public, max-age=31536000, immutable
+
+# Assets de Next.js bajo `/_next/static/`: el nombre SÍ lleva hash de
+# contenido (lo pone `next build`), así que "immutable" acá es una garantía
+# real, no una promesa — si el archivo cambia, cambia el nombre.
+/_next/static/*
+	Cache-Control: public, max-age=31536000, immutable
+
+# Cabeceras de seguridad para todo el sitio.
+/*
+	X-Content-Type-Options: nosniff
+	Referrer-Policy: strict-origin-when-cross-origin
+	Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' https://i.ytimg.com; frame-src https://challenges.cloudflare.com https://www.youtube-nocookie.com; connect-src 'self' https://cloudflareinsights.com; font-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; object-src 'none'
+
+# --- Por qué la CSP de arriba incluye lo que incluye ---------------------
+#
+# `script-src`: `'self'` para los chunks propios de Next
+# (`/_next/static/chunks/*.js`) y `https://challenges.cloudflare.com` para
+# el script del widget de Turnstile
+# (`components/contacto/Formulario.tsx:41`,
+# `TURNSTILE_SCRIPT_SRC`) y `https://static.cloudflareinsights.com` para el
+# beacon de Cloudflare Web Analytics (`app/layout.tsx`, `CF_BEACON_TOKEN`).
+#
+# `'unsafe-inline'` en `script-src` no es una concesión de comodidad: es
+# obligatoria, verificada contra el HTML real de `pnpm build` (Bloque 11).
+# El export estático del App Router de Next.js 15 inyecta el payload de
+# hidratación de React Server Components como `<script>` inline sin `src`
+# (`self.__next_f.push([...])`, decenas por página) — sin
+# `'unsafe-inline'`, el navegador los bloquea, React nunca hidrata, y cada
+# isla de cliente del sitio (`Formulario`, `VideoYoutube`, `Visor`,
+# `Acordeon`, `BotonWhatsapp`) queda muerta. No hay alternativa de nonce o
+# hash: `_headers` es un archivo estático servido tal cual por Workers, sin
+# posibilidad de generar un nonce por request, y el contenido de esos
+# scripts cambia en cada build. La protección real de este sitio contra
+# inyección de script no depende de `script-src` estricto — depende de que
+# no exista ninguna ruta de contenido generado por el visitante que se
+# vuelva a renderizar en una página (el formulario de contacto solo envía
+# datos al Worker, nunca los refleja de vuelta).
+#
+# `style-src 'self' 'unsafe-inline'`: verificado también contra el HTML de
+# build — `next/image` (usado por el logo en `components/layout/
+# Encabezado.tsx`, no por `<Imagen>` de `content/images/`) agrega
+# `style="color:transparent"` inline al `<img>` mientras carga. Sin
+# `'unsafe-inline'` el navegador descarta ese atributo y reporta una
+# violación de CSP en consola — exactamente lo que la tarea 11.5 pide
+# evitar ("Done when: la consola no reporta violaciones de CSP en ninguna
+# página"). No se encontró ningún `<style>` inline (bloque completo, no
+# atributo) ni manipulación de `.style` vía JavaScript en `components/` —
+# Tailwind compila todo a la hoja de estilos externa que ya cubre
+# `style-src 'self'`.
+#
+# `img-src`: `'self'` para `/img/*` (pipeline propio) y para el logo/
+# favicon, más `https://i.ytimg.com` — la miniatura estática de YouTube que
+# `VideoYoutube.tsx` carga como `<img>` normal antes del clic.
+#
+# `frame-src`: `https://challenges.cloudflare.com` (el iframe que monta el
+# propio widget de Turnstile tras cargar su script) y
+# `https://www.youtube-nocookie.com` — el iframe que `VideoYoutube.tsx`
+# monta recién después del clic, nunca en la carga inicial.
+#
+# `connect-src`: `'self'` para el `fetch` de `Formulario.tsx` a
+# `/api/contacto`, más `https://cloudflareinsights.com` para las
+# solicitudes del beacon de Web Analytics.
+#
+# `base-uri 'self'`, `form-action 'self'`, `frame-ancestors 'self'` y
+# `object-src 'none'`: endurecimiento estándar sin costo — el sitio no usa
+# `<base>`, todo formulario envía a sí mismo o a `/api/contacto`, nadie
+# necesita incrustar este sitio en un `<iframe>` ajeno, y no hay `<object>`/
+# `<embed>` en ninguna página.
