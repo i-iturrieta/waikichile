@@ -3,9 +3,10 @@
  * de PHASE_1_PLAN.md, tarea 6.1).
  *
  * Server component, sin JavaScript de cliente. Fotografía horizontal
- * (`portada-1.jpg` — marcador de posición del catálogo de imágenes; Bloque
- * 11.6 la sustituye por la foto real sobrescribiendo el archivo, sin tocar
- * este componente) y dos CTA: "Ver productos" (`/productos/`, todavía no
+ * (`portada-1.jpg` — foto real, elegida en la segunda pasada de fotos de
+ * `content/instalaciones.ts` como la mejor del lote completo: sin ningún
+ * rastro de la marca anterior, buena luz, composición de living moderno) y
+ * dos CTA: "Ver productos" (`/productos/`, todavía no
  * construido — Bloque 8, pero es el orden de construcción esperado) y
  * "Calcular mi ahorro" (`/calculadora/`, ya construido — Bloque 7).
  *
@@ -76,7 +77,7 @@ export default function Portada() {
         <div className="aspect-[4/5] overflow-hidden rounded-imagen-principal shadow-md">
           <Imagen
             archivo="portada-1.jpg"
-            alt="Equipo Waiki instalado y encendido en un living"
+            alt="Waiki instalado y encendido en un living moderno, junto a un sillón de cuero"
             prioridad
             sizes="(min-width: 1024px) 50vw, 100vw"
             className="h-full w-full object-cover"

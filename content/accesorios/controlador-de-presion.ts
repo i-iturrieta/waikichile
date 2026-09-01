@@ -9,14 +9,21 @@
  * de tiro" como sinónimo en el texto — así lo usa el resto del sitio (FAQ,
  * ficha de Chakay) y lo sugiere DATOS-ESTRUCTURADOS.md §10c.
  *
- * `borrador: true` (Bloque 11, tarea 11.6): cero fotografías reales de este
- * accesorio en `imagenes-cliente/2-accesorios/controlador-de-presion/`
- * (carpeta vacía) ni en el resto de las 141 imágenes recibidas
- * (`imagenes-cliente/INVENTARIO.md`, búsqueda exhaustiva por nombre de
- * archivo). Misma regla que Nahuen (ver `content/productos/nahuen.ts`):
- * ningún producto se publica con solo el marcador. Vuelve a `borrador:
- * false` en cuanto exista una fotografía real de
- * `accesorio-controlador-1.jpg`.
+ * `borrador: true` (actualizado en la segunda pasada de fotos, ver
+ * `content/instalaciones.ts` para el criterio general de revisión):
+ * llegaron 2 fotografías reales a `imagenes-cliente/2-accesorios/
+ * controlador-de-presion/` (`controlador-presion-1.jpg`, `-2.jpg`), de
+ * buena calidad y composición, pero **ambas miden 461 px de ancho** —
+ * bajo los 640 px que exige como mínimo duro el pipeline de imágenes
+ * (`scripts/procesar-imagenes.ts`, `MIN_LADO_MAYOR_DURO`/`ANCHOS`: genera
+ * variantes en 640/1280/1920 px de ancho y no amplía). Es el mismo caso ya
+ * documentado en `content/instalaciones.ts` para retratos angostos: el lado
+ * mayor (alto, 1024 px) pasa cualquier validación de "resolución mínima",
+ * pero el ancho específico es el que determina si el pipeline puede generar
+ * una variante, y aquí no puede. No se sustituyen por versiones ampliadas
+ * (invalidaría la fotografía real). Vuelve a `borrador: false` en cuanto
+ * llegue una versión de mayor resolución de cualquiera de las dos, o una
+ * fotografía nueva del accesorio con al menos 640 px de ancho.
  */
 
 import type { Accesorio } from '../../lib/contenido/esquemas.ts';

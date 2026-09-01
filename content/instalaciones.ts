@@ -1,78 +1,115 @@
 /**
  * Instalaciones (PHASE_1_PLAN.md, tareas 3b.5 y 11.6).
  *
- * `content/images/instalacion-01.jpg` .. `instalacion-12.jpg` son fotos
- * reales, elegidas a mano de las ~74 recibidas en
- * `imagenes-cliente/3-instalaciones/` (tarea 11.6). No son 25 (el número de
- * marcadores originales) por la misma razón que Waiki quedó con 1 sola
- * imagen de producto (ver `content/productos/waiki.ts`): gran parte del
- * lote — sobre todo las fotos de cerca del quemador Waiki tipo "inserto"
- * (tolva externa conectada por un tubo, distinto del modelo autocontenido
- * que trae grabado el nombre del producto en la placa frontal y no tiene
- * tolva separada) — muestra esa misma tolva con el adhesivo circular de la
- * marca anterior de la empresa perfectamente legible (mismo criterio que
- * `content/productos/waiki.ts`, sin citar ese nombre literal ni en
- * comentarios — ver también `content/resenas.ts`), y varias fotos de
- * proceso de instalación muestran a los técnicos con esa marca impresa en
- * la ropa de trabajo. Se revisó cada foto usada individualmente
- * (acercamiento sobre la zona de la tolva, cuando la tenía) antes de
- * incluirla — no se filtró solo por nombre de archivo. La regla de
- * ARCHITECTURE.md §9 sobre esa marca no distingue entre texto y fotografía,
- * así que el resto del lote queda fuera en vez de publicarse.
+ * Segunda pasada sobre `imagenes-cliente/3-instalaciones/` (76 candidatas),
+ * `imagenes-cliente/7-proceso-instalacion/` (11) y `imagenes-cliente/
+ * 4-portada/` (6): se amplió de 12 a 33 entradas. Cada foto se revisó
+ * individualmente (acercamiento sobre la zona de la tolva, cuando la tenía,
+ * y sobre la ropa de los técnicos en las de proceso) antes de incluirla — el
+ * criterio es el mismo que ya fijó la primera pasada (ver historial de este
+ * archivo, y `content/resenas.ts` para el mismo criterio de no citar el
+ * nombre de la marca anterior ni en comentarios): esa marca no puede
+ * aparecer visible, ni en la tolva ni en la ropa de un técnico. Se confirmó
+ * en esta pasada que aparece legible, como adhesivo en la tolva y en
+ * poleras de técnicos, en varias de las fotos descartadas.
+ *
+ * `content/images/instalacion-01.jpg` .. `instalacion-29.jpg` son Waiki;
+ * las últimas 4 entradas son Chakay — dos con archivo propio
+ * (`instalacion-30.jpg`, `instalacion-31.jpg`) y dos que reutilizan los
+ * archivos ya existentes de su ficha (`producto-chakay-1.jpg`/`-2.jpg`, vía
+ * el campo `archivo` de `EntradaInstalacion`, que sobreescribe el nombre
+ * derivado de `numero` — no hay una foto física `instalacion-32.jpg` ni
+ * `instalacion-33.jpg`). Chakay queda con muchas menos fotos que Waiki no
+ * por criterio de calidad — es lo único que llegó: de las 76 candidatas de
+ * `3-instalaciones/`, solo `instalacion-14` (marca "CHAKAY" grabada,
+ * legible) e `instalacion-49` se pudieron confirmar como Chakay real,
+ * limpias y en foco. No hay ninguna fotografía de proceso de instalación de
+ * Chakay utilizable.
+ *
+ * Se excluyó del todo un cuarto equipo que aparece en el lote (cuerpo negro
+ * con su propio nombre grabado en el frontal, distinto de Chakay pese al
+ * panel rojo perforado similar): no es parte del catálogo publicado hoy
+ * (`ARCHITECTURE §0` lo asume descontinuado, `PROJECT_STATE.md` lo deja como
+ * pregunta abierta) y varias fotos de este lote que el inventario original
+ * rotulaba como "Chakai" resultaron ser ese otro equipo al revisarlas — no
+ * hay que confiar en el nombre de archivo original sin mirar la foto.
+ *
+ * También se descartó una candidata que había quedado marcada como
+ * "tentativa" en la revisión: una cocina a leña marca "Alcazar" sin ningún
+ * quemador Waiki visible en el cuadro — no es una instalación real, es una
+ * estufa huésped sola.
  *
  * `producto` se completa con `'waiki'` o `'chakay'` solo donde la propia
- * fotografía lo confirma (la placa frontal grabada con el nombre del
- * producto, o la silueta inconfundible de la tolva externa del quemador
- * Waiki tipo inserto); queda en `null` donde no hay esa certeza visual
- * (p. ej. la foto de la instalación de la chimenea en el domo, tarea de
- * terreno sin el equipo en cuadro). `ciudad` y `modeloCombustion` quedan en
- * `null` en las 12: ese dato no viene en ningún nombre de archivo ni
- * acompaña a las fotos recibidas, así que no hay de dónde sacarlo sin
- * inventarlo (ARCHITECTURE.md §1.6).
- *
- * Una candidata más (la instalación diagonal de pared clara) se descartó
- * en esta pasada por un motivo técnico distinto, no de marca: su ancho real
- * (576 px) queda bajo los 640 px del ancho de variante más chico que genera
- * el pipeline (`scripts/procesar-imagenes.ts`), que no amplía imágenes — el
- * "lado mayor" que exige el contrato de `ARCHITECTURE.md §9` mide el lado
- * más largo (alto, en una foto vertical), así que una foto puede pasar esa
- * validación y aun así no generar ninguna variante si su ancho específico
- * es angosto. Next.js `output: 'export'` no compila con una imagen sin
- * variantes (`<Imagen>` lanza en build). Vale la pena tenerlo presente para
- * la próxima tanda de fotos: retratos muy angostos (bajo 640 px de ancho)
- * no sirven aunque su alto sea generoso.
+ * fotografía lo confirma (silueta de la tolva externa, o la placa/panel con
+ * el nombre grabado). `ciudad` y `modeloCombustion` quedan en `null`: ese
+ * dato no viene en ningún nombre de archivo ni acompaña a las fotos
+ * recibidas.
  */
 
 import type { Instalacion } from '../lib/contenido/esquemas.ts';
 
 interface EntradaInstalacion {
   numero: string;
-  producto: 'waiki' | 'chakay' | null;
+  producto: 'waiki' | 'chakay';
+  alt: string;
+  /** Solo cuando la foto no vive en `instalacion-{numero}.jpg` — p. ej. las
+   * dos entradas que reutilizan los archivos propios de la ficha de Chakay. */
+  archivo?: string;
 }
 
-// Orden y producto de cada foto, fijados a mano tras la revisión visual
-// descrita en el comentario de cabecera — no es un patrón derivable del
-// nombre de archivo, así que se lista explícitamente en vez de generarse.
+// Orden, producto y alt de cada foto, fijados a mano tras la revisión visual
+// descrita en el comentario de cabecera.
 const ENTRADAS: EntradaInstalacion[] = [
-  { numero: '01', producto: 'chakay' },
-  { numero: '02', producto: 'chakay' },
-  { numero: '03', producto: 'chakay' },
-  { numero: '04', producto: 'waiki' },
-  { numero: '05', producto: 'waiki' },
-  { numero: '06', producto: 'chakay' },
-  { numero: '07', producto: 'waiki' },
-  { numero: '08', producto: 'waiki' },
-  { numero: '09', producto: 'waiki' },
-  { numero: '10', producto: null },
-  { numero: '11', producto: 'waiki' },
-  { numero: '12', producto: 'waiki' },
+  { numero: '01', producto: 'waiki', alt: 'Waiki instalado y encendido en un living moderno, junto a un sillón de cuero' },
+  { numero: '02', producto: 'waiki', alt: 'Waiki instalado junto a bolsas de pellet, contra una pared de piedra' },
+  { numero: '03', producto: 'waiki', alt: 'Waiki instalado y encendido, con un niño abrazando a un gato junto a la estufa' },
+  { numero: '04', producto: 'waiki', alt: 'Waiki instalado, fotografía en blanco y negro con un niño y un gato' },
+  { numero: '05', producto: 'waiki', alt: 'Waiki instalado junto a un perro pequeño y una tetera floreada' },
+  { numero: '06', producto: 'waiki', alt: 'Waiki instalado junto a dos teteras esmaltadas azules, contra una pared de piedra' },
+  { numero: '07', producto: 'waiki', alt: 'Waiki instalado, vista más cercana junto a las teteras esmaltadas' },
+  { numero: '08', producto: 'waiki', alt: 'Waiki instalado y encendido junto a un canasto de mimbre con leña' },
+  { numero: '09', producto: 'waiki', alt: 'Waiki instalado y encendido junto a una ventana luminosa' },
+  { numero: '10', producto: 'waiki', alt: 'Waiki instalado junto a bolsas de pellet apiladas, contra una pared de piedra' },
+  { numero: '11', producto: 'waiki', alt: 'Waiki instalado contra una pared verde agua' },
+  { numero: '12', producto: 'waiki', alt: 'Waiki instalado y encendido sobre un piso de cerámica roja' },
+  { numero: '13', producto: 'waiki', alt: 'Waiki instalado y encendido contra una pared amarilla' },
+  { numero: '14', producto: 'waiki', alt: 'Waiki instalado y encendido sobre una alfombra' },
+  { numero: '15', producto: 'waiki', alt: 'Waiki instalado en un ambiente moderno, junto a un sillón blanco' },
+  { numero: '16', producto: 'waiki', alt: 'Waiki instalado en un living de tonos beige' },
+  { numero: '17', producto: 'waiki', alt: 'Waiki instalado junto a un dibujo infantil colgado en la pared' },
+  { numero: '18', producto: 'waiki', alt: 'Waiki instalado y encendido contra una pared de piedra cálida' },
+  { numero: '19', producto: 'waiki', alt: 'Waiki instalado y encendido contra una pared celeste' },
+  { numero: '20', producto: 'waiki', alt: 'Waiki instalado y encendido en una cabaña de madera' },
+  { numero: '21', producto: 'waiki', alt: 'Waiki instalado junto a la entrada de una casa, sobre piso flotante' },
+  { numero: '22', producto: 'waiki', alt: 'Primer plano de la combustión encendida de un Waiki instalado' },
+  { numero: '23', producto: 'waiki', alt: 'Waiki instalado, con pátina de uso en el cuerpo del quemador' },
+  { numero: '24', producto: 'waiki', alt: 'Waiki instalado sobre un piso de cerámica con motivo floral' },
+  { numero: '25', producto: 'waiki', alt: 'Waiki instalado junto a un perro echado en el living' },
+  { numero: '26', producto: 'waiki', alt: 'Técnico soldando la estructura de un quemador Waiki durante su fabricación' },
+  { numero: '27', producto: 'waiki', alt: 'Waiki instalado y encendido, contra una pared de piedra, recién terminada la instalación' },
+  { numero: '28', producto: 'waiki', alt: 'Técnico esmerilando el cuerpo del quemador durante una instalación de Waiki' },
+  { numero: '29', producto: 'waiki', alt: 'Técnico revisando la combustión encendida al finalizar una instalación de Waiki' },
+  { numero: '30', producto: 'chakay', alt: 'Chakay instalado en un rincón, junto a un televisor, con la marca CHAKAY visible' },
+  { numero: '31', producto: 'chakay', alt: 'Chakay instalado y encendido contra una pared roja, en un comedor' },
+  {
+    numero: '32',
+    producto: 'chakay',
+    archivo: 'producto-chakay-1.jpg',
+    alt: 'Chakay encendido, vista frontal con la marca visible',
+  },
+  {
+    numero: '33',
+    producto: 'chakay',
+    archivo: 'producto-chakay-2.jpg',
+    alt: 'Chakay instalado en un rincón de cerámica, con la salida de caño visible',
+  },
 ];
 
-const instalaciones: Instalacion[] = ENTRADAS.map(({ numero, producto }) => ({
+const instalaciones: Instalacion[] = ENTRADAS.map(({ numero, producto, alt, archivo }) => ({
   id: `instalacion-${numero}`,
   imagen: {
-    archivo: `instalacion-${numero}.jpg`,
-    alt: `Instalación de un equipo Waiki Chile, fotografía ${numero}`,
+    archivo: archivo ?? `instalacion-${numero}.jpg`,
+    alt,
   },
   ciudad: null,
   modeloCombustion: null,

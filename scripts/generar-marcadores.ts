@@ -52,14 +52,20 @@ function rango(prefijo: string, desde: number, hasta: number, descripcion: strin
 }
 
 // Lista exacta pedida en PHASE_1_PLAN.md, tarea 2.4 (41 archivos).
+// Actualizado tras la segunda pasada de fotos (ver content/instalaciones.ts):
+// producto-waiki pasó de 5 a 4 (las 5 originales tenían la marca anterior
+// visible en la tolva) e instalacion pasó de 25 a 31 (29 Waiki + 2 Chakay).
+// No se corrió este script para aplicar el cambio — solo se sincronizó el
+// arreglo con lo que ya existe en `content/images/` (correrlo sobrescribiría
+// las fotos reales con marcadores en blanco, ver el comentario de cabecera).
 const CATALOGO: ItemCatalogo[] = [
-  ...rango('producto-waiki', 1, 5, 'Producto Waiki — foto'),
+  ...rango('producto-waiki', 1, 4, 'Producto Waiki — foto'),
   ...rango('producto-chakay', 1, 3, 'Producto Chakay — foto'),
   ...rango('producto-nahuen', 1, 5, 'Producto Nahuen — foto'),
   ...rango('accesorio-controlador', 1, 1, 'Accesorio — controlador de presión, foto'),
   ...rango('accesorio-rejilla', 1, 1, 'Accesorio — rejilla del quemador, foto'),
   ...rango('portada', 1, 1, 'Portada / Inicio — foto'),
-  ...rango('instalacion', 1, 25, 'Instalación — foto', 2),
+  ...rango('instalacion', 1, 31, 'Instalación — foto', 2),
 ];
 
 /** Escapa texto para insertarlo dentro de un `<text>` SVG. */

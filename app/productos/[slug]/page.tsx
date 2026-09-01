@@ -24,8 +24,12 @@
 
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import Contenedor from '@/components/ui/Contenedor';
+import Titulo from '@/components/ui/Titulo';
+import Visor from '@/components/instalaciones/Visor';
 import FichaProducto from '@/components/productos/FichaProducto';
 import { obtenerProducto, obtenerSlugsProductos } from '@/lib/contenido/productos';
+import { instalaciones } from '@/lib/contenido/instalaciones';
 import { generarProductJsonLd } from '@/lib/seo/jsonld';
 import { construirMetadata } from '@/lib/seo/metadata';
 
@@ -56,9 +60,30 @@ export default async function PaginaProducto({ params }: ParametrosRuta) {
 
   const productoJsonLd = generarProductJsonLd(producto, '/productos');
 
+  // Galería de instalaciones de este producto (content/instalaciones.ts,
+  // filtrada por `producto === slug`). Reutiliza el mismo `Visor` con
+  // lightbox de la página /instalaciones/ en vez de duplicar la retícula
+  // pequeña de `FichaProducto` — esa sigue siendo solo la imagen principal +
+  // unas pocas secundarias, esto es la galería completa por equipo.
+  const galeriaInstalaciones = instalaciones.filter((instalacion) => instalacion.producto === producto.slug);
+
   return (
     <>
       <FichaProducto producto={producto} />
+
+      {galeriaInstalaciones.length > 0 && (
+        <Contenedor as="section" className="pb-16 lg:pb-24">
+          <Titulo nivel={2}>Instalaciones de {producto.nombre}</Titulo>
+          <p className="mt-3 max-w-2xl text-cuerpo text-texto-tenue">
+            Equipos {producto.nombre} ya instalados en casas de clientes. Haz clic en cualquiera para verla
+            ampliada.
+          </p>
+          <div className="mt-10">
+            <Visor instalaciones={galeriaInstalaciones} />
+          </div>
+        </Contenedor>
+      )}
+
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productoJsonLd) }} />
     </>
   );

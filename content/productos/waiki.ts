@@ -43,24 +43,20 @@ const waiki: Producto = {
   plazoEntrega: null,
   incluye: [],
   noIncluye: ['Controlador de presión (obligatorio sobre 3,5 m de cañería)'],
-  // Bloque 11, tarea 11.6: de las 5 fotos reales de Waiki en imagenes-cliente/
-  // 1-productos/waiki/, las 5 muestran la tolva del quemador con un adhesivo
-  // circular de la marca anterior de la empresa (ver el comentario de
-  // cabecera de content/resenas.ts para el mismo criterio de no citar ese
-  // nombre literal ni en comentarios) perfectamente visible al acercarse —
-  // es una pieza física de fábrica de esa época, no ropa ni cartelería de un
-  // técnico, así que aparece en todas las unidades instaladas de este lote.
-  // Solo una (producto-waiki-1.jpg) se pudo salvar recortando la tolva fuera
-  // del encuadre sin que se note el corte; en las otras cuatro la tolva está
-  // demasiado cerca del visor de la llama para recortarla sin arruinar la
-  // foto, así que se descartan en vez de publicar el logo de la marca
-  // anterior (ARCHITECTURE.md §9: la regla de que esa marca no aparece no
-  // distingue entre texto y fotografía). Por eso el arreglo queda en 1
-  // imagen en vez de las 4-5 que hubiera alcanzado el material recibido.
-  // Mismo criterio de "menos fotos reales que una mala" ya aplicado a Chakay
-  // más abajo.
+  // Segunda pasada de fotos (ver content/instalaciones.ts para el detalle
+  // completo de la revisión): las 5 fotos originales de imagenes-cliente/
+  // 1-productos/waiki/ seguían con el adhesivo de la marca anterior visible
+  // en la tolva, así que se reemplazaron por 4 fotografías limpias elegidas
+  // de imagenes-cliente/3-instalaciones/ (confirmadas sin el adhesivo,
+  // revisadas de cerca antes de incluirlas). La galería completa de
+  // instalaciones de Waiki (29 fotos) vive en content/instalaciones.ts y se
+  // muestra debajo de esta ficha vía el mismo Visor de la página
+  // Instalaciones.
   imagenes: [
-    { archivo: 'producto-waiki-1.jpg', alt: 'Waiki instalado, vista frontal con la llama encendida' },
+    { archivo: 'producto-waiki-1.jpg', alt: 'Waiki instalado y encendido junto a bolsas de pellet, contra una pared de piedra' },
+    { archivo: 'producto-waiki-2.jpg', alt: 'Waiki instalado y encendido, con un niño abrazando a un gato junto a la estufa' },
+    { archivo: 'producto-waiki-3.jpg', alt: 'Waiki instalado, fotografía en blanco y negro con un niño y un gato' },
+    { archivo: 'producto-waiki-4.jpg', alt: 'Waiki instalado junto a dos teteras esmaltadas azules, contra una pared de piedra' },
   ],
   requiereControlador: true,
   destacado: true,

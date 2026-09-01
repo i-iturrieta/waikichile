@@ -56,6 +56,12 @@ const chakay: Producto = {
   // Bloque 11, tarea 11.6: solo 2 imágenes reales de Chakay llegaron en
   // imagenes-cliente/1-productos/chakay/ (contra los 3 marcadores
   // originales) — mismo criterio que Waiki, se reduce el arreglo a lo real.
+  // Segunda pasada de fotos: de las 76 candidatas de imagenes-cliente/
+  // 3-instalaciones/, solo 2 más se pudieron confirmar como Chakay limpias
+  // y en foco. La galería completa (estas 2 fotos de producto + esas 2 +
+  // instalacion-30.jpg/-31.jpg) vive en content/instalaciones.ts y se
+  // muestra debajo de esta ficha vía el Visor — Chakay sigue siendo el
+  // cuello de botella real de fotografía del catálogo.
   imagenes: [
     { archivo: 'producto-chakay-1.jpg', alt: 'Chakay encendido, vista frontal con la marca visible' },
     { archivo: 'producto-chakay-2.jpg', alt: 'Chakay instalado en un rincón de cerámica, con la salida de caño visible' },
