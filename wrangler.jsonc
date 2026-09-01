@@ -1,61 +1,8 @@
 {
   "name": "waikichile",
-  "main": "./src/worker.ts",
-  // Fijada al 22-ago-2026, no a la fecha de hoy (tarea 1.3 pedía "la fecha
-  // de hoy" al momento de crear este archivo, 27-ago-2026). El `workerd`
-  // que trae `@cloudflare/vitest-pool-workers@0.22.0` (miniflare
-  // 5.20260815.0-alpha, la última versión publicada al escribir esto) no
-  // soporta fechas de compatibilidad posteriores al 22-ago-2026 — sin este
-  // ajuste, el proyecto `worker` de Vitest no arranca nunca y `pnpm test`
-  // no puede correr los tests de `src/worker.test.ts` (Bloque 10).
-  // Verificado que el pool no tiene ninguna versión más nueva disponible
-  // (ver el reporte del Bloque 10). Cinco días de diferencia no activan
-  // ningún flag de compatibilidad relevante para este Worker (sirve
-  // estáticos + un POST simple con fetch + un binding de rate limiting).
-  // Subir esta fecha cuando la herramienta de testing se actualice.
   "compatibility_date": "2026-08-22",
   "assets": {
     "directory": "./out",
-    "not_found_handling": "404-page",
-    "binding": "ASSETS",
-    "run_worker_first": ["/api/*"]
-  },
-  // Límite de tasa nativo de Workers para POST /api/contacto (Bloque 10 de
-  // PHASE_1_PLAN.md, tarea 10.2; ARCHITECTURE.md §1.2/§8 piden explícitamente
-  // el binding nativo de Rate Limiting, no un mapa en memoria: no sobrevive
-  // reinicios y no sirve con múltiples instancias del Worker).
-  //
-  // ⚠️ Contradicción verificada con el enunciado ("máximo 5 envíos por
-  // hora"): la API de Rate Limiting de Cloudflare solo admite
-  // `simple.period` de 10 o 60 segundos. No es una lectura de la
-  // documentación que pueda estar desactualizada — está en el propio
-  // schema de configuración de wrangler instalado en este proyecto:
-  // `node_modules/wrangler/config-schema.json` declara
-  // `"period": { "enum": [10, 60] }`. Un "5 por hora" (period: 3600) literal
-  // no es expresable con un solo binding `simple` de este tipo; wrangler
-  // rechazaría la configuración.
-  //
-  // Decisión tomada dentro de lo verificable: `period: 60, limit: 5`, la
-  // ventana más larga que la API permite, con el mismo número de envíos del
-  // enunciado. Esto limita a 5 envíos **por minuto** por IP, no por hora —
-  // sigue siendo una protección real contra ráfagas automatizadas (y la
-  // capa dominante contra spam de todas formas es Turnstile + honeypot +
-  // tiempoLlenado, no este límite), pero no es lo que pide el texto del
-  // plan al pie de la letra. No se sustituyó por una alternativa fuera de
-  // alcance (KV o Durable Objects sí podrían modelar una ventana de una
-  // hora con precisión, pero son almacenamiento nuevo que ARCHITECTURE.md
-  // §1 fija explícitamente en "Ninguno").
-  //
-  // ✅ Decisión confirmada (no queda abierta): se mantiene "5 por minuto".
-  // Turnstile + honeypot + tiempoLlenado ya filtran la mayoría de bots, un
-  // visitante real nunca envía 5 mensajes en un minuto, y agregar KV solo
-  // para una ventana de una hora exacta introduciría el almacenamiento que
-  // la arquitectura decidió no tener, por una ganancia marginal.
-  "ratelimits": [
-    {
-      "name": "LIMITADOR_CONTACTO",
-      "namespace_id": "1001",
-      "simple": { "limit": 5, "period": 60 }
-    }
-  ]
+    "not_found_handling": "404-page"
+  }
 }

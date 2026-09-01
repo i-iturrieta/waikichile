@@ -1,10 +1,7 @@
 # Cabeceras HTTP (ARCHITECTURE.md §9 "SEO" y "Accesibilidad"; Bloque 11 de
 # PHASE_1_PLAN.md, tarea 11.5). Sintaxis de Cloudflare (idéntica en Pages y
 # en Workers con `assets.directory`, ver docs de "Headers"): la ruta va sola
-# en su línea, las cabeceras van indentadas debajo. Solo aplica a las
-# respuestas servidas directamente desde `./out` — no a `/api/*`, que
-# `wrangler.jsonc` hace pasar primero por el Worker (`run_worker_first`) y
-# que de todas formas no sirve HTML ni necesita estas cabeceras.
+# en su línea, las cabeceras van indentadas debajo.
 
 # Variantes AVIF/WebP generadas por el pipeline de imágenes
 # (scripts/procesar-imagenes.ts): el nombre de archivo no cambia si el
@@ -24,15 +21,12 @@
 /*
 	X-Content-Type-Options: nosniff
 	Referrer-Policy: strict-origin-when-cross-origin
-	Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' https://i.ytimg.com; frame-src https://challenges.cloudflare.com https://www.youtube-nocookie.com; connect-src 'self' https://cloudflareinsights.com; font-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; object-src 'none'
+	Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' https://i.ytimg.com; frame-src https://www.youtube-nocookie.com; connect-src 'self' https://cloudflareinsights.com; font-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; object-src 'none'
 
 # --- Por qué la CSP de arriba incluye lo que incluye ---------------------
 #
 # `script-src`: `'self'` para los chunks propios de Next
-# (`/_next/static/chunks/*.js`) y `https://challenges.cloudflare.com` para
-# el script del widget de Turnstile
-# (`components/contacto/Formulario.tsx:41`,
-# `TURNSTILE_SCRIPT_SRC`) y `https://static.cloudflareinsights.com` para el
+# (`/_next/static/chunks/*.js`) y `https://static.cloudflareinsights.com` para el
 # beacon de Cloudflare Web Analytics (`app/layout.tsx`, `CF_BEACON_TOKEN`).
 #
 # `'unsafe-inline'` en `script-src` no es una concesión de comodidad: es
@@ -41,15 +35,13 @@
 # hidratación de React Server Components como `<script>` inline sin `src`
 # (`self.__next_f.push([...])`, decenas por página) — sin
 # `'unsafe-inline'`, el navegador los bloquea, React nunca hidrata, y cada
-# isla de cliente del sitio (`Formulario`, `VideoYoutube`, `Visor`,
-# `Acordeon`, `BotonWhatsapp`) queda muerta. No hay alternativa de nonce o
-# hash: `_headers` es un archivo estático servido tal cual por Workers, sin
+# isla de cliente del sitio (`VideoYoutube`, `Visor`, `Acordeon`,
+# `BotonWhatsapp`) queda muerta. No hay alternativa de nonce o hash:
+# `_headers` es un archivo estático servido tal cual por Workers, sin
 # posibilidad de generar un nonce por request, y el contenido de esos
-# scripts cambia en cada build. La protección real de este sitio contra
-# inyección de script no depende de `script-src` estricto — depende de que
-# no exista ninguna ruta de contenido generado por el visitante que se
-# vuelva a renderizar en una página (el formulario de contacto solo envía
-# datos al Worker, nunca los refleja de vuelta).
+# scripts cambia en cada build. El sitio no tiene backend ni formulario que
+# reciba datos del visitante — no hay ninguna ruta de contenido generado
+# por el visitante que se vuelva a renderizar en una página.
 #
 # `style-src 'self' 'unsafe-inline'`: verificado también contra el HTML de
 # build — `next/image` (usado por el logo en `components/layout/
@@ -67,17 +59,14 @@
 # favicon, más `https://i.ytimg.com` — la miniatura estática de YouTube que
 # `VideoYoutube.tsx` carga como `<img>` normal antes del clic.
 #
-# `frame-src`: `https://challenges.cloudflare.com` (el iframe que monta el
-# propio widget de Turnstile tras cargar su script) y
-# `https://www.youtube-nocookie.com` — el iframe que `VideoYoutube.tsx`
-# monta recién después del clic, nunca en la carga inicial.
+# `frame-src`: `https://www.youtube-nocookie.com` — el iframe que
+# `VideoYoutube.tsx` monta recién después del clic, nunca en la carga
+# inicial.
 #
-# `connect-src`: `'self'` para el `fetch` de `Formulario.tsx` a
-# `/api/contacto`, más `https://cloudflareinsights.com` para las
+# `connect-src`: `'self'` más `https://cloudflareinsights.com` para las
 # solicitudes del beacon de Web Analytics.
 #
 # `base-uri 'self'`, `form-action 'self'`, `frame-ancestors 'self'` y
 # `object-src 'none'`: endurecimiento estándar sin costo — el sitio no usa
-# `<base>`, todo formulario envía a sí mismo o a `/api/contacto`, nadie
-# necesita incrustar este sitio en un `<iframe>` ajeno, y no hay `<object>`/
-# `<embed>` en ninguna página.
+# `<base>`, nadie necesita incrustar este sitio en un `<iframe>` ajeno, y no
+# hay `<object>`/`<embed>` en ninguna página.
