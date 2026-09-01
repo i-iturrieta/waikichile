@@ -13,26 +13,27 @@
  * en esta pasada que aparece legible, como adhesivo en la tolva y en
  * poleras de técnicos, en varias de las fotos descartadas.
  *
- * `content/images/instalacion-01.jpg` .. `instalacion-29.jpg` son Waiki;
- * las últimas 4 entradas son Chakay — dos con archivo propio
- * (`instalacion-30.jpg`, `instalacion-31.jpg`) y dos que reutilizan los
- * archivos ya existentes de su ficha (`producto-chakay-1.jpg`/`-2.jpg`, vía
- * el campo `archivo` de `EntradaInstalacion`, que sobreescribe el nombre
- * derivado de `numero` — no hay una foto física `instalacion-32.jpg` ni
- * `instalacion-33.jpg`). Chakay queda con muchas menos fotos que Waiki no
- * por criterio de calidad — es lo único que llegó: de las 76 candidatas de
- * `3-instalaciones/`, solo `instalacion-14` (marca "CHAKAY" grabada,
- * legible) e `instalacion-49` se pudieron confirmar como Chakay real,
- * limpias y en foco. No hay ninguna fotografía de proceso de instalación de
- * Chakay utilizable.
+ * `content/images/instalacion-01.jpg` .. `instalacion-29.jpg` son Waiki.
  *
- * Se excluyó del todo un cuarto equipo que aparece en el lote (cuerpo negro
- * con su propio nombre grabado en el frontal, distinto de Chakay pese al
- * panel rojo perforado similar): no es parte del catálogo publicado hoy
- * (`ARCHITECTURE §0` lo asume descontinuado, `PROJECT_STATE.md` lo deja como
- * pregunta abierta) y varias fotos de este lote que el inventario original
- * rotulaba como "Chakai" resultaron ser ese otro equipo al revisarlas — no
- * hay que confiar en el nombre de archivo original sin mirar la foto.
+ * Ronda de revisión 01-09-2026 — actualización importante: las entradas
+ * 30-33 que existían acá (dos con `instalacion-30.jpg`/`-31.jpg`, dos que
+ * reutilizaban `producto-chakay-1.jpg`/`-2.jpg`) mostraban todas el modelo
+ * de Chakay con la placa "CHAKAY" grabada — la clienta confirmó
+ * explícitamente que ese modelo ya no se fabrica ni se vende. Se eliminaron
+ * las 4 entradas en vez de dejarlas mal etiquetadas. El "cuarto equipo"
+ * que este comentario excluía antes por precaución (cuerpo negro/mixto con
+ * otra placa de marca previa, panel rojo perforado — no repetir ese nombre
+ * acá, ver `lib/contenido/guardia.test.ts`) resultó ser, según la misma
+ * confirmación de la clienta, el modelo VIGENTE de Chakay — no está en
+ * `content/instalaciones.ts` (no hay fotos de instalación reales de ese
+ * equipo todavía, solo fotos de producto, ya en `content/productos/
+ * chakay.ts`), pero ya no debe tratarse como excluido si aparecen fotos de
+ * instalación suyas más adelante: agregarlas acá con `producto: 'chakay'`.
+ *
+ * Chakay queda sin ninguna instalación real por ahora (la sección
+ * "Instalaciones de Chakay" de la ficha se omite sola mientras el arreglo
+ * filtrado quede vacío — mismo mecanismo que ya usa el resto del sitio para
+ * colecciones vacías).
  *
  * También se descartó una candidata que había quedado marcada como
  * "tentativa" en la revisión: una cocina a leña marca "Alcazar" sin ningún
@@ -89,20 +90,6 @@ const ENTRADAS: EntradaInstalacion[] = [
   { numero: '27', producto: 'waiki', alt: 'Waiki instalado y encendido, contra una pared de piedra, recién terminada la instalación' },
   { numero: '28', producto: 'waiki', alt: 'Técnico esmerilando el cuerpo del quemador durante una instalación de Waiki' },
   { numero: '29', producto: 'waiki', alt: 'Técnico revisando la combustión encendida al finalizar una instalación de Waiki' },
-  { numero: '30', producto: 'chakay', alt: 'Chakay instalado en un rincón, junto a un televisor, con la marca CHAKAY visible' },
-  { numero: '31', producto: 'chakay', alt: 'Chakay instalado y encendido contra una pared roja, en un comedor' },
-  {
-    numero: '32',
-    producto: 'chakay',
-    archivo: 'producto-chakay-1.jpg',
-    alt: 'Chakay encendido, vista frontal con la marca visible',
-  },
-  {
-    numero: '33',
-    producto: 'chakay',
-    archivo: 'producto-chakay-2.jpg',
-    alt: 'Chakay instalado en un rincón de cerámica, con la salida de caño visible',
-  },
 ];
 
 const instalaciones: Instalacion[] = ENTRADAS.map(({ numero, producto, alt, archivo }) => ({

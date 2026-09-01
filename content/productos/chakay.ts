@@ -9,6 +9,23 @@
  * capacidad de carga, consumo, rendimiento y garantía) va en
  * `especificaciones`.
  *
+ * Ronda de revisión 01-09-2026 (feedback directo de la clienta sobre el
+ * sitio publicado): las 2 fotos originales (`producto-chakay-1.jpg`,
+ * `-2.jpg`, con la placa "CHAKAY" grabada) son del modelo que ya no se
+ * fabrica — la clienta las señaló explícitamente como descontinuadas. El
+ * modelo que se vende ahora es el que ya estaba fotografiado con otra
+ * marca previa en el panel (carpeta fuente `imagenes-cliente/1-productos/`,
+ * subcarpeta del nombre antiguo — NO repetir ese nombre acá: hay una prueba
+ * automatizada en `lib/contenido/guardia.test.ts` que falla si aparece en
+ * content/app/components, ARCHITECTURE.md §9). La clienta confirmó en esa
+ * misma conversación que ese equipo y Chakay "son lo mismo ahora", así que
+ * esas 4 fotos + la de `4-portada/portada-01.jpg` (variante mixta
+ * negro/rojo) pasan a ser el banco de fotos real de Chakay, en
+ * `producto-chakay-3.jpg` a `-6.jpg`. Las fotos 1-2 originales se dejan sin
+ * referenciar (no se borran del disco) por si hace falta revertir. El
+ * plazo de entrega también se corrigió de "20 a 30 días hábiles" a "1 mes y
+ * medio a 2 meses" — dato entregado directamente por la clienta.
+ *
  * `superficieRecomendada` usa 50–120 m² (la ficha técnica), no 60–120 m² (la
  * descripción de la misma página) — DATOS-ESTRUCTURADOS.md señala la ficha
  * técnica como la fuente más probable.
@@ -33,7 +50,7 @@ const chakay: Producto = {
   descripcion:
     'Chakay es una cocina de tiro natural que calefacciona por radiación y quema pellet o leña. Incorpora una plancha superior de 32 × 42 cm pensada para cocinar sin horno ni cocina eléctrica: se usa con ollas y teteras directamente sobre la plancha. No es un accesorio secundario — es una de las dos funciones principales del equipo.\n\n' +
     'Se carga, se enciende y la intensidad de la llama se regula con el controlador de presión, que viene incluido. Según su ficha técnica, cubre entre 50 y 120 m².\n\n' +
-    'Se fabrica por temporada, con un plazo de 20 a 30 días hábiles desde la reserva (30% del valor total; el saldo se cancela contra entrega). El despacho se coordina por Starken, Cruz del Sur o Casem Express, con el saldo contra el envío. El kit de caños no está incluido.',
+    'Se fabrica por temporada, con un plazo de 1 mes y medio a 2 meses desde la reserva (30% del valor total; el saldo se cancela contra entrega). El despacho se coordina por Starken, Cruz del Sur o Casem Express, con el saldo contra el envío. El kit de caños no está incluido. El valor exacto depende del equipo y la instalación: se confirma al consultar, escribiendo por WhatsApp o el formulario de contacto.',
   precio: { tipo: 'consultar' },
   superficieRecomendada: { min: 50, max: 120 },
   medidas: { ancho: 67, alto: 93, fondo: 32, peso: 120 },
@@ -50,21 +67,16 @@ const chakay: Producto = {
     { etiqueta: 'Garantía', valor: '1 año por desperfecto de fabricación' },
   ],
   colores: ['Negro', 'Mixto (negro y rojo)'],
-  plazoEntrega: '20 a 30 días hábiles',
+  plazoEntrega: '1 mes y medio a 2 meses',
   incluye: ['Codo con registro', 'Controlador de presión'],
   noIncluye: ['Kit de caños'],
-  // Bloque 11, tarea 11.6: solo 2 imágenes reales de Chakay llegaron en
-  // imagenes-cliente/1-productos/chakay/ (contra los 3 marcadores
-  // originales) — mismo criterio que Waiki, se reduce el arreglo a lo real.
-  // Segunda pasada de fotos: de las 76 candidatas de imagenes-cliente/
-  // 3-instalaciones/, solo 2 más se pudieron confirmar como Chakay limpias
-  // y en foco. La galería completa (estas 2 fotos de producto + esas 2 +
-  // instalacion-30.jpg/-31.jpg) vive en content/instalaciones.ts y se
-  // muestra debajo de esta ficha vía el Visor — Chakay sigue siendo el
-  // cuello de botella real de fotografía del catálogo.
+  // Ver comentario de cabecera (ronda 01-09-2026): banco de fotos
+  // reemplazado por el modelo vigente, no el descontinuado.
   imagenes: [
-    { archivo: 'producto-chakay-1.jpg', alt: 'Chakay encendido, vista frontal con la marca visible' },
-    { archivo: 'producto-chakay-2.jpg', alt: 'Chakay instalado en un rincón de cerámica, con la salida de caño visible' },
+    { archivo: 'producto-chakay-3.jpg', alt: 'Chakay encendido, vista frontal con la marca visible, modelo actual' },
+    { archivo: 'producto-chakay-4.jpg', alt: 'Chakay encendido, modelo actual, instalado junto a una ventana' },
+    { archivo: 'producto-chakay-5.jpg', alt: 'Chakay encendido, modelo actual, instalado contra una pared clara' },
+    { archivo: 'producto-chakay-6.jpg', alt: 'Chakay en su versión mixta negro y rojo, instalado junto a un comedor' },
   ],
   requiereControlador: false,
   destacado: true,
