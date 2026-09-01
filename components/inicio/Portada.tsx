@@ -2,13 +2,20 @@
  * Portada — sección principal de Inicio (ARCHITECTURE.md §4, §13; Bloque 6
  * de PHASE_1_PLAN.md, tarea 6.1).
  *
- * Server component, sin JavaScript de cliente. Fotografía horizontal
- * (`portada-1.jpg` — foto real, elegida en la segunda pasada de fotos de
- * `content/instalaciones.ts` como la mejor del lote completo: sin ningún
- * rastro de la marca anterior, buena luz, composición de living moderno) y
+ * Server component, sin JavaScript de cliente. Fotografía horizontal y
  * dos CTA: "Ver productos" (`/productos/`, todavía no
  * construido — Bloque 8, pero es el orden de construcción esperado) y
  * "Calcular mi ahorro" (`/calculadora/`, ya construido — Bloque 7).
+ *
+ * Ronda de revisión 01-09-2026: la clienta pidió explícitamente cambiar la
+ * foto de portada (antes `portada-1.jpg`, un Waiki) por la que ella señaló
+ * como acordada — una foto de Chakay instalado contra una pared amarilla.
+ * Esa foto no llegó como archivo nuevo, pero coincide con una que ya
+ * existía en la carpeta fuente de fotos de producto de Chakay (ver el
+ * comentario de cabecera de `content/productos/chakay.ts` para el porqué
+ * de ese banco de fotos), ya copiada a `content/images/portada-2.jpg`.
+ * También pidió quitar "ni electrónica" del título por sentirse
+ * repetitivo/grande en el celular — ver `PUNTOS_CLAVE` abajo, mismo ajuste.
  *
  * El copy es propio, no el del mockup de Claude Design (que trae datos de
  * relleno para maquetar: medidas, colores y testimonios que no existen en
@@ -33,7 +40,7 @@ import Imagen from '@/components/ui/Imagen';
 // nosotros.md — no de una sola ficha de producto (p. ej. "alterna con leña"
 // es específico de Waiki, Nahuen no lo ofrece, así que no entra aquí).
 const PUNTOS_CLAVE = [
-  'Tiro natural: sin electricidad ni electrónica',
+  'Tiro natural: sin electricidad',
   'Empresa familiar chilena, con soporte directo de quienes fabrican los equipos',
   'El pellet sigue siendo válido durante los episodios de restricción ambiental',
 ];
@@ -44,7 +51,7 @@ export default function Portada() {
       <Contenedor className="grid gap-10 py-12 lg:grid-cols-[1.4fr_1fr] lg:items-center lg:gap-16 lg:py-20">
         <div>
           <Titulo nivel={1}>
-            Calefacción a pellet, sin electricidad ni electrónica
+            Calefacción a pellet, sin electricidad
           </Titulo>
           <p className="mt-6 text-destacado text-texto-tenue">
             Diseñamos y fabricamos equipos de tiro natural en Chile: Waiki se instala sobre tu
@@ -76,8 +83,8 @@ export default function Portada() {
 
         <div className="aspect-[4/5] overflow-hidden rounded-imagen-principal shadow-md">
           <Imagen
-            archivo="portada-1.jpg"
-            alt="Waiki instalado y encendido en un living moderno, junto a un sillón de cuero"
+            archivo="portada-2.jpg"
+            alt="Chakay instalado y encendido junto a una pared amarilla"
             prioridad
             sizes="(min-width: 1024px) 50vw, 100vw"
             className="h-full w-full object-cover"

@@ -63,8 +63,15 @@
    * 36px). Es normal — el style tile es la referencia abstracta; qué paso
    * de la escala usa cada elemento concreto lo deciden esos bloques, no
    * esta tarea. */
-  --text-h1: 4rem;         /* 64px */
-  --text-h2: 2.5rem;       /* 40px */
+  /* H1/H2 fluidos (ronda 01-09-2026): la clienta reportó el título de
+   * portada "extremadamente grande" en el celular — 64px fijo sin escalar
+   * hace que un título de varias palabras ocupe la pantalla completa en
+   * mobile. clamp() mantiene el tamaño de escritorio (64px/40px, sin
+   * cambios ≥ ~1000px/800px de ancho de viewport) y lo reduce en pantallas
+   * angostas. H3 y el resto de la escala quedan igual: no fueron señalados
+   * como problema y ARCHITECTURE.md §13 ya midió Lighthouse mobile con ellos. */
+  --text-h1: clamp(2.25rem, 1.5rem + 4vw, 4rem);   /* 36px → 64px */
+  --text-h2: clamp(1.75rem, 1rem + 3vw, 2.5rem);   /* 28px → 40px */
   --text-h3: 1.75rem;      /* 28px */
   --text-destacado: 1.25rem;   /* 20px */
   --text-cuerpo: 1.0625rem;    /* 17px */
