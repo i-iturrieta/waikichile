@@ -34,7 +34,7 @@ export default function PaginaPreguntasFrecuentes() {
   const faqJsonLd = generarFaqPageJsonLd(preguntasFrecuentes);
 
   return (
-    <Contenedor as="section" className="py-16 lg:py-24">
+    <Contenedor as="section" className="py-10 sm:py-16 lg:py-24">
       <div className="max-w-2xl">
         <Titulo nivel={1}>Preguntas Frecuentes</Titulo>
         <p className="mt-3 text-cuerpo text-texto-tenue">

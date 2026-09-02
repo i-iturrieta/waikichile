@@ -32,7 +32,7 @@ export default function UltimasEntradas() {
   if (articulos.length === 0) return null;
 
   return (
-    <section className="border-t border-borde bg-superficie py-16 lg:py-24">
+    <section className="border-t border-borde bg-superficie py-10 sm:py-16 lg:py-24">
       <Contenedor>
         <div className="max-w-2xl">
           <Titulo nivel={2}>Del blog</Titulo>

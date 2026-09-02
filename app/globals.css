@@ -24,16 +24,27 @@
  */
 
 @theme inline {
-  /* ---- Paleta ---------------------------------------------------------- */
-  --color-fondo: oklch(93% 0.006 70);             /* fondo de <body> / canvas exterior del mockup */
-  --color-superficie: oklch(97% 0.012 70);        /* Lino — superficie base de contenido */
-  --color-superficie-alta: oklch(99% 0.005 70);   /* panel / tarjeta elevada (más clara que la superficie base) */
-  --color-texto: oklch(24% 0.025 45);             /* Tizón — texto principal */
-  --color-texto-tenue: oklch(45% 0.02 50);        /* texto secundario / muted */
-  --color-marca: oklch(60% 0.15 40);              /* Greda — color primario / marca */
-  --color-secundario: oklch(40% 0.075 145);       /* Musgo */
-  --color-acento: oklch(72% 0.13 135);            /* Hoja */
-  --color-borde: oklch(88% 0.015 60);             /* Arena — líneas / bordes */
+  /* ---- Paleta ----------------------------------------------------------
+   * Ronda 01-09-2026 (rehecho mobile-first): la paleta original ("Lino"/
+   * "Greda", crema casi neutro oklch(93% 0.006 70) + terracota pastel) es,
+   * pixel a pixel, el crema-y-terracota que hoy se lee como el default más
+   * reconocible de un sitio "hecho con IA" — la clienta lo notó sin saber
+   * el porqué técnico. Se mantiene el concepto "Hogar y leña" (aprobado por
+   * la clienta, Bloque 4) pero con más carácter: fondo más cálido y menos
+   * desaturado ("Arcilla" en vez de "Lino"), y la marca sube de terracota
+   * pastel a brasa/rescoldo — el color literal del fuego que se ve
+   * encendido en casi todas las fotos de producto reales, no un tono
+   * decorativo elegido en abstracto. Verde (Musgo/Hoja) se mantiene casi
+   * intacto: ya era lo menos genérico de la paleta original. */
+  --color-fondo: oklch(90% 0.024 58);             /* Arcilla — fondo de <body>, más cálido/con más carácter que el crema original */
+  --color-superficie: oklch(96% 0.018 58);        /* Arcilla clara — superficie base de contenido */
+  --color-superficie-alta: oklch(99% 0.008 58);   /* panel / tarjeta elevada */
+  --color-texto: oklch(21% 0.03 38);              /* Tizón — texto principal, un poco más profundo */
+  --color-texto-tenue: oklch(42% 0.026 45);       /* texto secundario / muted */
+  --color-marca: oklch(55% 0.19 35);              /* Brasa — color primario / marca, más saturado y con más peso que "Greda" */
+  --color-secundario: oklch(38% 0.08 150);        /* Musgo */
+  --color-acento: oklch(70% 0.15 130);            /* Hoja */
+  --color-borde: oklch(84% 0.028 55);             /* Arena — líneas / bordes */
 
   /* ---- Tipografía -------------------------------------------------------
    * --font-bitter y --font-archivo las define next/font/google en
@@ -113,6 +124,17 @@
   --shadow-sm: 0 14px 28px -8px oklch(24% 0.025 45 / 0.18);
   --shadow-md: 0 20px 40px -12px oklch(24% 0.025 45 / 0.22);
   --shadow-lg: 0 24px 48px -16px oklch(24% 0.025 45 / 0.25);
+
+  /* ---- Sombra "brasa" (señal de firma, rehecho 01-09-2026) --------------
+   * En vez de una sombra neutra bajo las fotos de producto (que es el
+   * tratamiento genérico de cualquier tarjeta de e-commerce), la imagen
+   * principal de cada ficha y el hero de portada llevan un resplandor
+   * cálido con el mismo tono que la marca — evoca el rescoldo/la llama que
+   * ya está encendida en casi todas las fotos reales, sin agregar ningún
+   * ícono o patrón decorativo nuevo. Uso: solo en la imagen protagonista de
+   * cada página (ficha de producto, hero de portada), nunca en grillas de
+   * miniaturas — si todo brilla, nada es la firma. */
+  --shadow-brasa: 0 24px 56px -18px oklch(55% 0.19 35 / 0.45), 0 8px 20px -8px oklch(55% 0.19 35 / 0.3);
 }
 
 /*

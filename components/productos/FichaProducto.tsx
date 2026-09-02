@@ -31,6 +31,19 @@
  * mismo mecanismo genérico para cualquier producto que traiga una fila
  * "Garantía" en sus especificaciones (hoy también aplica a Chakay, en
  * sentido positivo).
+ *
+ * Galería (rehecho mobile-first, ronda 01-09-2026): la clienta pidió
+ * explícitamente que la galería fuera más protagonista en el celular en vez
+ * de competir con el precio por espacio (video 6 de la ronda de cambios) —
+ * "sería más amigable que en vez de consultar precio vayan imágenes". En
+ * mobile, todas las fotos (principal + resto) viven en una sola tira
+ * horizontal con scroll-snap nativo (sin JavaScript: `overflow-x-auto
+ * snap-x`), cada una casi a ancho completo con un asomo de la siguiente
+ * para señalar que hay más — eso es "el banco de fotos" que pidió, no una
+ * sola foto grande con miniaturas chicas al lado. Desde `lg:` la misma
+ * lista de imágenes se reacomoda a la grilla original (imagen principal
+ * grande + miniaturas debajo) con las clases `lg:` — mismos elementos, sin
+ * duplicar el DOM, solo cambia `flex`+scroll por `grid`.
  */
 
 import Link from 'next/link';
@@ -62,38 +75,40 @@ export default function FichaProducto({ producto, vidaUtil, esRepuesto }: FichaP
   const mostrarSeccionRepuesto = esRepuesto !== undefined && (esRepuesto || vidaUtil != null);
 
   return (
-    <Contenedor as="article" className="py-16 lg:py-24">
+    <Contenedor as="article" className="py-10 sm:py-16 lg:py-24">
       <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
-        {/* Galería — imagen principal grande + el resto en grilla. Sin
-            visor interactivo: eso es la isla de cliente de Instalaciones
-            (Bloque 9), no de este bloque. */}
-        <div className="flex flex-col gap-4">
-          <div className="aspect-[4/5] overflow-hidden rounded-imagen-principal border border-superficie shadow-md">
+        {/* Galería — ver comentario de cabecera. Sin JavaScript: en mobile
+            es una tira `flex` con scroll-snap nativo (sangrada hasta el
+            borde con el mismo margen que usa `Contenedor`, para que se vea
+            a ancho casi completo); desde `lg:` la misma lista de imágenes
+            pasa a `grid` (imagen principal grande + miniaturas debajo) sin
+            duplicar el DOM. Sin visor interactivo: eso es la isla de
+            cliente de Instalaciones (Bloque 9), no de este bloque. */}
+        <div className="-mx-6 flex snap-x snap-mandatory gap-3 overflow-x-auto px-6 pb-1 md:-mx-16 md:px-16 lg:mx-0 lg:grid lg:snap-none lg:grid-cols-4 lg:gap-4 lg:overflow-visible lg:px-0 lg:pb-0">
+          <div
+            className="aspect-[4/5] w-[78%] flex-none snap-center overflow-hidden rounded-imagen-principal border border-superficie shadow-brasa sm:w-[45%] lg:col-span-4 lg:w-full"
+          >
             <Imagen
               archivo={imagenPrincipal.archivo}
               alt={imagenPrincipal.alt}
               prioridad
-              sizes="(min-width: 1024px) 50vw, 100vw"
+              sizes="(min-width: 1024px) 50vw, 80vw"
               className="h-full w-full object-cover"
             />
           </div>
-          {imagenesResto.length > 0 && (
-            <div className="grid grid-cols-3 gap-4 sm:grid-cols-4">
-              {imagenesResto.map((imagen) => (
-                <div
-                  key={imagen.archivo}
-                  className="aspect-[4/5] overflow-hidden rounded-tarjeta border border-superficie shadow-sm"
-                >
-                  <Imagen
-                    archivo={imagen.archivo}
-                    alt={imagen.alt}
-                    sizes="(min-width: 1024px) 12vw, 25vw"
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-              ))}
+          {imagenesResto.map((imagen) => (
+            <div
+              key={imagen.archivo}
+              className="aspect-[4/5] w-[78%] flex-none snap-center overflow-hidden rounded-tarjeta border border-superficie shadow-sm sm:w-[45%] lg:col-span-1 lg:w-full"
+            >
+              <Imagen
+                archivo={imagen.archivo}
+                alt={imagen.alt}
+                sizes="(min-width: 1024px) 12vw, 80vw"
+                className="h-full w-full object-cover"
+              />
             </div>
-          )}
+          ))}
         </div>
 
         <div className="flex flex-col gap-8">

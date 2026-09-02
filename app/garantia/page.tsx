@@ -35,7 +35,7 @@ export const metadata: Metadata = construirMetadata({
 
 export default function PaginaGarantia() {
   return (
-    <Contenedor as="article" className="py-16 lg:py-24">
+    <Contenedor as="article" className="py-10 sm:py-16 lg:py-24">
       <div className="mx-auto max-w-3xl">
         <Titulo nivel={1}>{paginaGarantia.titulo}</Titulo>
         <div className="prosa mt-8" dangerouslySetInnerHTML={{ __html: paginaGarantia.html }} />

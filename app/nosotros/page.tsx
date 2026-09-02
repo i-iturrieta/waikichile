@@ -45,14 +45,14 @@ export const metadata: Metadata = construirMetadata({
 export default function PaginaNosotros() {
   return (
     <>
-      <Contenedor as="article" className="py-16 lg:py-24">
+      <Contenedor as="article" className="py-10 sm:py-16 lg:py-24">
         <div className="mx-auto max-w-3xl">
           <Titulo nivel={1}>{paginaNosotros.titulo}</Titulo>
           <div className="prosa mt-8" dangerouslySetInnerHTML={{ __html: paginaNosotros.html }} />
         </div>
       </Contenedor>
 
-      <section id="resenas" className="border-t border-borde bg-superficie py-16 lg:py-24">
+      <section id="resenas" className="border-t border-borde bg-superficie py-10 sm:py-16 lg:py-24">
         <Contenedor>
           <Titulo nivel={2}>Lo que dicen quienes ya se cambiaron</Titulo>
 

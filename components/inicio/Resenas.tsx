@@ -34,7 +34,7 @@ export default function Resenas() {
   if (resenas.length === 0) return null;
 
   return (
-    <section className="py-16 lg:py-24">
+    <section className="py-10 sm:py-16 lg:py-24">
       <Contenedor>
         <Titulo nivel={2}>Lo que dicen quienes ya se cambiaron</Titulo>
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

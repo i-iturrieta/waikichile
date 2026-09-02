@@ -22,7 +22,7 @@ import Titulo from '@/components/ui/Titulo';
 
 export default function AccesoCalculadora() {
   return (
-    <section className="py-16 lg:py-20">
+    <section className="py-10 sm:py-16 lg:py-20">
       <Contenedor>
         <div className="flex flex-col items-start gap-6 rounded-imagen-principal border border-borde bg-superficie-alta p-8 shadow-sm sm:p-12 lg:flex-row lg:items-center lg:justify-between">
           <div className="max-w-2xl">

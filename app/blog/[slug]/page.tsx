@@ -68,7 +68,7 @@ export default async function PaginaArticulo({ params }: ParametrosRuta) {
   const articuloJsonLd = generarArticleJsonLd(articulo);
 
   return (
-    <Contenedor as="article" className="py-16 lg:py-24">
+    <Contenedor as="article" className="py-10 sm:py-16 lg:py-24">
       <div className="mx-auto max-w-3xl">
         <time dateTime={articulo.fecha} className="text-caption text-texto-tenue">
           {formatoFecha.format(new Date(`${articulo.fecha}T00:00:00`))}
