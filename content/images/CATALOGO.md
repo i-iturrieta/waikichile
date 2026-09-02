@@ -9,6 +9,7 @@ Todos parten como marcador de posición (fondo plano, nombre rotulado encima, ge
 **Actualizado a mano** (no correr el generador — sobrescribiría fotos reales con marcadores en blanco):
 - Segunda pasada de fotos (ver `content/instalaciones.ts`): `producto-waiki` de 5 a 4, `instalacion` de 25 a 31.
 - Ronda de revisión 01-09-2026 (feedback directo de la clienta): `instalacion` de 31 a 27 (se quitaron 4 fotos del modelo de Chakay descontinuado — ver `content/instalaciones.ts`); `producto-chakay` de 2 a 4 fotos reales vigentes (`-3` a `-6`; `-1`/`-2` quedan en disco sin referenciar, del modelo descontinuado); `producto-mini-nahuen` nuevo (2 fotos); `portada-2.jpg` nuevo (reemplaza a `portada-1.jpg`, que queda sin usar en disco).
+- Ronda de revisión 01-09-2026 (segunda pasada, feedback sobre el sitio ya publicado): `portada-2.jpg` **reemplazado de nuevo** — la primera portada de esta ronda resultó ser la misma foto que la clienta señaló como "la actual" a reemplazar (confirmado por hash contra la captura de pantalla que envió); ahora es la foto que ella marcó como "portada definitiva". `producto-mini-nahuen` de 2 a 3 fotos (se agrega la ficha técnica como imagen de galería, no solo como fuente de datos).
 
 ## producto-waiki (4)
 
@@ -32,10 +33,11 @@ Todos parten como marcador de posición (fondo plano, nombre rotulado encima, ge
 
 Nota: son marcadores/placeholders, no fotos reales — por eso `nahuen.borrador: true`. Pendiente que la clienta envíe fotos reales.
 
-## producto-mini-nahuen (2)
+## producto-mini-nahuen (3)
 
 - `producto-mini-nahuen-1.jpg`
 - `producto-mini-nahuen-2.jpg`
+- `producto-mini-nahuen-3.jpg` — ficha técnica fotografiada (medidas, potencia, valor)
 
 ## accesorio-controlador (1)
 

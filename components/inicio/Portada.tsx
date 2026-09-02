@@ -7,13 +7,15 @@
  * construido — Bloque 8, pero es el orden de construcción esperado) y
  * "Calcular mi ahorro" (`/calculadora/`, ya construido — Bloque 7).
  *
- * Ronda de revisión 01-09-2026: la clienta pidió explícitamente cambiar la
- * foto de portada (antes `portada-1.jpg`, un Waiki) por la que ella señaló
- * como acordada — una foto de Chakay instalado contra una pared amarilla.
- * Esa foto no llegó como archivo nuevo, pero coincide con una que ya
- * existía en la carpeta fuente de fotos de producto de Chakay (ver el
- * comentario de cabecera de `content/productos/chakay.ts` para el porqué
- * de ese banco de fotos), ya copiada a `content/images/portada-2.jpg`.
+ * Ronda de revisión 01-09-2026 (primera pasada): la clienta pidió cambiar
+ * la foto de portada (antes `portada-1.jpg`, un Waiki) por la que ella
+ * señaló como acordada. La primera foto usada para ese reemplazo —una de
+ * Chakay contra una pared amarilla— resultó ser exactamente la que la
+ * clienta señaló como "la actual" a reemplazar, no la acordada (confirmado
+ * por captura de pantalla que envió en la segunda pasada, coincide pixel a
+ * pixel). `portada-2.jpg` se sobrescribió de nuevo con la foto correcta
+ * ("verdadera foto 4 (portada definitiva)", ronda 01-09-2026 segunda
+ * pasada): living con repisa de libros, sillón de cuero y leña apilada.
  * También pidió quitar "ni electrónica" del título por sentirse
  * repetitivo/grande en el celular — ver `PUNTOS_CLAVE` abajo, mismo ajuste.
  *
@@ -48,7 +50,7 @@ const PUNTOS_CLAVE = [
 export default function Portada() {
   return (
     <section className="border-b border-borde bg-superficie">
-      <Contenedor className="grid gap-10 py-12 lg:grid-cols-[1.4fr_1fr] lg:items-center lg:gap-16 lg:py-20">
+      <Contenedor className="grid gap-8 py-8 sm:gap-10 sm:py-12 lg:grid-cols-[1.4fr_1fr] lg:items-center lg:gap-16 lg:py-20">
         <div>
           <Titulo nivel={1}>
             Calefacción a pellet, sin electricidad
@@ -81,10 +83,10 @@ export default function Portada() {
           </div>
         </div>
 
-        <div className="aspect-[4/5] overflow-hidden rounded-imagen-principal shadow-md">
+        <div className="aspect-[4/5] overflow-hidden rounded-imagen-principal shadow-brasa">
           <Imagen
             archivo="portada-2.jpg"
-            alt="Chakay instalado y encendido junto a una pared amarilla"
+            alt="Equipo a pellet encendido en un living, junto a una repisa de libros, un sillón de cuero y leña apilada"
             prioridad
             sizes="(min-width: 1024px) 50vw, 100vw"
             className="h-full w-full object-cover"

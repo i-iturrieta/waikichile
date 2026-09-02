@@ -10,6 +10,12 @@
  * `content/empresa.ts`) — la línea que los muestra se omite por completo en
  * vez de mostrar un placeholder visible ("Razón social: pendiente", por
  * ejemplo), tal como pide la tarea 5.3.
+ *
+ * Ronda de revisión 01-09-2026 (segunda pasada): la tagline traía "sin
+ * electricidad ni electrónica", igual que el H1 de portada que ya se corrigió
+ * (ver `components/inicio/Portada.tsx`) tras el mismo comentario de la
+ * clienta ("el ni electrónica está de más") — acá quedó sin aplicar en la
+ * primera pasada. Se deja solo "sin electricidad".
  */
 
 import Image from 'next/image';
@@ -42,7 +48,7 @@ export default function Pie() {
             <p className="font-titulos text-h3 font-semibold text-marca">Waiki Chile</p>
           </div>
           <p className="mt-3 text-cuerpo text-texto-tenue">
-            Quemadores y estufas a pellet, con tiro natural: sin electricidad ni electrónica.
+            Quemadores y estufas a pellet, con tiro natural y sin electricidad.
           </p>
         </div>
 

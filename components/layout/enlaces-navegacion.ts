@@ -17,11 +17,18 @@
  * - `ENLACES_PRINCIPALES` — lo que alguien busca primero al llegar (qué
  *   venden, cuánto ahorra, quiénes son). Va en la barra de escritorio y
  *   arriba del panel móvil.
- * - `ENLACES_SECUNDARIOS` — Blog, Preguntas Frecuentes y Garantía. No
+ * - `ENLACES_SECUNDARIOS` — Preguntas Frecuentes y Garantía. No
  *   desaparecen del sitio: siguen en el panel móvil (debajo de un
  *   separador) y en el pie de página, que es donde un sitio de este tamaño
  *   normalmente lista el mapa completo — igual que hace el propio mockup,
  *   que tampoco las trae en el header.
+ *
+ * Ronda de revisión 01-09-2026 (segunda pasada): "Blog" sube de
+ * `ENLACES_SECUNDARIOS` a `ENLACES_PRINCIPALES` y se renombra a "Noticias" —
+ * pedido directo de la clienta ("necesito el botón de noticias arriba"). El
+ * sitio anterior también lo llamaba "Noticias" (`/noticias/` redirige a
+ * `/blog/`, ver `public/_redirects`); la ruta `/blog/` no cambia, solo la
+ * etiqueta visible y su jerarquía en el nav.
  *
  * "Inicio" no entra en ninguno de los dos grupos de navegación: el logo ya
  * enlaza a "/" (convención estándar), y repetirlo como enlace de texto es
@@ -45,10 +52,10 @@ export const ENLACES_PRINCIPALES: EnlaceNavegacion[] = [
   { href: '/instalaciones/', etiqueta: 'Instalaciones' },
   { href: '/nosotros/', etiqueta: 'Nosotros' },
   { href: '/calculadora/', etiqueta: 'Calculadora' },
+  { href: '/blog/', etiqueta: 'Noticias' },
 ];
 
 export const ENLACES_SECUNDARIOS: EnlaceNavegacion[] = [
-  { href: '/blog/', etiqueta: 'Blog' },
   { href: '/preguntas-frecuentes/', etiqueta: 'Preguntas Frecuentes' },
   { href: '/garantia/', etiqueta: 'Garantía' },
 ];

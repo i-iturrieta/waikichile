@@ -7,6 +7,12 @@
  * (`producto-mini-nahuen-1.jpg`, `-2.jpg`, copiadas de las fotos 5 y 7 de
  * la ronda de cambios del 01-09-2026).
  *
+ * Ronda de revisión 01-09-2026 (segunda pasada): la propia ficha técnica se
+ * suma como `producto-mini-nahuen-3.jpg` — la clienta la reenvió renombrada
+ * (`foto-6-usar-incluye-ficha-tecnica-nahuen.jpeg`) para que no se volviera a
+ * omitir del banco de fotos. Hasta ahora solo se había usado como fuente de
+ * datos (ver transcripción abajo), no como imagen de la galería.
+ *
  * Transcripción literal de la ficha:
  *   - Potencia: "6.5 kl calorías" — así lo dice la ficha; probablemente un
  *     error de tipeo (¿"6,5 kW"? ¿"6,5 kg/h"?) pero ARCHITECTURE.md §1.6
@@ -59,6 +65,7 @@ const miniNahuen: Producto = {
   imagenes: [
     { archivo: 'producto-mini-nahuen-1.jpg', alt: 'Mini Nahuen mixto negro y rojo, instalado y encendido junto a un sillón' },
     { archivo: 'producto-mini-nahuen-2.jpg', alt: 'Mini Nahuen negro, instalado y encendido, con un gato sentado junto al equipo' },
+    { archivo: 'producto-mini-nahuen-3.jpg', alt: 'Ficha técnica de Mini Nahuen: medidas, potencia, valor y capacidad del contenedor' },
   ],
   requiereControlador: false,
   destacado: true,

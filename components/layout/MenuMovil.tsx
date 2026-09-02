@@ -23,10 +23,11 @@
  * tiene estado propio, solo reutiliza `pathname` para `aria-current`.
  *
  * Nav en dos grupos (ver `enlaces-navegacion.ts`): la barra de escritorio y
- * la parte superior del panel móvil solo muestran `ENLACES_PRINCIPALES` (5).
- * `ENLACES_SECUNDARIOS` (Blog, Preguntas Frecuentes, Garantía) aparece solo
- * en el panel móvil, debajo de un separador y con menor peso visual — no
- * desaparecieron del sitio, solo bajaron de jerarquía.
+ * la parte superior del panel móvil solo muestran `ENLACES_PRINCIPALES` (6,
+ * incluye "Noticias" desde la ronda 01-09-2026). `ENLACES_SECUNDARIOS`
+ * (Preguntas Frecuentes, Garantía) aparece solo en el panel móvil, debajo de
+ * un separador y con menor peso visual — no desaparecieron del sitio, solo
+ * bajaron de jerarquía.
  */
 
 import Link from 'next/link';
@@ -52,9 +53,10 @@ export default function MenuMovil() {
 
   return (
     <>
-      {/* Navegación de escritorio — solo los 5 enlaces principales, igual
-          que el mockup elegido. Blog/Preguntas Frecuentes/Garantía viven en
-          el panel móvil (más abajo) y en el pie de página. */}
+      {/* Navegación de escritorio — los enlaces principales, curados a partir
+          del mockup elegido más "Noticias" (ronda 01-09-2026). Preguntas
+          Frecuentes/Garantía viven en el panel móvil (más abajo) y en el pie
+          de página. */}
       <nav aria-label="Principal" className="hidden md:flex md:items-center md:gap-6">
         {ENLACES_PRINCIPALES.map(({ href, etiqueta }) => (
           <Link
