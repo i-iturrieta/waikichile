@@ -17,8 +17,11 @@
  * separa `imagenes-cliente/LEEME.md` (OK >=2000 · reservas 640-2000 · no sirve <640).
  *
  *  - **Error duro**: peso sobre 4 MB (ARCHITECTURE.md §9), o lado mayor bajo
- *    640 px (PHASE_1_PLAN.md 2.1). Bajo 640 px el pipeline no puede generar
- *    ni su variante más chica sin ampliar, así que la imagen es inservible.
+ *    640 px (PHASE_1_PLAN.md 2.1). Es un piso de calidad, no una
+ *    imposibilidad técnica: desde la corrección del 07-09-2026 un original
+ *    más angosto que 640 px sí genera variante (a su ancho nativo, ver
+ *    `anchosAGenerar` más abajo). Lo que no pasa el umbral es una foto tan
+ *    chica que no sirve ni para la tarjeta más pequeña del sitio.
  *  - **Aviso, sin romper el build**: lado mayor bajo 2000 px, que es el
  *    contrato de entrega de ARCHITECTURE.md §9 ("mínimo 2000 px de lado").
  *    La foto se procesa igual y queda anotada como incumplimiento, para que
@@ -42,7 +45,7 @@ const FORMATOS = ['avif', 'webp'] as const;
 type Formato = (typeof FORMATOS)[number];
 
 const MAX_BYTES = 4 * 1024 * 1024; // 4 MB — ARCHITECTURE.md §9
-const MIN_LADO_MAYOR_DURO = 640; // px — PHASE_1_PLAN.md 2.1: bajo esto no hay variante posible sin ampliar
+const MIN_LADO_MAYOR_DURO = 640; // px — PHASE_1_PLAN.md 2.1: piso de calidad (ver cabecera)
 const MIN_LADO_MAYOR_CONTRATO = 2000; // px — ARCHITECTURE.md §9: contrato de entrega; incumplirlo avisa, no rompe
 
 /**
@@ -120,7 +123,7 @@ async function procesarOriginal(rutaAbsoluta: string, manifiesto: Manifiesto): P
   const ladoMayor = Math.max(anchoReal, altoReal);
   if (ladoMayor < MIN_LADO_MAYOR_DURO) {
     throw new Error(
-      `content/images/${rutaRelativa}: mide ${anchoReal}×${altoReal} px (lado mayor ${ladoMayor} px), bajo el mínimo absoluto de ${MIN_LADO_MAYOR_DURO} px (PHASE_1_PLAN.md 2.1). El pipeline no amplía: esta imagen es inservible. Reemplazar por una de mayor resolución.`
+      `content/images/${rutaRelativa}: mide ${anchoReal}×${altoReal} px (lado mayor ${ladoMayor} px), bajo el mínimo absoluto de ${MIN_LADO_MAYOR_DURO} px (PHASE_1_PLAN.md 2.1). Es demasiado chica para cualquier lugar del sitio, y el pipeline no amplía. Reemplazar por una de mayor resolución.`
     );
   }
   if (ladoMayor < MIN_LADO_MAYOR_CONTRATO) {
@@ -136,11 +139,29 @@ async function procesarOriginal(rutaAbsoluta: string, manifiesto: Manifiesto): P
 
   let archivosGenerados = 0;
 
-  for (const ancho of ANCHOS) {
-    // "Sin ampliar si el original es menor": si el ancho objetivo supera el
-    // ancho real del original, esa variante simplemente no se genera (en
-    // vez de emitir un archivo con nombre "-1920" que en realidad mide menos).
-    if (ancho > anchoReal) continue;
+  // "Sin ampliar si el original es menor": un ancho objetivo mayor que el
+  // ancho real no se genera, en vez de emitir un archivo llamado "-1920" que
+  // en realidad mide menos.
+  const anchosQueCaben = ANCHOS.filter((ancho) => ancho <= anchoReal);
+
+  // Y si NINGUNO cabe —el original es más angosto que 640 px— se emite una
+  // sola variante a su ancho nativo, en vez de no emitir ninguna.
+  //
+  // Antes este caso terminaba en cero variantes, y eso convertía una foto
+  // perfectamente utilizable en una imagen inservible: `<Imagen>` lanza
+  // "no tiene ninguna variante generada" y el contenido que la referencia no
+  // se puede publicar. Le pasó a las dos fotos del controlador de presión
+  // (461 × 1024 px), que dejaron el accesorio en `borrador: true` durante
+  // semanas por un detalle de tubería, no por falta de contenido.
+  //
+  // Esto NO relaja la regla de no ampliar — es exactamente lo contrario:
+  // sirve los píxeles que la foto tiene y ni uno más. Una variante de 461 px
+  // es honesta; una de 640 px hecha estirando 461 sería una mentira más
+  // pesada y más borrosa. Y para el tamaño en que se muestran estas fotos
+  // (~262 px en la tarjeta de escritorio) alcanza de sobra.
+  const anchosAGenerar = anchosQueCaben.length > 0 ? anchosQueCaben : [anchoReal];
+
+  for (const ancho of anchosAGenerar) {
 
     for (const formato of FORMATOS) {
       const nombreArchivo = `${nombreBase}-${ancho}.${formato}`;

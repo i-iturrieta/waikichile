@@ -17,18 +17,40 @@
  * diferencia de lo que anticipaba el "Done when" de la tarea. Ver el reporte
  * de este bloque.
  *
- * `borrador: true` (Bloque 11, tarea 11.6): cero fotografías reales de
- * Nahuen llegaron en `imagenes-cliente/` — la carpeta
- * `1-productos/nahuen/` está vacía, y una búsqueda por nombre de archivo
- * contra el inventario completo de las 141 imágenes recibidas
- * (`imagenes-cliente/INVENTARIO.md`) no encuentra ninguna. La tarea 11.6 es
- * explícita: "Ningún producto se publica con solo marcadores [...] si un
- * equipo no tiene ni una fotografía real, se marca `borrador: true` y su
- * ficha no sale" — confirmado con Ignacio antes de aplicarlo, dado que
- * Nahuen es uno de los tres productos destacados del catálogo. Vuelve a
- * `borrador: false` en cuanto exista al menos una fotografía real (basta con
- * sobrescribir los marcadores en `content/images/producto-nahuen-*.jpg` y
- * revertir este campo — cero cambios de código adicionales).
+ * Publicación 05-09-2026 — `borrador: false`.
+ *
+ * Nahuen estuvo en `borrador: true` desde el Bloque 11 (tarea 11.6) por una
+ * única razón: no había llegado ni una fotografía real del equipo, y esa
+ * tarea es explícita en que "ningún producto se publica con solo
+ * marcadores". Esa condición ya no se cumple. Ignacio dejó dos fotos reales
+ * en `imagenes-cliente/1-productos/nahuen/` (`nahuen1.jpeg`, `nahuen-2.jpeg`)
+ * — las dos del equipo instalado y encendido en casa de un cliente — y son
+ * las que ahora ocupan `producto-nahuen-1.jpg` y `-2.jpg`. Con eso el
+ * producto entra al catálogo publicado, la ficha `/productos/nahuen/` se
+ * genera y la tarjeta aparece en el home.
+ *
+ * La galería baja de 5 imágenes a 2, y no es una pérdida: las cinco
+ * entradas anteriores eran marcadores en blanco con alt inventado ("vista
+ * lateral", "detalle del cuerpo") describiendo fotos que no existían.
+ * `producto-nahuen-3/4/5.jpg` se borraron de `content/images/` en vez de
+ * quedar como marcadores huérfanos — el pipeline procesa todo lo que
+ * encuentra ahí, y dejarlos habría seguido emitiendo variantes de
+ * rectángulos grises a `public/img/`.
+ *
+ * Las dos fotos miden 1200×1600 y 900×1600 px: pasan el mínimo duro del
+ * pipeline (640 px de lado mayor) pero quedan bajo los 2000 px que pide el
+ * contrato de originales de ARCHITECTURE.md §9, así que `pnpm
+ * procesar-imagenes` las anota como aviso. No es una excepción de Nahuen —
+ * 37 de los 50 originales del sitio están en la misma situación, porque la
+ * clienta fotografía con teléfono y envía por WhatsApp, que recomprime. Solo
+ * generan variante de 640 px, y ese es el ancho que la tarjeta del home y la
+ * galería de la ficha piden en móvil de todos modos.
+ *
+ * Los colores (`Negro`, `Rojo (según stock)`) NO se tocaron a la luz de las
+ * fotos: las dos unidades fotografiadas son negras con la tapa lateral roja
+ * —una combinación que el dato rescatado no describe— pero corregir el
+ * catálogo de colores a partir de dos fotos sería inventar (§1.6). Queda
+ * anotado para confirmar con la clienta.
  */
 
 import type { Producto } from '../../lib/contenido/esquemas.ts';
@@ -57,16 +79,19 @@ const nahuen: Producto = {
   incluye: [],
   noIncluye: ['Kit de caños', 'Instalación'],
   imagenes: [
-    { archivo: 'producto-nahuen-1.jpg', alt: 'Nahuen, vista frontal del equipo' },
-    { archivo: 'producto-nahuen-2.jpg', alt: 'Nahuen, vista general instalado' },
-    { archivo: 'producto-nahuen-3.jpg', alt: 'Nahuen, detalle del cuerpo del equipo' },
-    { archivo: 'producto-nahuen-4.jpg', alt: 'Nahuen, vista lateral' },
-    { archivo: 'producto-nahuen-5.jpg', alt: 'Nahuen encendido' },
+    {
+      archivo: 'producto-nahuen-1.jpg',
+      alt: 'Nahuen encendido en el rincón de una vivienda, cuerpo negro con tapa lateral roja y una tetera sobre la cubierta',
+    },
+    {
+      archivo: 'producto-nahuen-2.jpg',
+      alt: 'Nahuen encendido contra un muro de cerámica, con su salida de humos de acero hacia el techo',
+    },
   ],
   requiereControlador: false,
   destacado: true,
   orden: 3,
-  borrador: true,
+  borrador: false,
 };
 
 export default nahuen;

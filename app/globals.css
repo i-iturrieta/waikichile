@@ -36,15 +36,56 @@
    * encendido en casi todas las fotos de producto reales, no un tono
    * decorativo elegido en abstracto. Verde (Musgo/Hoja) se mantiene casi
    * intacto: ya era lo menos genérico de la paleta original. */
-  --color-fondo: oklch(90% 0.024 58);             /* Arcilla — fondo de <body>, más cálido/con más carácter que el crema original */
-  --color-superficie: oklch(96% 0.018 58);        /* Arcilla clara — superficie base de contenido */
+  /* Ronda 05-09-2026 — "Home Movil A" de Claude Design.
+   * Los valores de abajo son los literales del mockup
+   * `waiki-home-movil-a-src.html` (proyecto de Claude Design
+   * 5e04710c-43f4-4b5c-8945-e367b9fe5827), no una reinterpretación: el
+   * encargo fue calcar el móvil pixel a pixel. El concepto sigue siendo el
+   * mismo "Hogar y leña" / brasa de la ronda anterior — cambian los pasos
+   * exactos de luminosidad y aparece la familia de neutros oscuros que el
+   * diseño usa para sus bandas (franja de puntos clave, panel de
+   * calculadora, pie de página), que antes no existía como token.
+   *
+   * `--color-fondo` deja de ser un tono más oscuro que `--color-superficie`:
+   * en el mockup ese 88% es el color del *simulador de teléfono* (el lienzo
+   * detrás del marco de 460px), no del sitio. El sitio real ocupa todo el
+   * ancho, así que el fondo de página es la misma superficie clara del
+   * diseño. Ver el comentario de `components/inicio/Portada.tsx`. */
+  --color-fondo: oklch(97% 0.014 58);             /* Arcilla clara — fondo de página */
+  --color-superficie: oklch(97% 0.014 58);        /* misma superficie base; se conserva el nombre de rol porque 26 usos lo referencian */
   --color-superficie-alta: oklch(99% 0.008 58);   /* panel / tarjeta elevada */
-  --color-texto: oklch(21% 0.03 38);              /* Tizón — texto principal, un poco más profundo */
-  --color-texto-tenue: oklch(42% 0.026 45);       /* texto secundario / muted */
-  --color-marca: oklch(55% 0.19 35);              /* Brasa — color primario / marca, más saturado y con más peso que "Greda" */
-  --color-secundario: oklch(38% 0.08 150);        /* Musgo */
-  --color-acento: oklch(70% 0.15 130);            /* Hoja */
-  --color-borde: oklch(84% 0.028 55);             /* Arena — líneas / bordes */
+  --color-superficie-baja: oklch(95% 0.018 58);   /* banda clara diferenciada — reseñas, notas al pie de sección */
+  --color-texto: oklch(21% 0.03 38);              /* Tizón — texto principal */
+  --color-texto-tenue: oklch(45% 0.026 45);       /* texto secundario / muted */
+  --color-marca: oklch(55% 0.19 35);              /* Brasa — color primario / marca */
+  --color-marca-oscura: oklch(48% 0.19 35);       /* Brasa apagada — hover y texto de marca sobre relleno claro */
+  --color-marca-suave: oklch(96% 0.03 35);        /* relleno tenue de marca — botón "Ver ficha" de las tarjetas */
+  --color-secundario: oklch(38% 0.08 150);        /* Musgo — WhatsApp */
+  --color-acento: oklch(70% 0.15 130);            /* Hoja — badges y llamados de ficha de producto (sin cambios) */
+  --color-borde: oklch(86% 0.026 55);             /* Arena — líneas / bordes (encabezado, barra fija, menú) */
+  --color-borde-suave: oklch(88% 0.024 55);       /* Arena clara — tarjetas y separadores de sección */
+  --color-borde-fuerte: oklch(84% 0.028 55);      /* Arena marcada — botón secundario sobre fondo claro */
+
+  /* ---- Neutros oscuros y señales -----------------------------------------
+   * Familia nueva de esta ronda. El diseño alterna bandas claras y oscuras
+   * en vez de apoyar todo el home sobre un solo fondo: es lo que le da
+   * ritmo al scroll móvil y lo que evita el "muro de tarjetas beige".
+   *   --color-oscuro       fondo de banda (puntos clave, calculadora, pie)
+   *   --color-oscuro-hondo base del degradado del hero, un paso más profundo
+   *   --color-claro        texto e íconos sobre esas bandas
+   *   --color-ambar        CTA de calculadora, viñetas de check, punto del badge
+   *   --color-ambar-texto  texto sobre relleno ámbar (contraste AA)
+   *   --color-estrella     relleno de las estrellas de reseña
+   *   --color-pago(-claro) azul de la píldora de Mercado Pago, sobre fondo
+   *                        claro y sobre fondo oscuro respectivamente */
+  --color-oscuro: oklch(24% 0.03 40);
+  --color-oscuro-hondo: oklch(18% 0.03 40);
+  --color-claro: oklch(98% 0.01 58);
+  --color-ambar: oklch(78% 0.17 90);
+  --color-ambar-texto: oklch(22% 0.05 60);
+  --color-estrella: oklch(72% 0.16 80);
+  --color-pago: oklch(30% 0.09 250);
+  --color-pago-claro: oklch(35% 0.1 250);
 
   /* ---- Tipografía -------------------------------------------------------
    * --font-bitter y --font-archivo las define next/font/google en
@@ -81,11 +122,27 @@
    * cambios ≥ ~1000px/800px de ancho de viewport) y lo reduce en pantallas
    * angostas. H3 y el resto de la escala quedan igual: no fueron señalados
    * como problema y ARCHITECTURE.md §13 ya midió Lighthouse mobile con ellos. */
-  --text-h1: clamp(2.25rem, 1.5rem + 4vw, 4rem);   /* 36px → 64px */
-  --text-h2: clamp(1.75rem, 1rem + 3vw, 2.5rem);   /* 28px → 40px */
-  --text-h3: 1.75rem;      /* 28px */
+  /* Ronda 05-09-2026: los extremos móviles se bajan para coincidir con
+   * "Home Movil A". El tope de escritorio no se toca — 64px/40px/28px
+   * siguen siendo la escala del style tile aprobado en el Bloque 4.
+   *
+   * `--text-h1` reproduce literalmente la fórmula del mockup
+   * (`clamp(2.1rem, 9.2vw, 2.85rem)`) en todo el rango móvil: 9.2vw solo
+   * alcanza 2.85rem a los 496px de viewport, y el marco del mockup mide
+   * 460px, así que por debajo de ese ancho este clamp y el del diseño dan
+   * exactamente el mismo píxel. El tope sube a 4rem para que en escritorio
+   * el título del hero tenga el peso que necesita a 1280px.
+   *
+   * Los componentes de Inicio (`components/inicio/*`) no usan estos tokens
+   * para su cuerpo de texto: el diseño especifica tamaños fraccionarios
+   * distintos por sección (16.5px en la bajada del hero, 15.5px en la
+   * franja oscura, 13.5px en las notas) y calcarlo exige esos valores
+   * literales. Estos tokens son la escala del *resto* del sitio. */
+  --text-h1: clamp(2.1rem, 9.2vw, 4rem);              /* 33.6px → 64px */
+  --text-h2: clamp(1.625rem, 0.5rem + 3.1vw, 2.5rem); /* 26px → 40px */
+  --text-h3: clamp(1.25rem, 0.85rem + 1.1vw, 1.75rem);/* 20px → 28px */
   --text-destacado: 1.25rem;   /* 20px */
-  --text-cuerpo: 1.0625rem;    /* 17px */
+  --text-cuerpo: 1rem;         /* 16px — era 17px; el diseño fija el cuerpo en 16 */
   --text-caption: 0.875rem;    /* 14px */
 
   /* ---- Retícula -----------------------------------------------------------
@@ -149,6 +206,25 @@ body {
   background: var(--color-fondo);
   color: var(--color-texto);
   font-family: var(--font-cuerpo), system-ui, sans-serif;
+}
+
+/*
+ * Carrusel horizontal de "Nuestros equipos" en móvil
+ * (`components/inicio/LineasProducto.tsx`). Tailwind ya trae `snap-x`,
+ * `snap-mandatory` y `snap-start`; lo único que no tiene utilidad propia es
+ * ocultar la barra de desplazamiento, que en el mockup no se ve — la pista
+ * de que hay más contenido la da la tarjeta cortada al borde derecho más la
+ * línea "Desliza para ver los tres", no una barra de scroll.
+ *
+ * No se llama `snap-x` como en el HTML de Claude Design a propósito: ese
+ * nombre ya existe como utilidad de Tailwind v4 y redefinirlo pisaría el
+ * `scroll-snap-type` que sí queremos usar.
+ */
+.sin-barra {
+  scrollbar-width: none;
+}
+.sin-barra::-webkit-scrollbar {
+  display: none;
 }
 
 /*

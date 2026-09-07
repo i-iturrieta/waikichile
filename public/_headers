@@ -11,6 +11,14 @@
 /img/*
 	Cache-Control: public, max-age=31536000, immutable
 
+# Audio y video de las entrevistas de prensa (public/medios/). Mismo
+# criterio que /img/*: el nombre no lleva hash de contenido, asi que
+# "immutable" es una promesa nuestra — si hay que reemplazar un archivo, se
+# sube con otro nombre. Son archivos grandes y que no cambian: es justo el
+# caso para el que existe una cache larga.
+/medios/*
+	Cache-Control: public, max-age=31536000, immutable
+
 # Assets de Next.js bajo `/_next/static/`: el nombre SÍ lleva hash de
 # contenido (lo pone `next build`), así que "immutable" acá es una garantía
 # real, no una promesa — si el archivo cambia, cambia el nombre.
@@ -21,7 +29,7 @@
 /*
 	X-Content-Type-Options: nosniff
 	Referrer-Policy: strict-origin-when-cross-origin
-	Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' https://i.ytimg.com; frame-src https://www.youtube-nocookie.com; connect-src 'self' https://cloudflareinsights.com; font-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; object-src 'none'
+	Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' https://i.ytimg.com; media-src 'self'; frame-src https://www.youtube-nocookie.com; connect-src 'self' https://cloudflareinsights.com; font-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; object-src 'none'
 
 # --- Por qué la CSP de arriba incluye lo que incluye ---------------------
 #

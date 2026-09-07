@@ -119,12 +119,13 @@ export default function Visor({ instalaciones }: VisorProps) {
             className="group overflow-hidden rounded-tarjeta border border-borde bg-superficie-alta text-left shadow-sm transition-shadow hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marca"
             aria-label={`Ampliar fotografía de instalación${instalacion.ciudad ? `, ${instalacion.ciudad}` : ''}`}
           >
-            <div className="aspect-[4/5] overflow-hidden">
+            <div className="relative aspect-[4/5] overflow-hidden">
               <Imagen
                 archivo={instalacion.imagen.archivo}
                 alt={instalacion.imagen.alt}
                 sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                className="h-full w-full object-cover transition-transform group-hover:scale-105"
+                llenar
+                className="object-cover transition-transform group-hover:scale-105"
               />
             </div>
             {/* Ciudad y modelo de combustión solo cuando existen
@@ -186,13 +187,14 @@ export default function Visor({ instalaciones }: VisorProps) {
                 </button>
               )}
 
-              <div className="aspect-[4/5] max-h-[65vh] w-full overflow-hidden rounded-tarjeta">
+              <div className="relative aspect-[4/5] max-h-[65vh] w-full overflow-hidden rounded-tarjeta">
                 <Imagen
                   archivo={activa.imagen.archivo}
                   alt={activa.imagen.alt}
                   prioridad
                   sizes="100vw"
-                  className="h-full w-full object-contain"
+                  llenar
+                  className="object-contain"
                 />
               </div>
 

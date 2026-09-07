@@ -15,6 +15,18 @@
  * Mismo patrón visual que la tarjeta ya construida en
  * `components/inicio/LineasProducto.tsx` (Bloque 6) — no se reinventa,
  * solo se le agrega superficie recomendada y precio, que Inicio no muestra.
+ *
+ * Corrección 06-09-2026: la foto va con `llenar` sobre un contenedor
+ * `relative`. Antes era `h-full w-full` sobre una caja `aspect-[4/5]`, que
+ * no funciona —el porcentaje no tiene contra qué resolverse y la foto
+ * imponía su propia proporción—, y por eso cada tarjeta de la fila tenía la
+ * imagen de un alto distinto y el título a una altura distinta. El
+ * diagnóstico completo está en la cabecera de `components/ui/Imagen.tsx`.
+ *
+ * `sizes` sigue declarando 33vw en escritorio y no 25vw, aunque
+ * `/productos/` ya reparta en cuatro columnas: esta tarjeta también arma
+ * `/accesorios/`, que sigue en tres. Pedir de más cuesta unos KB; pedir de
+ * menos se ve borroso y no se arregla después.
  */
 
 import Link from 'next/link';
@@ -36,12 +48,13 @@ export default function TarjetaProducto({ producto, basePath }: TarjetaProductoP
 
   return (
     <Tarjeta as="article" className="flex flex-col overflow-hidden">
-      <Link href={href} className="block aspect-[4/5]">
+      <Link href={href} className="relative block aspect-[4/5]">
         <Imagen
           archivo={portada.archivo}
           alt={portada.alt}
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          className="h-full w-full object-cover"
+          llenar
+          className="object-cover"
         />
       </Link>
       <div className="flex flex-1 flex-col gap-3 p-6">

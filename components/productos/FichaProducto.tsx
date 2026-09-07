@@ -86,26 +86,28 @@ export default function FichaProducto({ producto, vidaUtil, esRepuesto }: FichaP
             cliente de Instalaciones (Bloque 9), no de este bloque. */}
         <div className="-mx-6 flex snap-x snap-mandatory gap-3 overflow-x-auto px-6 pb-1 md:-mx-16 md:px-16 lg:mx-0 lg:grid lg:snap-none lg:grid-cols-4 lg:gap-4 lg:overflow-visible lg:px-0 lg:pb-0">
           <div
-            className="aspect-[4/5] w-[78%] flex-none snap-center overflow-hidden rounded-imagen-principal border border-superficie shadow-brasa sm:w-[45%] lg:col-span-4 lg:w-full"
+            className="relative aspect-[4/5] w-[78%] flex-none snap-center overflow-hidden rounded-imagen-principal border border-superficie shadow-brasa sm:w-[45%] lg:col-span-4 lg:w-full"
           >
             <Imagen
               archivo={imagenPrincipal.archivo}
               alt={imagenPrincipal.alt}
               prioridad
               sizes="(min-width: 1024px) 50vw, 80vw"
-              className="h-full w-full object-cover"
+              llenar
+              className="object-cover"
             />
           </div>
           {imagenesResto.map((imagen) => (
             <div
               key={imagen.archivo}
-              className="aspect-[4/5] w-[78%] flex-none snap-center overflow-hidden rounded-tarjeta border border-superficie shadow-sm sm:w-[45%] lg:col-span-1 lg:w-full"
+              className="relative aspect-[4/5] w-[78%] flex-none snap-center overflow-hidden rounded-tarjeta border border-superficie shadow-sm sm:w-[45%] lg:col-span-1 lg:w-full"
             >
               <Imagen
                 archivo={imagen.archivo}
                 alt={imagen.alt}
                 sizes="(min-width: 1024px) 12vw, 80vw"
-                className="h-full w-full object-cover"
+                llenar
+              className="object-cover"
               />
             </div>
           ))}

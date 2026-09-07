@@ -63,8 +63,32 @@ Cuerpo.
 });
 
 describe('obtenerArticulos (colección real, poblada en el Bloque 3b, tarea 3b.6)', () => {
-  it('carga los tres artículos rescatados, publicados y ordenados por fecha descendente', () => {
-    expect(obtenerSlugsArticulos()).toEqual(['por-que-preferir-pellets', 'conveccion-o-radiacion', 'por-que-pellets']);
+  // Eran tres hasta el 07-09-2026, cuando se sumaron las dos entrevistas de
+  // prensa. Se sigue afirmando la lista completa y su orden —no solo que haya
+  // "al menos tres"— porque lo que este test cuida es el orden por fecha
+  // descendente, y eso solo se puede comprobar contra una lista exacta.
+  it('carga los artículos publicados, ordenados por fecha descendente', () => {
+    expect(obtenerSlugsArticulos()).toEqual([
+      'entrevista-disfruta-llanquihue',
+      'entrevista-radio-puelche',
+      'por-que-preferir-pellets',
+      'conveccion-o-radiacion',
+      'por-que-pellets',
+    ]);
+  });
+
+  it('las entrevistas de prensa traen sus medios y apuntan a archivos propios', () => {
+    const conMedios = obtenerArticulos().filter((articulo) => articulo.medios);
+    expect(conMedios).toHaveLength(2);
+
+    for (const articulo of conMedios) {
+      for (const medio of articulo.medios!) {
+        // Servidos por nosotros desde `public/medios/`, nunca desde un
+        // tercero: es la razón por la que existe el reproductor propio.
+        expect(medio.archivo).toMatch(/^\/medios\//);
+        expect(medio.titulo.length).toBeGreaterThan(0);
+      }
+    }
   });
 
   it('ningún artículo enlaza al subdominio del desarrollador anterior', () => {

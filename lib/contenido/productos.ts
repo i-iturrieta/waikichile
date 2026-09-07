@@ -6,11 +6,12 @@
  * `export default`), valida contra `productoSchema` y expone la colección
  * ordenada por `orden`.
  *
- * `content/productos/` está vacío en este bloque (solo `.gitkeep` — el
- * Bloque 3b, del turno siguiente, es el que agrega `waiki.ts`, `chakay.ts`,
- * `nahuen.ts`). Por eso `productos` es `[]` hasta entonces: es el estado
- * esperado, no un error. `obtenerSlugsProductos()` devolverá
- * `['waiki', 'chakay', 'nahuen']` recién cuando exista ese contenido.
+ * El catálogo publicado hoy son cuatro fichas —`waiki.ts`, `chakay.ts`,
+ * `nahuen.ts` y `mini-nahuen.ts`—, en ese orden (`orden` 1 a 4). Nahuen se
+ * incorporó el 05-09-2026, al llegar sus primeras fotografías reales: hasta
+ * entonces estaba en `borrador: true` y `filtrarPublicables` lo dejaba fuera
+ * de `productos` (pero no de `todosLosProductos`, que es lo que mira el
+ * reporte de contenido).
  */
 
 import { productoSchema, type Producto } from './esquemas.ts';

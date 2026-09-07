@@ -216,6 +216,37 @@ export type PreguntaFrecuente = z.infer<typeof preguntaFrecuenteSchema>;
 // el reporte de este bloque.
 // ---------------------------------------------------------------------------
 
+/**
+ * Un archivo de audio o video alojado por nosotros, asociado a un artículo
+ * (agregado el 07-09-2026 para publicar las entrevistas de prensa).
+ *
+ * `archivo` es la ruta pública tal cual, bajo `/medios/`, NO una clave del
+ * manifiesto de imágenes: estos archivos no pasan por
+ * `scripts/procesar-imagenes.ts` —ese pipeline convierte fotos a AVIF/WebP y
+ * no sabe nada de audio ni de video— sino que viven en `public/medios/` y se
+ * copian al export tal como están. Por eso el campo es un string con la ruta
+ * y no un `imagenSchema`.
+ *
+ * `poster` sí es opcional y solo aplica a `tipo: 'video'`... salvo el caso
+ * que motivó esto: una entrevista de radio entregada como .mp4 cuyo "video"
+ * era una placa fija. Ahí el audio se extrae y la placa se conserva como
+ * `poster` para que el reproductor no sea una barra gris sin contexto.
+ *
+ * `duracion` es texto libre ("15:59") y es solo para mostrar: quien decide
+ * si le da play a una entrevista quiere saber cuánto dura antes, no después.
+ * No se deriva del archivo porque el sitio es estático y leer metadatos de
+ * un .m4a en tiempo de build agregaría una dependencia por un dato que se
+ * escribe una vez.
+ */
+export const medioSchema = z.object({
+  tipo: z.enum(['audio', 'video']),
+  archivo: z.string().min(1).startsWith('/medios/'),
+  titulo: z.string().min(1),
+  poster: z.string().min(1).startsWith('/medios/').optional(),
+  duracion: z.string().min(1).optional(),
+});
+export type Medio = z.infer<typeof medioSchema>;
+
 export const articuloBlogSchema = z.object({
   titulo: z.string().min(1),
   slug: z.string().min(1),
@@ -223,6 +254,45 @@ export const articuloBlogSchema = z.object({
   actualizado: z.iso.date().optional(),
   resumen: z.string().min(1),
   imagenPortada: imagenSchema.optional(),
+  // Opcional y en plural: una entrevista puede venir partida en dos archivos,
+  // que es exactamente el caso de Disfruta Llanquihue. Ausente en los tres
+  // artículos de texto, que no necesitan reproductor.
+  medios: z.array(medioSchema).min(1).optional(),
+  /**
+   * Oculta la fecha en pantalla — en el listado, en el home y en la propia
+   * nota (07-09-2026).
+   *
+   * `fecha` sigue siendo obligatoria porque es la clave de orden de toda la
+   * colección: sin ella un artículo no sabría dónde ubicarse. Lo que este
+   * campo apaga es **mostrarla**, y existe por un caso concreto: las dos
+   * entrevistas de prensa llegaron sin fecha de emisión documentada, así que
+   * su `fecha` es la de incorporación al sitio. Eso es correcto como fecha de
+   * publicación —el artículo se publicó ese día, y es lo que sigue diciendo
+   * el JSON-LD— pero cualquiera que lo lea arriba de una nota de prensa va a
+   * entenderlo como la fecha en que se emitió la entrevista, que es otra cosa
+   * y que no sabemos.
+   *
+   * Ante la duda entre poner una fecha que se lee mal y no poner ninguna,
+   * Ignacio eligió no ponerla. Esto es exactamente eso, sin mentirle al
+   * ordenamiento ni a los buscadores.
+   */
+  ocultarFecha: z.boolean().optional(),
+  /**
+   * El medio que publicó o emitió esto — "Radio Puelche 90.5 FM", "Disfruta
+   * Llanquihue" (07-09-2026).
+   *
+   * Es lo que separa una nota de prensa de un artículo propio, y por eso es
+   * el campo que decide en qué sección de `/blog/` aparece cada cosa. Se
+   * eligió esto y no la etiqueta `prensa` ni "¿tiene `medios`?" por dos
+   * razones: una etiqueta es libre y cualquiera puede escribirla mal sin que
+   * nada avise, y un artículo propio bien puede llevar un video embebido sin
+   * dejar de ser nuestro. Que un contenido tenga `fuente` significa
+   * exactamente una cosa —lo publicó otro— y eso no admite interpretación.
+   *
+   * Se muestra como antetítulo en la tarjeta de prensa: en una sección de
+   * apariciones en medios, quién lo dijo es la mitad de la información.
+   */
+  fuente: z.string().min(1).optional(),
   tags: z.array(z.string().min(1)),
   publicado: z.boolean(),
 });

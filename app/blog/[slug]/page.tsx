@@ -16,11 +16,18 @@
  * la ficha de producto: objeto plano serializado con `JSON.stringify` dentro
  * de un `<script type="application/ld+json">`.
  *
- * `VideoYoutube` (`components/blog/VideoYoutube.tsx`) no se usa en esta
- * página: el esquema `ArticuloBlog` no tiene un campo para asociar un video
- * a un artículo, y ninguno de los tres artículos reales lo necesita hoy. El
- * componente existe, listo para cuando haga falta, pero cablearlo aquí sin
- * un campo de contenido real que lo dispare sería agregar UI muerta.
+ * Entrevistas de prensa (07-09-2026): el esquema ahora sí tiene un campo
+ * para asociar medios a un artículo (`medios`), y esta página los renderiza
+ * con `Reproductor` antes del cuerpo. Son archivos propios servidos desde
+ * `public/medios/`, no embebidos de terceros.
+ *
+ * `VideoYoutube` (`components/blog/VideoYoutube.tsx`) sigue sin usarse, y su
+ * razón cambió: antes era que no existía el campo de contenido que lo
+ * disparara; ahora el campo existe (`medios`) pero apunta a archivos
+ * propios, no a YouTube. El componente sigue listo para el día en que una
+ * entrevista llegue como enlace de YouTube en vez de como archivo — que es
+ * lo que convendría si aparecen videos largos, porque alojarlos nosotros
+ * tiene un techo de 25 MiB por archivo en Cloudflare.
  *
  * Metadata (Bloque 11, tarea 11.1): `tipo: 'article'` (Open Graph de tipo
  * artículo, más específico que el `'website'` por defecto). `imagen` es
@@ -33,6 +40,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Contenedor from '@/components/ui/Contenedor';
 import Titulo from '@/components/ui/Titulo';
+import Reproductor from '@/components/blog/Reproductor';
 import { obtenerArticulo, obtenerSlugsArticulos } from '@/lib/contenido/blog';
 import { generarArticleJsonLd } from '@/lib/seo/jsonld';
 import { construirMetadata } from '@/lib/seo/metadata';
@@ -70,13 +78,30 @@ export default async function PaginaArticulo({ params }: ParametrosRuta) {
   return (
     <Contenedor as="article" className="py-10 sm:py-16 lg:py-24">
       <div className="mx-auto max-w-3xl">
-        <time dateTime={articulo.fecha} className="text-caption text-texto-tenue">
-          {formatoFecha.format(new Date(`${articulo.fecha}T00:00:00`))}
-        </time>
+        {/* `ocultarFecha` la esconde sin sacarla del contenido: sigue
+            ordenando la colección y sigue siendo el `datePublished` del
+            JSON-LD. Ver el comentario del campo en `lib/contenido/esquemas.ts`. */}
+        {!articulo.ocultarFecha && (
+          <time dateTime={articulo.fecha} className="text-caption text-texto-tenue">
+            {formatoFecha.format(new Date(`${articulo.fecha}T00:00:00`))}
+          </time>
+        )}
         <Titulo nivel={1} className="mt-2">
           {articulo.titulo}
         </Titulo>
         <p className="mt-3 text-destacado text-texto-tenue">{articulo.resumen}</p>
+
+        {/* Los reproductores van ANTES del cuerpo, no después: en una nota
+            de prensa la entrevista es el contenido y el texto es el marco.
+            Quien entra a escucharla no debería tener que pasar por encima de
+            tres párrafos para encontrar el botón de play. */}
+        {articulo.medios && (
+          <div className="mt-8">
+            {articulo.medios.map((medio) => (
+              <Reproductor key={medio.archivo} medio={medio} />
+            ))}
+          </div>
+        )}
 
         <div className="prosa mt-10" dangerouslySetInnerHTML={{ __html: articulo.html }} />
       </div>

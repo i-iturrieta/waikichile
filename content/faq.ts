@@ -12,11 +12,14 @@
  * La pregunta original citaba la marca anterior de la empresa al preguntar
  * por la garantía de los equipos → reformulada con el nombre actual.
  *
- * Las dos preguntas que citan un plazo específico de garantía van con
- * `borrador: true`: hay dos plazos distintos documentados en fuentes
- * internas de la empresa (6 meses en este FAQ, 12 meses/1 año en el manual
- * impreso y en la ficha técnica de Chakay) y AUDITORIA §6.3b es explícita en
- * que no se puede publicar ninguno sin que la clienta confirme cuál rige.
+ * Las dos preguntas que citan el plazo de garantía se publican desde el
+ * 07-09-2026 con **12 meses**, por decisión explícitamente provisoria de
+ * Ignacio ("por ahora, luego solucionamos"). El conflicto que las tenía en
+ * `borrador: true` sigue sin resolverse de fondo — 6 meses en este mismo FAQ
+ * del sitio anterior contra 12 meses en el manual impreso y en la ficha de
+ * Chakay (AUDITORIA §6.3b) — pero se eligió el plazo más favorable al
+ * cliente, que además es el del documento que ya está en sus casas. Ver
+ * `PENDIENTES.md` §2.3.
  * `borrador: true` es el mecanismo exacto para eso: se renderiza en
  * desarrollo (volumen realista para diseñar) y se omite en el build de
  * producción (ARCHITECTURE.md §1.6). El esquema de `PreguntaFrecuente` no
@@ -111,26 +114,24 @@ const faq: PreguntaFrecuente[] = [
     borrador: false,
   },
   {
-    // ⛔ No publicable: plazo de garantía en disputa (6 meses en este FAQ
-    // vs. 12 meses/1 año en el manual impreso y en la ficha de Chakay). Ver
-    // AUDITORIA §6.3b y la nota de cabecera de este archivo.
+    // Publicada con 12 meses (07-09-2026, provisorio). Ver cabecera.
     id: 'equipos-con-garantia',
     tema: 'garantia',
     orden: 11,
     pregunta: '¿Cuentan los equipos Waiki con garantía?',
     respuesta:
-      'Sí, todos los equipos cuentan con garantía por defecto de fabricación. El plazo exacto está pendiente de confirmación: hay dos plazos distintos documentados en fuentes internas de la empresa y no se publica ninguno hasta que se confirme cuál rige. Mientras tanto, contáctanos directamente para resolver dudas de garantía.',
-    borrador: true,
+      'Sí. Todos los equipos Waiki Chile tienen 12 meses de garantía por defectos de fabricación, contados desde la compra. La rejilla del quemador queda fuera: es una pieza de desgaste, no un defecto.',
+    borrador: false,
   },
   {
-    // ⛔ No publicable — misma razón que la anterior.
+    // Publicada con 12 meses (07-09-2026, provisorio). Ver cabecera.
     id: 'en-que-consiste-garantia',
     tema: 'garantia',
     orden: 12,
     pregunta: '¿En qué consiste la garantía de los equipos Waiki?',
     respuesta:
-      'Cubre desperfectos de fabricación. Si surge un problema, primero se intenta resolver por llamada o videollamada; si no es posible, se evalúa si corresponde una reparación o el reemplazo de piezas. El plazo de cobertura está pendiente de confirmación — se completa esta respuesta apenas se resuelva.',
-    borrador: true,
+      'Cubre desperfectos de fabricación durante 12 meses desde la compra. Si surge un problema, primero se intenta resolver por llamada o videollamada; si no es posible, se evalúa si corresponde una reparación o el reemplazo de piezas.',
+    borrador: false,
   },
   {
     id: 'visitas-tecnicas-costo',

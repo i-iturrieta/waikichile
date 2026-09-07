@@ -42,22 +42,35 @@
 export interface EnlaceNavegacion {
   href: string;
   etiqueta: string;
+  /** Etiqueta corta para la grilla de dos columnas del pie de página, donde
+   * "Preguntas Frecuentes" se parte en dos líneas y descuadra la retícula.
+   * Solo se declara donde hace falta; el pie cae en `etiqueta` si falta. */
+  etiquetaBreve?: string;
 }
 
 export const ENLACE_INICIO: EnlaceNavegacion = { href: '/', etiqueta: 'Inicio' };
 
+/**
+ * Ronda 05-09-2026: el orden pasa a ser el del mockup "Home Movil A"
+ * (Productos → Accesorios → Instalaciones → Calculadora → Nosotros →
+ * Noticias). El único cambio respecto de la ronda anterior es que
+ * Calculadora sube antes de Nosotros: agrupa las tres páginas de "qué
+ * compro" con la herramienta que ayuda a decidirlo, y deja "quiénes somos"
+ * como penúltimo, que es donde el diseño lo puso.
+ */
 export const ENLACES_PRINCIPALES: EnlaceNavegacion[] = [
   { href: '/productos/', etiqueta: 'Productos' },
   { href: '/accesorios/', etiqueta: 'Accesorios' },
   { href: '/instalaciones/', etiqueta: 'Instalaciones' },
-  { href: '/nosotros/', etiqueta: 'Nosotros' },
   { href: '/calculadora/', etiqueta: 'Calculadora' },
+  { href: '/nosotros/', etiqueta: 'Nosotros' },
   { href: '/blog/', etiqueta: 'Noticias' },
 ];
 
+/** Garantía primero, igual que en la grilla del pie del mockup. */
 export const ENLACES_SECUNDARIOS: EnlaceNavegacion[] = [
-  { href: '/preguntas-frecuentes/', etiqueta: 'Preguntas Frecuentes' },
   { href: '/garantia/', etiqueta: 'Garantía' },
+  { href: '/preguntas-frecuentes/', etiqueta: 'Preguntas Frecuentes', etiquetaBreve: 'Preguntas' },
 ];
 
 export const ENLACE_CONTACTO: EnlaceNavegacion = { href: '/contacto/', etiqueta: 'Contacto' };

@@ -61,8 +61,8 @@ function rango(prefijo: string, desde: number, hasta: number, descripcion: strin
 const CATALOGO: ItemCatalogo[] = [
   ...rango('producto-waiki', 1, 4, 'Producto Waiki — foto'),
   ...rango('producto-chakay', 1, 3, 'Producto Chakay — foto'),
-  ...rango('producto-nahuen', 1, 5, 'Producto Nahuen — foto'),
-  ...rango('accesorio-controlador', 1, 1, 'Accesorio — controlador de presión, foto'),
+  ...rango('producto-nahuen', 1, 2, 'Producto Nahuen — foto'), // 05-09-2026: de 5 a 2, ya con fotos reales
+  ...rango('accesorio-controlador', 1, 2, 'Accesorio — controlador de presión, foto'), // 07-09-2026: de 1 a 2, ya con fotos reales
   ...rango('accesorio-rejilla', 1, 1, 'Accesorio — rejilla del quemador, foto'),
   ...rango('portada', 1, 1, 'Portada / Inicio — foto'),
   ...rango('instalacion', 1, 31, 'Instalación — foto', 2),

@@ -56,10 +56,24 @@ describe('paginaNosotros / paginaGarantia (contenido real, Bloque 3b)', () => {
     expect(paginaNosotros.html.length).toBeGreaterThan(0);
   });
 
-  it('paginaGarantia se carga pese a borrador: true, y su cuerpo no publica ningún plazo en meses', () => {
-    expect(paginaGarantia.borrador).toBe(true);
+  // Hasta el 07-09-2026 este test guardaba lo contrario: que la página
+  // siguiera en borrador y que su cuerpo no publicara ningún plazo en meses,
+  // porque había 6 y 12 meses documentados en fuentes distintas y publicar
+  // cualquiera sin confirmar era un riesgo legal (AUDITORIA §6.3b). Ignacio
+  // decidió publicar 12 meses de forma provisoria, así que el guardián cambia
+  // de forma pero no de propósito: en vez de vigilar que no haya ningún
+  // plazo, vigila que el plazo publicado sea exactamente el que se decidió.
+  // Si alguien lo cambia a 6, o a 24, o lo borra, el test cae y obliga a que
+  // sea una decisión y no un descuido.
+  it('paginaGarantia se publica y su cuerpo dice 12 meses, no otro plazo', () => {
+    expect(paginaGarantia.borrador).toBe(false);
     expect(paginaGarantia.html.length).toBeGreaterThan(0);
-    expect(paginaGarantia.html).not.toMatch(/\d+\s*mes/i);
+
+    const plazos = paginaGarantia.html.match(/\d+\s*mes(?:es)?/gi) ?? [];
+    expect(plazos.length).toBeGreaterThan(0);
+    for (const plazo of plazos) {
+      expect(plazo.replace(/\s+/g, ' ')).toMatch(/^12 meses$/i);
+    }
   });
 
   it('ninguna de las dos páginas menciona el correo de la marca anterior', () => {

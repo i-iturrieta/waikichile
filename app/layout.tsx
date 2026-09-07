@@ -5,6 +5,7 @@ import "./globals.css";
 import Encabezado from "@/components/layout/Encabezado";
 import Pie from "@/components/layout/Pie";
 import BotonWhatsapp from "@/components/layout/BotonWhatsapp";
+import BarraFija from "@/components/layout/BarraFija";
 import { SITE_URL, generarOrganizationJsonLd } from "@/lib/seo/jsonld";
 
 // Dirección visual "1a — Hogar y leña" (bloque 4, ARCHITECTURE §13):
@@ -45,7 +46,7 @@ export const metadata: Metadata = {
     template: "%s | Waiki Chile",
   },
   description:
-    "Waiki Chile diseña y fabrica equipos para calefaccionar con pellet: Waiki, Chakay y Nahuen. Tiro natural, sin electricidad ni electrónica.",
+    "Waiki Chile diseña y fabrica equipos para calefaccionar con pellet: Waiki, Chakay, Nahuen y Mini Nahuen. Tiro natural, sin electricidad ni electrónica.",
 };
 
 /**
@@ -93,6 +94,11 @@ export default function RootLayout({
         <Encabezado />
         <main id="contenido">{children}</main>
         <Pie />
+        {/* Las dos vías permanentes de contacto, repartidas por tamaño de
+            pantalla y mutuamente excluyentes: la barra anclada abajo bajo
+            `lg`, el botón flotante desde `lg`. Ver los comentarios de
+            cabecera de ambos archivos. */}
+        <BarraFija />
         <BotonWhatsapp />
 
         {/* JSON-LD de Organization (ARCHITECTURE.md §9). Patrón recomendado
