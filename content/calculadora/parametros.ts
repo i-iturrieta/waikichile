@@ -122,6 +122,90 @@ const parametrosCalculadora: ParametrosCalculadora = {
       precioM3EstereoLena: 40000,
     },
   ],
+
+  // -------------------------------------------------------------------------
+  // Alternativas más allá de la leña (08-09-2026 — decisión 10 de Ignacio).
+  //
+  // El sitio anterior comparaba contra estos mismos combustibles, pero con un
+  // modelo mucho más pobre: una tabla de pesos por m² y por hora (pellets 6,
+  // leña 6,5, aire acondicionado 8,5, parafina 12,5, gas licuado 14,
+  // eléctrico 25) multiplicada por horas y por metros. Esos números **no se
+  // copiaron**, y conviene decir por qué: no distinguen el rendimiento del
+  // aparato del contenido energético del combustible, así que no se pueden
+  // auditar ni corregir por partes, y le dan al aire acondicionado un costo
+  // 1,4 veces el del pellet cuando en realidad suele ser al revés —una bomba
+  // de calor entrega ~3 kWh de calor por cada kWh que consume, y ese factor
+  // simplemente no existe en esa tabla. Se conservan como referencia
+  // histórica en `contenido-rescatado/wordpress-original/HALLAZGOS.md §1`.
+  //
+  // Acá cada alternativa se descompone en las tres cosas que sí se pueden
+  // verificar por separado: cuánta energía trae una unidad, qué fracción de
+  // esa energía llega al ambiente, y cuánto cuesta la unidad.
+  //
+  // ⚠️ **Los tres precios son referencias de mercado, no un sondeo nuestro**,
+  // y son lo más frágil de este bloque: cambian con la tarifa eléctrica, con
+  // la distribuidora y con la temporada. Están anotados en `PENDIENTES.md`
+  // para confirmar con la clienta. Los contenidos energéticos y los
+  // rendimientos, en cambio, son constantes físicas y de equipo bien
+  // establecidas, y no cambian de un mes a otro.
+  //
+  // Que un precio esté algo desfasado **no invierte ninguna conclusión**,
+  // salvo en el caso del aire acondicionado, que es justamente el que suele
+  // ganarle al pellet y que por eso la interfaz oculta cuando gana. Contra
+  // calefacción eléctrica por resistencia el pellet cuesta del orden de la
+  // mitad o menos; ahí no hay precio que dé vuelta el resultado.
+  // -------------------------------------------------------------------------
+  alternativas: [
+    {
+      id: 'electrico',
+      nombre: 'Calefactor eléctrico',
+      // Una resistencia eléctrica convierte en calor prácticamente todo lo que
+      // consume: 1 kWh de electricidad, 1 kWh de calor.
+      kwhPorUnidad: 1,
+      rendimiento: 1,
+      // ⚠️ Referencia de tarifa residencial BT1. Varía bastante entre
+      // distribuidoras y con las alzas del período. Pendiente de confirmar.
+      precioPorUnidad: 180,
+      unidad: 'kWh',
+    },
+    {
+      id: 'aire-acondicionado',
+      nombre: 'Aire acondicionado',
+      kwhPorUnidad: 1,
+      // Coeficiente de rendimiento (COP) de una bomba de calor en modo calor.
+      // 3 es un valor conservador para un split moderno; los inverter buenos
+      // llegan a 4 en condiciones favorables y bajan con frío exterior fuerte.
+      // Se toma el extremo conservador a propósito: exagerar el COP haría
+      // aparecer al aire acondicionado como más caro de lo que es, que es
+      // justo el sesgo que este sitio no debe tener.
+      rendimiento: 3,
+      precioPorUnidad: 180,
+      unidad: 'kWh',
+    },
+    {
+      id: 'gas-licuado',
+      nombre: 'Gas licuado',
+      // Poder calorífico del GLP: ~12,8 kWh por kilo.
+      kwhPorUnidad: 12.8,
+      // Estufa a gas sin ducto de evacuación. No pierde calor por un caño,
+      // pero sí en combustión incompleta y en el aire que hay que renovar.
+      rendimiento: 0.85,
+      // ⚠️ Precio por kilo, derivado del balón de 15 kg a ~$25.000.
+      // Pendiente de confirmar.
+      precioPorUnidad: 1667,
+      unidad: 'kg',
+    },
+    {
+      id: 'parafina',
+      nombre: 'Parafina',
+      // ~10,2 kWh por litro (≈12,8 kWh/kg a una densidad de ~0,8 kg/L).
+      kwhPorUnidad: 10.2,
+      rendimiento: 0.85,
+      // ⚠️ Precio por litro. Pendiente de confirmar.
+      precioPorUnidad: 1200,
+      unidad: 'litro',
+    },
+  ],
 };
 
 export default parametrosCalculadora;

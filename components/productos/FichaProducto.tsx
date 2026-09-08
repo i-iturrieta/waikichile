@@ -55,6 +55,7 @@ import Tarjeta from '@/components/ui/Tarjeta';
 import type { Producto } from '@/lib/contenido/esquemas';
 import { obtenerAccesorio } from '@/lib/contenido/accesorios';
 import { formatearPrecio } from './formatearPrecio';
+import CondicionesCompra from './CondicionesCompra';
 
 export interface FichaProductoProps {
   producto: Producto;
@@ -313,6 +314,8 @@ export default function FichaProducto({ producto, vidaUtil, esRepuesto }: FichaP
               )}
             </div>
           )}
+
+          {producto.usaCondicionesEstandar && <CondicionesCompra />}
         </div>
       </div>
     </Contenedor>

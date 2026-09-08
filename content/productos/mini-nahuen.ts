@@ -118,6 +118,7 @@ const miniNahuen: Producto = {
     { archivo: 'producto-mini-nahuen-3.jpg', alt: 'Ficha técnica de Mini Nahuen: medidas, potencia, valor y capacidad del contenedor' },
   ],
   requiereControlador: false,
+  usaCondicionesEstandar: true,
   destacado: true,
   orden: 4,
   borrador: false,

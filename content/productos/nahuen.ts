@@ -97,6 +97,7 @@ const nahuen: Producto = {
     },
   ],
   requiereControlador: false,
+  usaCondicionesEstandar: true,
   destacado: true,
   orden: 3,
   borrador: false,

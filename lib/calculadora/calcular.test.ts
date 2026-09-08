@@ -20,7 +20,7 @@
  */
 
 import { describe, expect, it } from 'vitest';
-import { calcularComparacion } from './calcular.ts';
+import { calcularComparacion, parametrosCalculadora } from './calcular.ts';
 import type { TipoLena, Zona } from '../contenido/esquemas.ts';
 
 /** Compara `actual` contra `esperado` con una tolerancia relativa (1% por
@@ -98,5 +98,76 @@ describe('calcularComparacion — sacos redondea hacia arriba', () => {
     const resultado = calcularComparacion({ superficie: 80, zona: 'araucania-los-rios', tipoLena: 'humeda' });
     expect(Number.isInteger(resultado.pellet.sacos)).toBe(true);
     expect(resultado.pellet.sacos).toBe(Math.ceil(resultado.pellet.kg / 15));
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Alternativas más allá de la leña (08-09-2026 — decisión 10 de Ignacio).
+// ---------------------------------------------------------------------------
+
+describe('calcularComparacion — alternativas al pellet', () => {
+  const entrada = { superficie: 85, zona: 'araucania-los-rios', tipoLena: 'humeda' } as const;
+
+  it('devuelve TODAS las alternativas, también las que le ganan al pellet', () => {
+    const { alternativas } = calcularComparacion(entrada);
+
+    // El filtro de "solo donde hay ahorro" es de presentación y vive en
+    // components/calculadora/Formulario.tsx. Si alguna vez migra hacia acá,
+    // este test tiene que fallar: una función de cálculo que esconde los
+    // resultados adversos no se puede auditar.
+    expect(alternativas.map((a) => a.id).sort()).toEqual([
+      'aire-acondicionado',
+      'electrico',
+      'gas-licuado',
+      'parafina',
+    ]);
+  });
+
+  it('vienen ordenadas de mayor a menor ahorro', () => {
+    const { alternativas } = calcularComparacion(entrada);
+    const ahorros = alternativas.map((a) => a.ahorro);
+    expect(ahorros).toEqual([...ahorros].sort((a, b) => b - a));
+  });
+
+  it('contra calefacción eléctrica por resistencia, el pellet ahorra con holgura', () => {
+    const { alternativas, pellet } = calcularComparacion(entrada);
+    const electrico = alternativas.find((a) => a.id === 'electrico')!;
+
+    expect(electrico.pelletConviene).toBe(true);
+    // Es la conclusión más robusta de todas: aunque la tarifa eléctrica que
+    // usamos esté desfasada, el pellet sigue costando bastante menos de la
+    // mitad. Si este test empieza a fallar, cambió el modelo, no el precio.
+    expect(pellet.costo).toBeLessThan(electrico.costo / 1.5);
+  });
+
+  it('el aire acondicionado le gana al pellet — y eso es correcto', () => {
+    const { alternativas } = calcularComparacion(entrada);
+    const aire = alternativas.find((a) => a.id === 'aire-acondicionado')!;
+
+    // Una bomba de calor entrega ~3 kWh de calor por cada kWh que consume.
+    // El sitio anterior afirmaba lo contrario (aire acondicionado 8,5 contra
+    // pellet 6, en su tabla de pesos por m² y hora), y esa tabla no tenía
+    // dónde representar el COP. Este test fija la corrección: si alguien
+    // vuelve a poner al pellet ganándole al aire acondicionado, es porque
+    // tocó el rendimiento, y hay que mirarlo.
+    expect(aire.pelletConviene).toBe(false);
+    expect(aire.ahorro).toBeLessThan(0);
+  });
+
+  it('el ahorro es siempre costo de la alternativa menos costo del pellet', () => {
+    const { alternativas, pellet } = calcularComparacion(entrada);
+    for (const alternativa of alternativas) {
+      expect(alternativa.ahorro).toBeCloseTo(alternativa.costo - pellet.costo, 6);
+      expect(alternativa.pelletConviene).toBe(alternativa.ahorro > 0);
+    }
+  });
+
+  it('el consumo en unidades es coherente con el costo declarado', () => {
+    const { alternativas } = calcularComparacion(entrada);
+    for (const alternativa of alternativas) {
+      const parametro = parametrosCalculadora.alternativas.find((a) => a.id === alternativa.id)!;
+      expect(alternativa.unidad).toBe(parametro.unidad);
+      expect(alternativa.costo).toBeCloseTo(alternativa.unidades * parametro.precioPorUnidad, 6);
+    }
   });
 });

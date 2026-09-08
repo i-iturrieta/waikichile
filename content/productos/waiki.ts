@@ -59,6 +59,11 @@ const waiki: Producto = {
     { archivo: 'producto-waiki-4.jpg', alt: 'Waiki instalado junto a dos teteras esmaltadas azules, contra una pared de piedra' },
   ],
   requiereControlador: true,
+  // Waiki no usa las condiciones estándar: su compra no se reserva con el
+  // 30% sino con un abono del ítem de instalación —y solo en Chiloé, La
+  // Araucanía y Los Ríos—, el saldo se paga el día de la instalación y no
+  // hay despacho porque se instala en terreno. Está en su `descripcion`.
+  usaCondicionesEstandar: false,
   destacado: true,
   orden: 1,
   borrador: false,

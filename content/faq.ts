@@ -243,6 +243,25 @@ const faq: PreguntaFrecuente[] = [
     respuesta: 'No. El poder calorífico combinado de ambos puede ser excesivo y representa un riesgo. Se usa uno u otro, nunca los dos a la vez.',
     borrador: false,
   },
+  // Agregada el 08-09-2026. El dato existía en el sitio —en el artículo
+  // `por-que-preferir-pellets`— pero no en el FAQ, que es donde la gente lo
+  // busca: es la causa más común de que un equipo "no funcione bien", y ya
+  // había una pregunta vecina ("¿por qué se recomiendan ciertas marcas?") que
+  // hablaba de compatibilidad sin decir nunca en qué se mide.
+  //
+  // Fuente: el artículo "¿Por qué preferir pellets?" del sitio anterior,
+  // literal — "densidad sobre 680 y cilindros de no más de 3 cm". La
+  // referencia a la ceniza según densidad viene de la pregunta
+  // `frecuencia-liberar-ceniza`, que ya estaba publicada.
+  {
+    id: 'que-pellet-usar',
+    tema: 'consumo',
+    orden: 26,
+    pregunta: '¿Qué pellet conviene usar?',
+    respuesta:
+      'Un pellet de calidad tiene densidad sobre 680 y cilindros de no más de 3 cm. Arde más limpio, rinde más y genera menos ceniza: con pellet de alta densidad hay que liberar ceniza cada 4 a 5 horas, mientras que con uno de baja densidad toca cada 1,5 a 2 horas. Cualquier marca que cumpla eso sirve.',
+    borrador: false,
+  },
 ];
 
 export default faq;

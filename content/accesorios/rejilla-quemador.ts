@@ -43,6 +43,8 @@ const rejillaQuemador: Accesorio = {
   noIncluye: [],
   imagenes: [{ archivo: 'accesorio-rejilla-1.jpg', alt: 'Rejilla del quemador, vista de detalle' }],
   requiereControlador: false,
+  // No se reserva un repuesto con un 30% del valor.
+  usaCondicionesEstandar: false,
   destacado: false,
   orden: 2,
   esRepuesto: true,

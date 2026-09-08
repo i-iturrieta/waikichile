@@ -137,6 +137,19 @@ export const productoSchema = conBorrador({
   // legítima (ni siquiera en borrador) debería carecer de al menos una imagen.
   imagenes: z.array(imagenSchema).min(1),
   requiereControlador: z.boolean(),
+  /**
+   * Si la ficha muestra el bloque "Cómo se compra" con las condiciones
+   * comerciales de la empresa (`content/condiciones-comerciales.ts`).
+   *
+   * Es explícito y obligatorio en vez de deducirse del slug: las condiciones
+   * no son universales y la excepción es real. **Waiki va en `false`** — su
+   * compra no se reserva con el 30% sino con un abono del ítem de
+   * instalación (y solo en Chiloé, La Araucanía y Los Ríos), el saldo se
+   * paga el día de la instalación y no hay despacho porque se instala en
+   * terreno. Todo eso está en su `descripcion`. Los accesorios también van
+   * en `false`: no se reserva un controlador de $85.000 con un 30%.
+   */
+  usaCondicionesEstandar: z.boolean(),
   destacado: z.boolean(),
   orden: z.number().int(),
 });
@@ -370,6 +383,39 @@ export const empresaSchema = conBorrador({
 export type Empresa = z.infer<typeof empresaSchema>;
 
 // ---------------------------------------------------------------------------
+// CondicionesComerciales (08-09-2026)
+//
+// Cómo se compra un equipo: reserva, saldo, despacho y documento. No estaba
+// modelado. Existía solo dentro del párrafo de `descripcion` de Chakay —una
+// sola de las cuatro fichas— y en ningún lugar de Nahuen ni de Mini Nahuen.
+//
+// Es información de decisión de compra, no descriptiva: alguien que está por
+// gastar $1.010.000 necesita saber cómo se paga y cómo llega, y necesita
+// poder verlo de un vistazo, no leerlo en medio de un párrafo sobre el
+// producto. Por eso deja de ser prosa y pasa a ser un bloque con estructura.
+//
+// Es una constante única, como `empresa` y como los parámetros de la
+// calculadora, no una colección: son las condiciones de la empresa, iguales
+// para los equipos que fabrica. Waiki no las usa —tiene las suyas, que son de
+// instalación, no de fabricación— y por eso `productoSchema` lleva el campo
+// `usaCondicionesEstandar`.
+// ---------------------------------------------------------------------------
+
+export const condicionesComercialesSchema = conBorrador({
+  /** Qué se abona para reservar. */
+  reserva: z.string().min(1),
+  /** Cuándo y cómo se paga el resto. */
+  saldo: z.string().min(1),
+  /** Cómo llega el equipo. `null` si no hay política documentada. */
+  despacho: z.string().min(1).nullable(),
+  /** Boleta o factura. `null` si no está documentado. */
+  documento: z.string().min(1).nullable(),
+  /** Por dónde se hace el pedido. */
+  solicitud: z.string().min(1),
+});
+export type CondicionesComerciales = z.infer<typeof condicionesComercialesSchema>;
+
+// ---------------------------------------------------------------------------
 // ParametrosCalculadora (ARCHITECTURE.md §3 "ParametrosCalculadora" y §5 "La
 // calculadora"; Bloque 7 de PHASE_1_PLAN.md, tarea 7.1)
 //
@@ -423,10 +469,47 @@ const zonaCalculadoraSchema = z.object({
 });
 export type ZonaCalculadora = z.infer<typeof zonaCalculadoraSchema>;
 
+/**
+ * Un combustible o sistema contra el que se compara el pellet, más allá de la
+ * leña (08-09-2026 — decisión 10 de Ignacio: "la calculadora se rehace contra
+ * calefactor eléctrico, aire acondicionado, gas y leña, mostrando solo
+ * aquellos donde haya ahorro").
+ *
+ * La leña **no** entra acá y sigue siendo su propio cálculo: es la
+ * comparación central del sitio, la única que depende de la zona (precio de
+ * la leña local y tipo seca/húmeda) y la única que puede salir adversa. Estos
+ * otros son un cálculo uniforme: energía útil ÷ (contenido energético ×
+ * rendimiento) × precio.
+ *
+ * `kwhPorUnidad` y `rendimiento` describen el aparato, no el combustible: por
+ * eso el aire acondicionado entra acá con `kwhPorUnidad: 1` (su "combustible"
+ * es el kWh eléctrico) y `rendimiento: 3` — una bomba de calor entrega ~3 kWh
+ * de calor por cada kWh que consume. Es el único caso donde el rendimiento
+ * pasa de 1, y es correcto: no crea energía, la mueve.
+ */
+const alternativaCalculadoraSchema = z.object({
+  id: z.string().min(1),
+  /** Cómo se le llama en pantalla: "Calefactor eléctrico", "Gas licuado". */
+  nombre: z.string().min(1),
+  /** kWh que entrega una unidad de combustible (un kWh eléctrico, un kg de
+   *  gas, un litro de parafina). */
+  kwhPorUnidad: z.number().positive(),
+  /** Fracción de esa energía que llega al ambiente. Puede superar 1 en una
+   *  bomba de calor — ver el comentario de arriba. */
+  rendimiento: z.number().positive(),
+  /** Precio de una unidad, en pesos. */
+  precioPorUnidad: z.number().int().positive(),
+  /** Unidad en la que se vende, para poder decirlo en pantalla: "kWh", "kg
+   *  de gas", "litro". */
+  unidad: z.string().min(1),
+});
+export type AlternativaCalculadora = z.infer<typeof alternativaCalculadoraSchema>;
+
 export const parametrosCalculadoraSchema = z
   .object({
     constantes: constantesFisicasCalculadoraSchema,
     zonas: z.array(zonaCalculadoraSchema),
+    alternativas: z.array(alternativaCalculadoraSchema),
   })
   .refine(
     (datos) => {

@@ -110,6 +110,35 @@ export interface ResultadoCalculadora {
    * no como error ("el pellet sale al doble" ahí). Un empate exacto
    * (`diferencia === 0`) también da `false`: no hay ahorro que anunciar. */
   pelletConviene: boolean;
+  /**
+   * Los otros sistemas de calefacción, cada uno con lo que costaría cubrir la
+   * misma demanda (08-09-2026 — decisión 10 de Ignacio).
+   *
+   * Vienen **todas**, incluidas las que le ganan al pellet. El filtro de
+   * "mostrar solo aquellas donde haya ahorro" es de presentación y vive en la
+   * interfaz, no acá: una función de cálculo que esconde los resultados
+   * incómodos no se puede probar ni auditar, y el día que alguien quiera
+   * mostrarlos —o revisar por qué falta uno— el dato tiene que existir.
+   *
+   * Ordenadas de mayor a menor ahorro, que es el orden en que sirven para
+   * mostrarse.
+   */
+  alternativas: ComparacionAlternativa[];
+}
+
+/** Una alternativa al pellet, ya costeada para la demanda de la temporada. */
+export interface ComparacionAlternativa {
+  id: string;
+  nombre: string;
+  /** Unidades de combustible que hacen falta (kWh, kg de gas, litros). */
+  unidades: number;
+  /** Cómo se llama esa unidad, para poder decirlo en pantalla. */
+  unidad: string;
+  costo: number;
+  /** `costo − costoPellet`. Positivo cuando el pellet es más barato. */
+  ahorro: number;
+  /** `true` cuando el pellet cuesta menos que esta alternativa. */
+  pelletConviene: boolean;
 }
 
 /**
@@ -171,11 +200,34 @@ export function calcularComparacion({ superficie, zona, tipoLena }: EntradaCalcu
 
   const diferencia = costoLena - costoPellet;
 
+  // --- Las demás alternativas ------------------------------------------
+  // Todas siguen la misma forma: unidades = energía útil ÷ (energía por
+  // unidad × rendimiento). El aire acondicionado entra por acá igual que el
+  // resto, con `rendimiento: 3` — su bomba de calor mueve más calor del que
+  // consume, y eso es exactamente lo que ese factor representa.
+  const alternativas: ComparacionAlternativa[] = parametros.alternativas
+    .map((alternativa) => {
+      const unidades = demandaUtilKwh / (alternativa.kwhPorUnidad * alternativa.rendimiento);
+      const costo = unidades * alternativa.precioPorUnidad;
+      const ahorro = costo - costoPellet;
+      return {
+        id: alternativa.id,
+        nombre: alternativa.nombre,
+        unidades,
+        unidad: alternativa.unidad,
+        costo,
+        ahorro,
+        pelletConviene: ahorro > 0,
+      };
+    })
+    .sort((a, b) => b.ahorro - a.ahorro);
+
   return {
     demandaUtilKwh,
     pellet: { kg: kgPellet, sacos, costo: costoPellet },
     lena: { kg: kgLena, m3Estereo: m3EstereoLena, costo: costoLena },
     diferencia,
     pelletConviene: diferencia > 0,
+    alternativas,
   };
 }

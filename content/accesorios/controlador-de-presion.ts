@@ -91,6 +91,8 @@ const controladorDePresion: Accesorio = {
     },
   ],
   requiereControlador: false,
+  // No se reserva un accesorio con un 30% del valor.
+  usaCondicionesEstandar: false,
   destacado: false,
   orden: 1,
   esRepuesto: false,

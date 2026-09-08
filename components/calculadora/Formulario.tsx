@@ -99,13 +99,17 @@ export default function Formulario() {
   const porcentajeDiferencia =
     resultado && resultado.lena.costo > 0 ? (resultado.diferencia / resultado.lena.costo) * 100 : null;
 
+  // Ver el comentario junto al bloque que las pinta: el cálculo devuelve las
+  // cuatro alternativas y acá se descartan las que le ganan al pellet.
+  const alternativasConAhorro = resultado?.alternativas.filter((a) => a.pelletConviene) ?? [];
+
   return (
     <Contenedor as="section" className="py-10 sm:py-16 lg:py-24">
       <div className="mx-auto max-w-2xl">
         <Titulo nivel={1}>Calculadora de consumo</Titulo>
         <p className="mt-3 text-cuerpo text-texto-tenue">
-          Compara el costo de calefaccionar con pellet Waiki contra el costo de calefaccionar con leña, para la
-          misma demanda de calor, según tu superficie y zona.
+          Compara el costo de calefaccionar con pellet Waiki contra el de hacerlo con leña y con otros sistemas,
+          para la misma demanda de calor, según tu superficie y zona.
         </p>
 
         <form className="mt-8 flex flex-col gap-6" onSubmit={(e) => e.preventDefault()}>
@@ -253,13 +257,59 @@ export default function Formulario() {
                   </ul>
                 </div>
               )}
+
+              {/* Otros sistemas de calefacción (08-09-2026 — decisión 10 de
+                  Ignacio: "mostrando solo aquellos donde haya ahorro").
+                  `calcularComparacion` devuelve las cuatro alternativas
+                  siempre; el filtro es de presentación y vive acá.
+
+                  Dónde NO se aplica ese filtro: a la leña, que se muestra
+                  arriba pase lo que pase, incluso cuando el pellet pierde.
+                  Son dos cosas distintas y conviene no confundirlas. La leña
+                  es la comparación central del sitio y la que casi todos los
+                  visitantes están haciendo en su cabeza: esconderla cuando el
+                  resultado es adverso sería exactamente lo que
+                  ARCHITECTURE.md §5 prohíbe. Estas otras son un complemento —
+                  listar un sistema que le gana al pellet, sin que nadie lo
+                  haya preguntado, es ruido, no honestidad.
+
+                  El aire acondicionado es el que más seguido desaparece de
+                  esta lista, y es correcto que así sea: una bomba de calor
+                  entrega ~3 kWh de calor por cada kWh que consume y
+                  normalmente sale más barata. El sitio anterior afirmaba lo
+                  contrario. */}
+              {alternativasConAhorro.length > 0 && (
+                <div>
+                  <Titulo nivel={3}>Comparado con otros sistemas</Titulo>
+                  <p className="mt-2 text-caption text-texto-tenue">
+                    Lo que costaría cubrir esta misma demanda de calor con cada uno, en la temporada.
+                  </p>
+                  <ul className="mt-4 flex flex-col gap-2">
+                    {alternativasConAhorro.map((alternativa) => (
+                      <li
+                        key={alternativa.id}
+                        className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b border-borde pb-2 last:border-b-0"
+                      >
+                        <span className="text-cuerpo text-texto">{alternativa.nombre}</span>
+                        <span className="text-cuerpo text-texto-tenue">
+                          ${formatoCLP.format(alternativa.costo)}{' '}
+                          <span className="text-secundario">
+                            (ahorras ${formatoCLP.format(alternativa.ahorro)})
+                          </span>
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           )}
 
           <p className="mt-8 text-caption text-texto-tenue">
             Valores referenciales: se calculan a partir de factores de consumo por zona y precios de mercado, y no
             reemplazan una cotización. El rendimiento del quemador con pellet es una estimación, no una medición del
-            equipo. Los montos pueden variar según el hogar, el uso y el proveedor de combustible.
+            equipo, y los precios de la electricidad, el gas y la parafina son referencias de mercado que cambian con
+            la tarifa y la temporada. Los montos pueden variar según el hogar, el uso y el proveedor de combustible.
           </p>
         </section>
       </div>

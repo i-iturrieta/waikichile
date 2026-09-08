@@ -63,7 +63,12 @@ const chakay: Producto = {
   descripcion:
     'Chakay es una cocina de tiro natural que calefacciona por radiación y quema pellet o leña. Incorpora una plancha superior de 32 × 42 cm pensada para cocinar sin horno ni cocina eléctrica: se usa con ollas y teteras directamente sobre la plancha. No es un accesorio secundario — es una de las dos funciones principales del equipo.\n\n' +
     'Se carga, se enciende y la intensidad de la llama se regula con el controlador de presión, que viene incluido. Según su ficha técnica, cubre entre 50 y 120 m².\n\n' +
-    'Se fabrica por temporada, con un plazo de 1 mes y medio a 2 meses desde la reserva: se reserva con el 30% del valor total y el saldo se cancela contra entrega. El despacho se coordina por Starken, Cruz del Sur o Casem Express, con el saldo contra el envío. El kit de caños no está incluido. Cualquier duda sobre el equipo o la instalación se resuelve por WhatsApp, correo o teléfono.',
+    // Las condiciones de compra (reserva del 30%, saldo, despacho y
+    // documento) salieron de este párrafo el 08-09-2026: ahora viven en
+    // `content/condiciones-comerciales.ts` y la ficha las muestra en el
+    // bloque "Cómo se compra". Repetirlas acá sería decir dos veces lo mismo
+    // en la misma página. Queda solo lo propio de este equipo.
+    'Se fabrica por temporada, con un plazo de 1 mes y medio a 2 meses desde la reserva. El kit de caños no está incluido. Cualquier duda sobre el equipo o la instalación se resuelve por WhatsApp, correo o teléfono.',
   // Precio confirmado por la clienta el 08-09-2026 ("la Chakay el precio es
   // de 1.010.000 (clp) iva incluido"). Coincide exactamente con el que
   // publicaba el sitio anterior en `/product/chakay/`
@@ -97,6 +102,7 @@ const chakay: Producto = {
     { archivo: 'producto-chakay-6.jpg', alt: 'Chakay en su versión mixta negro y rojo, instalado junto a un comedor' },
   ],
   requiereControlador: false,
+  usaCondicionesEstandar: true,
   destacado: true,
   orden: 2,
   borrador: false,
