@@ -37,17 +37,25 @@
  * en el panel: el mockup los saca de la navegación y los deja solo en el
  * pie, que es donde un sitio de este tamaño lista el mapa completo. Siguen
  * accesibles desde ahí y desde su URL — no desaparecen del sitio.
+ *
+ * Corrección 08-09-2026 — "Inicio" entra a la navegación, primero en la
+ * lista, tanto en la barra de escritorio como en el panel. El motivo está en
+ * `enlaces-navegacion.ts`: no había ningún enlace explícito al home en todo
+ * el sitio y a la gente le costaba volver. En el panel el costo es cero —es
+ * una fila más en una lista que se desplaza—; en la barra de escritorio hubo
+ * que bajar el `gap` a 1024px para que los siete enlaces no se apretaran
+ * contra el logo y el CTA (ver el comentario junto al `<nav>`).
  */
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { ENLACES_PRINCIPALES, ENLACE_CONTACTO } from './enlaces-navegacion';
+import { ENLACES_ENCABEZADO, ENLACE_CONTACTO } from './enlaces-navegacion';
 import { IconoCerrar, IconoMenu, IconoWhatsapp } from '@/components/ui/iconos';
 
-/** Los seis principales más Contacto — el orden exacto del panel del mockup. */
-const ENLACES_PANEL = [...ENLACES_PRINCIPALES, ENLACE_CONTACTO];
+/** Inicio, los seis principales y Contacto al final. */
+const ENLACES_PANEL = [...ENLACES_ENCABEZADO, ENLACE_CONTACTO];
 
 /**
  * Los tres datos de contacto llegan resueltos por props desde `Encabezado`
@@ -109,8 +117,13 @@ export default function MenuMovil({ telefono, hrefTelefono, hrefWhatsapp }: Menu
     <>
       {/* Navegación de escritorio — aparece recién en `lg`; ver el
           comentario de cabecera de `Encabezado.tsx` para el porqué. */}
-      <nav aria-label="Principal" className="hidden lg:flex lg:items-center lg:gap-7">
-        {ENLACES_PRINCIPALES.map(({ href, etiqueta }) => (
+      {/* `lg:gap-4 xl:gap-7`: con "Inicio" son siete enlaces y a 1024px de
+          ancho los 28px originales ya no caben junto al logo y al CTA de
+          WhatsApp — la fila quedaba al filo de partirse en dos, que es
+          exactamente lo que la ronda anterior había arreglado. A 16px entra
+          con holgura, y desde 1280px vuelven los 28px del diseño. */}
+      <nav aria-label="Principal" className="hidden lg:flex lg:items-center lg:gap-4 xl:gap-7">
+        {ENLACES_ENCABEZADO.map(({ href, etiqueta }) => (
           <Link
             key={href}
             href={href}

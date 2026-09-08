@@ -53,8 +53,36 @@ describe('resenas: autorizada no es lo mismo que borrador', () => {
 });
 
 describe('resenas (colección real, content/resenas.ts)', () => {
-  it('trae las 5 reseñas rescatadas, todas ya autorizadas (nombre parcial)', () => {
-    expect(resenas).toHaveLength(5);
+  // Eran 5 hasta el 08-09-2026, cuando se recuperaron las 48 del sitio
+  // anterior desde el WordPress que seguía vivo. De esas 48, 39 entran a
+  // `content/resenas.ts` (38 publicadas + 1 en borrador, la única negativa) y
+  // 9 quedan fuera porque nombran la marca anterior y `guardia.test.ts` no la
+  // admite en `content/`. La cabecera de `content/resenas.ts` lo detalla.
+  //
+  // Los tests corren en desarrollo, donde `filtrarPublicables` deja pasar los
+  // borradores: por eso acá son 39 y no 38.
+  it('trae las 39 reseñas del archivo, todas ya autorizadas (nombre parcial)', () => {
+    expect(resenas).toHaveLength(39);
     expect(resenas.every((r) => r.autorizada)).toBe(true);
+  });
+
+  // La reseña de 1 estrella es la única que NO debe publicarse todavía: es
+  // decisión de la empresa. Si alguien la despublica por error, o publica una
+  // negativa nueva sin pasar por esa decisión, este test avisa.
+  it('la única reseña negativa sigue en borrador', () => {
+    const negativas = resenas.filter((r) => r.calificacion < 4);
+    expect(negativas).toHaveLength(1);
+    expect(negativas[0]!.borrador).toBe(true);
+  });
+
+  // Ninguna reseña puede reintroducir la marca anterior. `guardia.test.ts` ya
+  // recorre todo `content/`, pero acá el fallo dice de inmediato cuál es la
+  // reseña culpable en vez de solo cuál es el archivo.
+  it('ninguna reseña nombra la marca anterior', () => {
+    const marca = /ecopelletsur|wik[aá]i/i;
+    const culpables = resenas
+      .filter((r) => marca.test(`${r.titulo} ${r.cuerpo}`))
+      .map((r) => `${r.autor} (${r.fecha})`);
+    expect(culpables).toEqual([]);
   });
 });

@@ -56,24 +56,38 @@ describe('paginaNosotros / paginaGarantia (contenido real, Bloque 3b)', () => {
     expect(paginaNosotros.html.length).toBeGreaterThan(0);
   });
 
-  // Hasta el 07-09-2026 este test guardaba lo contrario: que la página
-  // siguiera en borrador y que su cuerpo no publicara ningún plazo en meses,
-  // porque había 6 y 12 meses documentados en fuentes distintas y publicar
-  // cualquiera sin confirmar era un riesgo legal (AUDITORIA §6.3b). Ignacio
-  // decidió publicar 12 meses de forma provisoria, así que el guardián cambia
-  // de forma pero no de propósito: en vez de vigilar que no haya ningún
-  // plazo, vigila que el plazo publicado sea exactamente el que se decidió.
-  // Si alguien lo cambia a 6, o a 24, o lo borra, el test cae y obliga a que
-  // sea una decisión y no un descuido.
-  it('paginaGarantia se publica y su cuerpo dice 12 meses, no otro plazo', () => {
-    expect(paginaGarantia.borrador).toBe(false);
+  // Este guardián ha cambiado tres veces, y cada vez por una decisión real:
+  //
+  //   1. Antes del 07-09-2026 vigilaba que la página siguiera en borrador y
+  //      que su cuerpo no publicara ningún plazo, porque había 6 y 12 meses
+  //      documentados en fuentes distintas (AUDITORIA §6.3b).
+  //   2. El 07-09-2026 Ignacio decidió publicar 12 meses de forma provisoria,
+  //      y el guardián pasó a vigilar que el plazo publicado fuera ese.
+  //   3. El 08-09-2026 se recuperó el WordPress original y apareció una
+  //      tercera fuente: su FAQ, editado hasta julio de 2025, dice **6 meses**
+  //      de forma explícita y en dos preguntas distintas. Con dos fuentes
+  //      diciendo 6 (ese FAQ) y dos diciendo 12 (el manual impreso y la ficha
+  //      de Chakay), Ignacio decidió retirar la página hasta que la clienta
+  //      confirme. Ver `contenido-rescatado/wordpress-original/HALLAZGOS.md`.
+  //
+  // Un plazo de garantía es una obligación legal frente al consumidor: se
+  // publica cuando se sabe, no mientras se averigua. El guardián vuelve a su
+  // forma original — que no haya ningún plazo publicado — y con la página se
+  // retiraron también las dos preguntas del FAQ que afirmaban los 12 meses.
+  it('paginaGarantia está en borrador y su cuerpo no publica ningún plazo', () => {
+    expect(paginaGarantia.borrador).toBe(true);
     expect(paginaGarantia.html.length).toBeGreaterThan(0);
 
-    const plazos = paginaGarantia.html.match(/\d+\s*mes(?:es)?/gi) ?? [];
-    expect(plazos.length).toBeGreaterThan(0);
-    for (const plazo of plazos) {
-      expect(plazo.replace(/\s+/g, ' ')).toMatch(/^12 meses$/i);
-    }
+    // El plazo de garantía se expresa en meses en todas las fuentes (6 en el
+    // FAQ del sitio anterior, 12 en el manual) o como "1 año" en la ficha de
+    // Chakay. Se prohíben las dos formas.
+    expect(paginaGarantia.html).not.toMatch(/\d+\s*meses?\b/i);
+    expect(paginaGarantia.html).not.toMatch(/(un|\d+)\s*años?\s+de\s+garant/i);
+
+    // Ojo con endurecer esto de más: el cuerpo SÍ dice que la rejilla se
+    // cambia "cada 1 a 2 años", y eso es vida útil de una pieza de desgaste,
+    // no un plazo de garantía. Una regla que prohíba cualquier cifra con
+    // unidad de tiempo rompe ese texto legítimo.
   });
 
   it('ninguna de las dos páginas menciona el correo de la marca anterior', () => {

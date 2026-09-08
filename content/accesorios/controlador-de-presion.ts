@@ -36,13 +36,21 @@
  * cita literal de un documento de ella, y queda como pregunta abierta en
  * `PENDIENTES.md`, no como un producto del catálogo.
  *
- * ⚠️ `incluyeIva: true` es una **inferencia, no un dato**. La fuente
- * rescatada dice "$45.000, adicional al equipo Waiki" y no menciona el IVA.
- * Se asume incluido porque todos los demás precios de ese mismo sitio lo
- * declaraban así (Chakay "$1.010.000 IVA incluido", Nahuen "$790.000 IVA
- * incluido", rejilla "$37.000 a $40.000 IVA incluido") y porque un precio a
- * consumidor final en Chile se publica con IVA. Está anotado en
- * `PENDIENTES.md` para confirmar: es el único precio publicado del sitio.
+ * **Precio actualizado a $85.000 el 08-09-2026** por mensaje del dueño:
+ * "el valor del controlador para los equipos de Waiki es de $85000". Antes
+ * decía **$45.000**, que era el precio que publicaba el sitio anterior
+ * (`contenido-rescatado/DATOS-ESTRUCTURADOS.md`, de febrero de 2025 o
+ * anterior). No es la corrección de un dato mal leído: son dos precios
+ * distintos en dos momentos distintos, y el vigente es el que dio el dueño.
+ * Los $45.000 quedan registrados acá como el histórico, no en el sitio.
+ *
+ * ⚠️ `incluyeIva: true` **sigue siendo una inferencia, no un dato**. Ni la
+ * fuente rescatada ("$45.000, adicional al equipo Waiki") ni el mensaje del
+ * dueño mencionan el IVA. Se asume incluido porque todos los demás precios
+ * de la empresa se declaran así (Chakay "$1.010.000 IVA incluido", Nahuen
+ * "$790.000 IVA incluido", rejilla "$37.000 a $40.000 IVA incluido") y
+ * porque un precio a consumidor final en Chile se publica con IVA. Está
+ * anotado en `PENDIENTES.md` para confirmar.
  *
  * ⚠️ Las fotos muestran la placa del fabricante: "DRAUGHT REGULATOR RCO
  * Ø80", norma DIN 4795, rango de depresión 10–35 Pa. **No se incorporó a
@@ -61,7 +69,7 @@ const controladorDePresion: Accesorio = {
   descripcion:
     'El controlador de presión —también llamado regulador de tiro— es una válvula manual que regula los cambios de presión del conducto de salida de humos. Las condiciones climáticas de cada lugar y el funcionamiento particular de cada combustión varían con frecuencia, lo que hace que la depresión generada en la base cambie constantemente; el controlador mantiene esas condiciones estables y evita que el consumo de pellet aumente sin necesidad.\n\n' +
     'Se recomienda instalarlo cuando la cañería de salida supera los 3,5 metros —cada tira de cañería mide 1 metro, así que basta con contarlas— o cuando la instalación está en un sector con mucho viento. Es de acero inoxidable.',
-  precio: { tipo: 'fijo', monto: 45000, incluyeIva: true },
+  precio: { tipo: 'fijo', monto: 85000, incluyeIva: true },
   superficieRecomendada: null,
   medidas: null,
   especificaciones: [

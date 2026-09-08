@@ -111,16 +111,14 @@ function urlImagenProducto(producto: Producto): string {
  *
  * **Sin `offers` mientras `precio.tipo === 'consultar'`** (PHASE_1_PLAN.md,
  * tarea 8.4: "declarar un precio inexistente es un error de datos
- * estructurados"). Hoy los tres productos y los dos accesorios están en
- * "consultar" (ARCHITECTURE.md §0, decisión de propuesta #3), así que
- * ningún `Product` real que emite este sitio lleva `offers` todavía.
+ * estructurados").
  *
- * La rama `{ tipo: 'fijo' }` de abajo **no se ejercita con contenido real**
- * — se implementa con cuidado, siguiendo `PriceSpecification` de
- * schema.org para poder expresar `incluyeIva` (que `Offer.price` por sí
- * solo no distingue), pero queda sin poder probarse contra un producto real
- * hasta que la clienta confirme un monto. Se documenta así en vez de
- * omitirla en silencio o de dejarla a medio implementar.
+ * La rama `{ tipo: 'fijo' }` de abajo **ya se ejercita con contenido real**,
+ * desde que la clienta empezó a confirmar precios: el controlador de presión
+ * (07-09-2026) y Chakay (08-09-2026). Sigue implementada con
+ * `PriceSpecification` de schema.org, que es lo que permite expresar
+ * `incluyeIva` — `Offer.price` por sí solo no distingue si el monto lleva
+ * IVA. Los otros tres equipos siguen en "consultar" y no emiten `offers`.
  */
 export function generarProductJsonLd(producto: Producto, basePath: '/productos' | '/accesorios') {
   const url = `${SITE_URL}${basePath}/${producto.slug}/`;
@@ -140,6 +138,34 @@ export function generarProductJsonLd(producto: Producto, basePath: '/productos' 
   }
 
   const { monto, incluyeIva } = producto.precio;
+
+  /*
+   * `availability` sale del propio contenido, no es una constante.
+   *
+   * Hasta el 08-09-2026 esta rama emitía siempre `InStock`, y nunca llegó a
+   * Google porque ningún producto tenía precio y por lo tanto no se emitía
+   * `offers`. Al publicarse Chakay, sí llega — y `InStock` sería falso: la
+   * propia ficha dice que se fabrica por temporada, con 1 mes y medio a 2
+   * meses desde la reserva y un 30% de anticipo. Declarar "en stock" un
+   * equipo que se construye por encargo es exactamente el tipo de dato que
+   * Google usa para prometerle al comprador algo que la empresa no puede
+   * cumplir.
+   *
+   * `BackOrder` es el valor de schema.org que significa "se puede comprar
+   * ahora, se entrega más adelante", y está entre los que Google admite. Se
+   * usa para todo lo que declare un `plazoEntrega`.
+   *
+   * Y cuando no hay `plazoEntrega`, **no se emite `availability` en
+   * absoluto**. Es la misma regla que gobierna el resto del contenido
+   * (ARCHITECTURE.md §1.6: se omite, no se inventa) aplicada a los datos
+   * estructurados: no saber cuánto demora un equipo no es lo mismo que
+   * saber que está en bodega. Mini Nahuen es el caso exacto — su
+   * `plazoEntrega` es `null` porque la clienta no lo ha dado, y afirmarle
+   * `InStock` a Google sería fabricar el dato que falta. `availability` es
+   * opcional en `Offer`: omitirlo es válido y es lo honesto.
+   */
+  const availability = producto.plazoEntrega ? 'https://schema.org/BackOrder' : undefined;
+
   return {
     ...base,
     offers: {
@@ -153,7 +179,7 @@ export function generarProductJsonLd(producto: Producto, basePath: '/productos' 
         priceCurrency: 'CLP',
         valueAddedTaxIncluded: incluyeIva,
       },
-      availability: 'https://schema.org/InStock',
+      ...(availability ? { availability } : {}),
     },
   };
 }

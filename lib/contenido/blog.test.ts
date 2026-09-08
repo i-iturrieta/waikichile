@@ -69,7 +69,7 @@ describe('obtenerArticulos (colección real, poblada en el Bloque 3b, tarea 3b.6
   // descendente, y eso solo se puede comprobar contra una lista exacta.
   it('carga los artículos publicados, ordenados por fecha descendente', () => {
     expect(obtenerSlugsArticulos()).toEqual([
-      'entrevista-disfruta-llanquihue',
+      'entrevista-radio-frutillar',
       'entrevista-radio-puelche',
       'por-que-preferir-pellets',
       'conveccion-o-radiacion',

@@ -62,6 +62,14 @@ const nahuen: Producto = {
   descripcion:
     'Nahuen es un equipo de tiro natural a pellets, pensado para cabañas y espacios de 40 a 70 m². No es programable, y eso se presenta como ventaja: al no depender de la electricidad, nunca deja de calefaccionar por un corte de luz.\n\n' +
     'Su entrega es de 1 a 1,5 meses desde la reserva. No incluye kit de caños ni instalación.',
+  // ⚠️ 08-09-2026 — el dueño confirmó el monto, el IVA y las condiciones de
+  // compra de los $790.000, pero NO a qué equipo corresponden: escribió
+  // "faltaría el precio $790.000 IVA incluído. Este equipo se debe solicitar
+  // al fono WhatsApp de la empresa con una reserva del 30% y el saldo
+  // coordinarlo con el área de Venta", diciendo "aca" sin nombrarlo. El monto
+  // sigue calzando con este equipo y con el otro Nahuen, así que sigue en
+  // `consultar`. Cuando llegue la respuesta, todo lo demás ya está: el IVA
+  // está confirmado y las condiciones de compra también. `PENDIENTES.md §2.1`.
   precio: { tipo: 'consultar' },
   superficieRecomendada: { min: 40, max: 70 },
   // Sin peso documentado en ninguna fuente rescatada — ver nota de cabecera.

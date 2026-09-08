@@ -102,3 +102,7 @@
 # Dos perfiles de la misma persona (Carolina) — ambos a la página institucional
 /author/caro/ /nosotros/ 301
 /author/carofuentes/ /nosotros/ 301
+
+# Corrección 08-09-2026 — la entrevista se atribuyó a Disfruta Llanquihue por
+# error durante un día; la hizo Radio Frutillar. El slug cambió con ella.
+/blog/entrevista-disfruta-llanquihue/ /blog/entrevista-radio-frutillar/ 301

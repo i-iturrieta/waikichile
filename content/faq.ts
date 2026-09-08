@@ -121,7 +121,7 @@ const faq: PreguntaFrecuente[] = [
     pregunta: '¿Cuentan los equipos Waiki con garantía?',
     respuesta:
       'Sí. Todos los equipos Waiki Chile tienen 12 meses de garantía por defectos de fabricación, contados desde la compra. La rejilla del quemador queda fuera: es una pieza de desgaste, no un defecto.',
-    borrador: false,
+    borrador: true,
   },
   {
     // Publicada con 12 meses (07-09-2026, provisorio). Ver cabecera.
@@ -131,7 +131,7 @@ const faq: PreguntaFrecuente[] = [
     pregunta: '¿En qué consiste la garantía de los equipos Waiki?',
     respuesta:
       'Cubre desperfectos de fabricación durante 12 meses desde la compra. Si surge un problema, primero se intenta resolver por llamada o videollamada; si no es posible, se evalúa si corresponde una reparación o el reemplazo de piezas.',
-    borrador: false,
+    borrador: true,
   },
   {
     id: 'visitas-tecnicas-costo',

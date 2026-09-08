@@ -10,4 +10,4 @@ Todos nuestros equipos comparten la misma idea de fondo: funcionan con tiro natu
 
 Somos una empresa familiar. Carolina Espinoza y Ernesto están directamente detrás de cada equipo que sale de fábrica: acompañan la instalación, resuelven dudas técnicas y responden cuando algo no funciona como debería. Nuestros clientes están repartidos a lo largo de Chile, desde el centro-sur hasta la Patagonia, calefaccionando con pellet en climas bien distintos entre sí.
 
-Si estás evaluando cambiarte a pellet o tienes dudas sobre cuál de nuestros equipos se ajusta mejor a tu casa, escríbenos por WhatsApp o a través del formulario de contacto. Respondemos directamente nosotros, no un centro de atención.
+Si estás evaluando cambiarte a pellet o tienes dudas sobre cuál de nuestros equipos se ajusta mejor a tu casa, escríbenos por WhatsApp, correo o teléfono. Respondemos directamente nosotros, no un centro de atención.

@@ -56,7 +56,12 @@ export default function Encabezado() {
   return (
     <header className="sticky top-0 z-30 border-b border-borde bg-superficie/94 backdrop-blur-[12px]">
       <div className="mx-auto flex max-w-sitio items-center justify-between px-[18px] py-3 md:px-8 lg:px-16">
-        <Link href="/" className="flex items-center gap-[9px]">
+        {/* `aria-label` explícito: sin él el nombre accesible del enlace es
+            "Waiki Chile", que dice de quién es el sitio pero no a dónde
+            lleva. Con lector de pantalla se anuncia "Waiki Chile, ir al
+            inicio". Es la versión no visual del mismo problema que reportaron
+            los usuarios y que resuelve el enlace "Inicio" del nav. */}
+        <Link href="/" aria-label="Waiki Chile, ir al inicio" className="flex items-center gap-[9px]">
           <Image
             src="/logo-waiki-icono.png"
             alt=""

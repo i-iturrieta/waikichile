@@ -79,7 +79,7 @@ export default function TarjetaPrensa({ articulo }: TarjetaPrensaProps) {
           {/* Indicio de reproducción — decorativo, ver comentario de cabecera.
               Va en color de marca **opaco**, no en blanco translúcido. La
               primera versión era `bg-claro/90` y desaparecía sobre la placa de
-              Disfruta Llanquihue, que es clara: quedaba un disco casi blanco
+              Radio Frutillar, que es clara: quedaba un disco casi blanco
               sobre un cielo casi blanco. Un indicio cuya visibilidad depende
               de la foto que le toque detrás no es un indicio. En color sólido
               se lee sobre cualquier miniatura, y de paso usa el mismo color

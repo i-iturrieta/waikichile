@@ -15,10 +15,12 @@ Abre [http://localhost:3000](http://localhost:3000).
 
 ```bash
 npx tsc --noEmit      # tipos
-pnpm test             # Vitest — lib/calculadora/ y validación de contenido
-pnpm reporte           # lista contenido en borrador / campos pendientes
-pnpm build             # build de producción completo (export estático a out/)
+pnpm test             # Vitest — 35 tests: lib/calculadora/ y validación de contenido
+pnpm reporte          # lista contenido en borrador / campos pendientes
+pnpm build            # build de producción completo (export estático a out/) — 29 rutas
 ```
+
+> `pnpm reporte` corre con **`node`**, no con `tsx`: usa el soporte nativo de TypeScript de Node 24 y top-level await. Si lo lanzas con `npx tsx` falla al cargar la mitad de las colecciones y **te dice "nada en borrador" cuando sí lo hay**. Usa siempre el script de `package.json`.
 
 `pnpm build` corre automáticamente `scripts/procesar-imagenes.ts` (genera las variantes AVIF/WebP de `content/images/` en `public/img/`) y `scripts/reporte-contenido.ts` antes de compilar (hook `prebuild`).
 
@@ -28,16 +30,17 @@ Todo el contenido editable vive en `content/`, separado del código:
 
 | Ruta | Qué es |
 |---|---|
-| `content/productos/*.ts` | Waiki, Chakay, Nahuen |
+| `content/productos/*.ts` | Waiki, Chakay, Nahuen, Mini Nahuen |
 | `content/accesorios/*.ts` | Controlador de presión, rejilla del quemador |
-| `content/instalaciones.ts` | Galería de instalaciones reales |
+| `content/instalaciones.ts` | Galería de 29 instalaciones reales |
 | `content/resenas.ts` | Reseñas de clientes |
 | `content/faq.ts` | Preguntas frecuentes |
-| `content/blog/*.md` | Artículos del blog |
+| `content/blog/*.md` | Noticias: artículos propios y entrevistas de prensa |
 | `content/paginas/*.md` | Nosotros, Garantía |
 | `content/empresa.ts` | Teléfono, correo, redes sociales |
 | `content/calculadora/parametros.ts` | Constantes de la calculadora leña vs. pellet |
 | `content/images/` | Fotografías originales (el pipeline genera las variantes; no tocar `public/img/` a mano) |
+| `public/medios/` | Audio y video de las entrevistas de prensa — **no pasan por el pipeline**, van tal cual |
 
 Todo el contenido se valida con Zod en tiempo de build (`lib/contenido/esquemas.ts`) — un dato mal formado rompe el build, nunca el sitio publicado.
 
@@ -67,6 +70,10 @@ Ver `.env.example` para la lista completa. Resumen:
 ## Despliegue
 
 Sitio 100% estático, sin backend: `wrangler.jsonc` publica el export de `out/` como assets de Cloudflare Workers (sin Worker script). La página de contacto no tiene formulario — es contacto directo por WhatsApp, correo y teléfono (`components/contacto/ContactoDirecto.tsx`).
+
+**Estado al 07-09-2026:** ya se desplegó con éxito una vez y **hoy está pausado a pedido de la clienta** mientras se hacen cambios. El dominio `waikichile.cl` todavía no apunta acá: eso depende del Bloque 0 (`PROJECT_STATE.md §6`).
+
+Dos archivos de `public/` gobiernan el borde y **no son código, son configuración de Cloudflare**: `_redirects` (30 redirecciones 301 desde las URLs de WordPress — perderlas es perder posicionamiento) y `_headers` (caché y cabeceras de seguridad, incluida la CSP que habilita `media-src` para las entrevistas). Cloudflare tiene un **techo de 25 MiB por archivo**: cualquier medio nuevo en `public/medios/` tiene que quedar por debajo.
 
 ```bash
 npx wrangler login    # una vez

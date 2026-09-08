@@ -255,7 +255,7 @@ export const articuloBlogSchema = z.object({
   resumen: z.string().min(1),
   imagenPortada: imagenSchema.optional(),
   // Opcional y en plural: una entrevista puede venir partida en dos archivos,
-  // que es exactamente el caso de Disfruta Llanquihue. Ausente en los tres
+  // que es exactamente el caso de Radio Frutillar. Ausente en los tres
   // artículos de texto, que no necesitan reproductor.
   medios: z.array(medioSchema).min(1).optional(),
   /**

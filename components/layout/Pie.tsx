@@ -40,11 +40,17 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { empresa } from '@/lib/contenido/empresa';
-import { ENLACES_PRINCIPALES, ENLACES_SECUNDARIOS, ENLACE_CONTACTO } from './enlaces-navegacion';
+import { ENLACES_NAVEGACION, ENLACE_CONTACTO } from './enlaces-navegacion';
 import { enlaceTelefono } from './whatsapp';
 
 /** Mapa del sitio del pie: los seis principales más los dos secundarios. */
-const ENLACES_MAPA = [...ENLACES_PRINCIPALES, ...ENLACES_SECUNDARIOS];
+/**
+ * El mapa del pie pasa a ser `ENLACES_NAVEGACION` (08-09-2026), que es la
+ * lista completa **con Inicio**. Antes se armaba acá a mano con principales
+ * + secundarios, y por eso el pie —que se supone es el mapa completo del
+ * sitio— era el único lugar donde faltaba justamente la página principal.
+ */
+const ENLACES_MAPA = ENLACES_NAVEGACION;
 
 function construirUrlTiktok(handle: string): string {
   // El handle ya se guarda con "@" (content/empresa.ts: '@waikichile'), y

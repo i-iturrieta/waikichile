@@ -23,7 +23,7 @@
  * descarga completa.
  *
  * El `poster` del video merece una nota: en `<video>` es la imagen que se ve
- * antes de reproducir. Para la entrevista de Disfruta Llanquihue, que llegó
+ * antes de reproducir. Para la entrevista de Radio Frutillar, que llegó
  * como .mp4 pero es audio, ese poster es la placa del programa — por eso el
  * caso `audio` también la muestra, arriba del reproductor, en vez de dejar
  * una barra gris flotando sin contexto.

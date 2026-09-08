@@ -39,6 +39,19 @@
  *
  * `requiereControlador: false` — el controlador de presión viene incluido
  * con el equipo (`incluye`), a diferencia de Waiki.
+ *
+ * Precio publicado 08-09-2026 — $1.010.000 IVA incluido. La clienta lo
+ * confirmó por mensaje y el monto coincide exactamente con el del sitio
+ * anterior (`contenido-rescatado/DATOS-ESTRUCTURADOS.md`), que es de febrero
+ * de 2025 o anterior: son dos fuentes independientes diciendo lo mismo, no
+ * un dato rescatado que se da por vigente. Es el primer precio de equipo del
+ * sitio y el segundo precio publicado en total (el otro es el controlador).
+ * Al dejar de ser `consultar`, esta ficha empieza a emitir `offers` en su
+ * JSON-LD (`lib/seo/jsonld.ts`): el precio pasa a ser legible por Google.
+ *
+ * Lo que la clienta confirmó en el mismo mensaje y **ya estaba bien**: lo que
+ * el equipo incluye (codo con registro y controlador de presión) y lo que no
+ * (kit de caños). Venía del sitio anterior y no hubo que cambiarlo.
  */
 
 import type { Producto } from '../../lib/contenido/esquemas.ts';
@@ -50,8 +63,13 @@ const chakay: Producto = {
   descripcion:
     'Chakay es una cocina de tiro natural que calefacciona por radiación y quema pellet o leña. Incorpora una plancha superior de 32 × 42 cm pensada para cocinar sin horno ni cocina eléctrica: se usa con ollas y teteras directamente sobre la plancha. No es un accesorio secundario — es una de las dos funciones principales del equipo.\n\n' +
     'Se carga, se enciende y la intensidad de la llama se regula con el controlador de presión, que viene incluido. Según su ficha técnica, cubre entre 50 y 120 m².\n\n' +
-    'Se fabrica por temporada, con un plazo de 1 mes y medio a 2 meses desde la reserva (30% del valor total; el saldo se cancela contra entrega). El despacho se coordina por Starken, Cruz del Sur o Casem Express, con el saldo contra el envío. El kit de caños no está incluido. El valor exacto depende del equipo y la instalación: se confirma al consultar, escribiendo por WhatsApp o el formulario de contacto.',
-  precio: { tipo: 'consultar' },
+    'Se fabrica por temporada, con un plazo de 1 mes y medio a 2 meses desde la reserva: se reserva con el 30% del valor total y el saldo se cancela contra entrega. El despacho se coordina por Starken, Cruz del Sur o Casem Express, con el saldo contra el envío. El kit de caños no está incluido. Cualquier duda sobre el equipo o la instalación se resuelve por WhatsApp, correo o teléfono.',
+  // Precio confirmado por la clienta el 08-09-2026 ("la Chakay el precio es
+  // de 1.010.000 (clp) iva incluido"). Coincide exactamente con el que
+  // publicaba el sitio anterior en `/product/chakay/`
+  // (`contenido-rescatado/DATOS-ESTRUCTURADOS.md`, "Producto · Chakay"): dos
+  // fuentes independientes en el mismo monto, así que no hay inferencia acá.
+  precio: { tipo: 'fijo', monto: 1010000, incluyeIva: true },
   superficieRecomendada: { min: 50, max: 120 },
   medidas: { ancho: 67, alto: 93, fondo: 32, peso: 120 },
   especificaciones: [

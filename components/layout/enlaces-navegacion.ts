@@ -30,10 +30,24 @@
  * `/blog/`, ver `public/_redirects`); la ruta `/blog/` no cambia, solo la
  * etiqueta visible y su jerarquía en el nav.
  *
- * "Inicio" no entra en ninguno de los dos grupos de navegación: el logo ya
- * enlaza a "/" (convención estándar), y repetirlo como enlace de texto es
- * exactamente el tipo de redundancia que abultaba la barra. Sigue existiendo
- * como `ENLACE_INICIO` solo para el mapa completo del pie de página.
+ * Corrección 08-09-2026 — "Inicio" vuelve a la navegación, en los tres
+ * lugares. Es un pedido directo de Ignacio a partir de lo que le reportaron
+ * usuarios reales: **es confuso que no haya un enlace explícito al inicio.**
+ *
+ * La versión anterior de este comentario decía que "Inicio" quedaba fuera de
+ * la navegación porque el logo ya enlaza a "/" y repetirlo era redundante,
+ * pero que seguía existiendo "para el mapa completo del pie de página". Lo
+ * segundo **era falso**: `ENLACES_NAVEGACION` —la única lista que incluía
+ * `ENLACE_INICIO`— no la importaba nadie, y `Pie.tsx` armaba su propio mapa
+ * con los principales más los secundarios. Resultado real: en todo el sitio
+ * no había un solo enlace que dijera "Inicio", ni arriba, ni en el panel
+ * móvil, ni en el pie. La única vía al home era descubrir que el logo es
+ * clicable, que es justamente lo que la gente reportó como confuso.
+ *
+ * El argumento de la redundancia no era malo, pero se apoyaba en una
+ * convención que hay que conocer para usar. El costo de un enlace de más es
+ * un poco de densidad en la barra; el de no tenerlo es que alguien no sepa
+ * volver. Se paga la densidad (ver `MenuMovil.tsx` para cómo).
  *
  * "Contacto" sigue fuera de estos grupos a propósito (igual que antes): en
  * el encabezado va subordinado al CTA de WhatsApp, no como parte del nav.
@@ -75,7 +89,19 @@ export const ENLACES_SECUNDARIOS: EnlaceNavegacion[] = [
 
 export const ENLACE_CONTACTO: EnlaceNavegacion = { href: '/contacto/', etiqueta: 'Contacto' };
 
-/** Mapa completo, en orden, para el pie de página — no se usa en el encabezado. */
+/**
+ * Lo que se ve en el encabezado: Inicio primero y después los principales.
+ * La usan la barra de escritorio y el panel móvil (que además le suma
+ * Contacto al final). Existe como constante propia para que "Inicio va
+ * primero" se decida una sola vez y no en cada componente.
+ */
+export const ENLACES_ENCABEZADO: EnlaceNavegacion[] = [ENLACE_INICIO, ...ENLACES_PRINCIPALES];
+
+/**
+ * Mapa completo del sitio, en orden, para el pie de página. **Ahora sí la usa
+ * `Pie.tsx`** — hasta el 08-09-2026 esta lista no la importaba nadie y el pie
+ * armaba la suya sin Inicio (ver el comentario de cabecera).
+ */
 export const ENLACES_NAVEGACION: EnlaceNavegacion[] = [
   ENLACE_INICIO,
   ...ENLACES_PRINCIPALES,
