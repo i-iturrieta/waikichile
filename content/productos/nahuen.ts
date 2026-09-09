@@ -46,44 +46,52 @@
  * generan variante de 640 px, y ese es el ancho que la tarjeta del home y la
  * galería de la ficha piden en móvil de todos modos.
  *
- * PRECIO: $790.000 IVA INCLUIDO, publicado el 08-09-2026 — y con eso se
- * cierra la discusión más larga de esta codebase, que ocupó buena parte de
- * `PENDIENTES.md §2.1`. Conviene el resumen, porque la conclusión es
- * contraintuitiva y alguien va a querer "corregirla":
+ * ⛔ PRECIO: `consultar`. NO PUBLICAR SIN CONFIRMACIÓN EXPRESA.
+ *
+ * Este campo se publicó y se retiró el 09-09-2026, con unas horas de sitio
+ * en vivo mostrando $790.000. La historia completa importa más que el estado
+ * actual, porque el error se repitió dos veces y en las dos el razonamiento
+ * parecía sólido:
  *
  *   - El monto $790.000 aparecía en DOS equipos: acá, por la página del
  *     sitio anterior del 07-02-2025 (en la misma tabla que las medidas
  *     50 × 93 × 32 cm y los 40 a 70 m², inequívocamente de este equipo), y
  *     en `mini-nahuen.ts`, por la ficha técnica que envió la clienta.
- *   - Durante dos rondas se dio por sentado que **no podían valer lo mismo**
- *     y que uno de los dos datos estaba arrastrado de una ficha a otra. Sobre
- *     esa premisa el precio de la Mini se publicó, se revirtió y se volvió a
- *     publicar.
- *   - **La premisa era falsa.** Ignacio, 08-09-2026, en dos mensajes: *"la
- *     mini-nahuen vale 790.000, pero sí incluye el kit de caño y el regulador
- *     manual. La nahuen normal no"* y, sobre este equipo, *"la nahuen normal
- *     vale 790.000 a secas, pero no incluye nada"*.
+ *   - Durante dos rondas se trató como imposible que los dos valieran lo
+ *     mismo, y el precio de la Mini se publicó, se revirtió y se volvió a
+ *     publicar sobre esa premisa.
+ *   - El 08-09-2026 Ignacio dijo *"la mini-nahuen vale 790.000, pero sí
+ *     incluye el kit de caño y el regulador manual. La nahuen normal no"* y,
+ *     al preguntársele por este equipo, *"la nahuen normal vale 790.000 a
+ *     secas, pero no incluye nada"*. Sobre eso se publicó acá el monto, y se
+ *     dio la colisión por resuelta: dos equipos al mismo precio,
+ *     diferenciados por lo que incluyen.
+ *   - **El 09-09-2026 Ignacio corrigió**: *"me confundí. Son 790.000 con el
+ *     controlador manual, la Mini Nahuen"*. O sea que los $790.000 son de la
+ *     Mini, y de este equipo **no sabemos el precio**.
  *
- * O sea: los dos equipos cuestan lo mismo y **se diferencian por lo que traen
- * por ese precio**, no por el precio. Nunca hubo un dato arrastrado.
+ * Qué aprender de esto, para quien venga después:
  *
- * Y no es palabra contra nada: el monto de este equipo tiene ahora **dos
- * fuentes independientes que coinciden exacto** — la página de febrero de
- * 2025 y la confirmación de Ignacio de hoy. Es el mismo estándar de prueba
- * que tiene Chakay, el precio mejor respaldado del sitio.
+ *   1. **La fuente fechada tenía razón desde el principio, pero por el motivo
+ *      equivocado.** La página de 2025 atribuía $790.000 a este equipo; hoy
+ *      sabemos que ese monto es de la Mini. Que una fuente sea antigua y
+ *      verificable no la vuelve correcta sobre el presente.
+ *   2. **Una confirmación verbal no es una fuente independiente si responde a
+ *      una pregunta que ya sugería la respuesta.** Se le preguntó a Ignacio
+ *      si la Nahuen valía $790.000 "a secas", y contestó que sí. La pregunta
+ *      traía el número puesto.
+ *   3. Por eso este campo no vuelve a publicarse con una confirmación al
+ *      paso. Hace falta que la clienta o el dueño **digan el precio de la
+ *      Nahuen sin que se lo propongamos nosotros**.
  *
- * `incluyeIva: true` **no es inferencia acá**: la página del sitio anterior
- * dice literal "$790.000 IVA incluido". (En la Mini sí lo fue hasta que el
- * dueño lo confirmó por mensaje.)
+ * `PENDIENTES.md §2.1` y `FICHAS-POR-CONFIRMAR.md`.
  *
- * ✅ **Los dos equipos al mismo precio: confirmado deliberado** (Ignacio,
- * 09-09-2026: "sí, las dos nahuen valen lo mismo"). Se le planteó
- * explícitamente que el sitio queda mostrando dos equipos en $790.000 donde
- * el más chico incluye más —Nahuen cubre 40 a 80 m² y no trae nada; Mini
- * Nahuen cubre 20 a 50 m² y trae kit de caños y controlador manual— y que
- * cualquier comprador que compare las dos fichas lo va a notar. Es una
- * decisión comercial de la empresa, tomada a la vista de eso. Deja de ser un
- * pendiente.
+ * ⚠️ `noIncluye` conserva "Controlador de presión", que entró el 08-09-2026
+ * por la misma frase que resultó estar confundida. Se deja porque no depende
+ * de ella: la página del sitio anterior ya decía que este equipo no incluye
+ * kit ni instalación, ningún otro equipo salvo la Mini trae controlador, y
+ * declarar de menos lo que viene incluido es el error seguro de los dos.
+ * Anotado igual para confirmar.
  *
  * Los colores (`Negro`, `Rojo (según stock)`) NO se tocaron a la luz de las
  * fotos: las dos unidades fotografiadas son negras con la tapa lateral roja
@@ -101,12 +109,12 @@ const nahuen: Producto = {
   descripcion:
     'Nahuen es un equipo de tiro natural a pellets, pensado para cabañas y espacios de 40 a 80 m². No es programable, y eso se presenta como ventaja: al no depender de la electricidad, nunca deja de calefaccionar por un corte de luz.\n\n' +
     'Su entrega es de 1 a 1,5 meses desde la reserva. No incluye kit de caños, controlador de presión ni instalación.',
-  // $790.000 IVA incluido — publicado el 08-09-2026. Ver la nota de cabecera:
-  // la colisión con Mini Nahuen no se resolvió descartando un monto, sino
-  // constatando que **los dos equipos valen lo mismo y se diferencian por lo
-  // que incluyen**. Este no incluye nada; la Mini trae kit de caños y
-  // regulador manual. `PENDIENTES.md §2.1`.
-  precio: { tipo: 'fijo', monto: 790000, incluyeIva: true },
+  // ⛔ VUELVE A `consultar` EL 09-09-2026, y esta vez NO se vuelve a publicar
+  // sin confirmación de la clienta o del dueño. Ver la nota de cabecera.
+  //
+  // Los $790.000 son de la **Mini Nahuen**, con el controlador manual
+  // incluido. Este equipo **no tiene precio confirmado**.
+  precio: { tipo: 'consultar' },
   // 08-09-2026: pasa de 40-70 a 40-80 m². Los 40 a 70 venían de la página
   // del sitio anterior (07-02-2025); los 40 a 80 vienen de una pieza gráfica
   // de la propia empresa de marzo de 2025 —más nueva— donde se lee "para

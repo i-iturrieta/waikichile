@@ -71,14 +71,19 @@
  *     (`content/accesorios/controlador-de-presion-automatico.ts`). Dejan de
  *     ser un dato huérfano visible para cualquiera que amplíe la imagen.
  *
- * `content/productos/nahuen.ts` quedó publicado el mismo día en ese mismo
- * monto, y el 09-09-2026 Ignacio confirmó que **es deliberado**: *"sí, las
- * dos nahuen valen lo mismo"*. Se le planteó explícitamente que el sitio
- * queda mostrando dos equipos al mismo precio donde el más chico incluye más
- * —este cubre 20 a 50 m² con kit de caños y controlador manual; Nahuen cubre
- * 40 a 80 m² sin nada— y que cualquiera que compare las dos fichas lo va a
- * notar. Es una decisión comercial de la empresa, tomada a la vista de eso, y
- * deja de ser un pendiente.
+ * ⚠️ **Los $790.000 son de ESTE equipo, y de este solo.** `nahuen.ts` llegó a
+ * publicarse con el mismo monto el 08-09-2026 y volvió a `consultar` el
+ * 09-09: Ignacio corrigió con *"me confundí. Son 790.000 con el controlador
+ * manual, la Mini Nahuen"*. Es el mismo dato que la ficha técnica de la
+ * clienta venía diciendo desde el principio —"$790.000 con kit de cañaños y
+ * controlador MANUAL"— y que se tardó tres días en creerle.
+ *
+ * O sea que la colisión de los $790.000 nunca fue una colisión: era un precio
+ * de un equipo que se le atribuyó al otro, primero por una página de 2025 y
+ * después por una confirmación verbal a una pregunta que ya traía el número
+ * puesto. **Este monto no se toca sin una fuente nueva**, y el de la Nahuen
+ * grande no se publica hasta que alguien lo diga sin que se lo propongamos.
+ * Ver la nota de cabecera de `content/productos/nahuen.ts`.
  *
  * ✅ `incluyeIva: true` reconfirmado el 09-09-2026: *"todos los precios con
  * IVA"*.
