@@ -12,14 +12,25 @@
  * La pregunta original citaba la marca anterior de la empresa al preguntar
  * por la garantía de los equipos → reformulada con el nombre actual.
  *
- * Las dos preguntas que citan el plazo de garantía se publican desde el
- * 07-09-2026 con **12 meses**, por decisión explícitamente provisoria de
- * Ignacio ("por ahora, luego solucionamos"). El conflicto que las tenía en
- * `borrador: true` sigue sin resolverse de fondo — 6 meses en este mismo FAQ
- * del sitio anterior contra 12 meses en el manual impreso y en la ficha de
- * Chakay (AUDITORIA §6.3b) — pero se eligió el plazo más favorable al
- * cliente, que además es el del documento que ya está en sus casas. Ver
- * `PENDIENTES.md` §2.3.
+ * **Garantía: 12 meses, confirmados por Ignacio el 09-09-2026.** Las dos
+ * preguntas que citan el plazo quedan publicadas de forma definitiva. Es el
+ * tercer movimiento de este dato y conviene la secuencia completa, porque
+ * quien relea las fuentes rescatadas va a encontrar la contradicción y va a
+ * creer que el sitio está mal:
+ *
+ *   1. 07-09-2026 — publicadas con 12 meses, provisorio ("por ahora, luego
+ *      solucionamos").
+ *   2. 08-09-2026 — devueltas a `borrador: true`. Al recuperar el WordPress
+ *      original apareció una tercera fuente: su propia página de Preguntas
+ *      de los usuarios, editada hasta julio de 2025, decía **6 meses**,
+ *      explícito y en dos preguntas distintas. Empate de fuentes, y un plazo
+ *      de garantía es una obligación legal: se retiró.
+ *   3. 09-09-2026 — Ignacio confirma **12 meses**. Publicadas.
+ *
+ * O sea que el FAQ del sitio anterior que decía 6 meses **está obsoleto o
+ * era incorrecto**. Coincide con el manual impreso y con la ficha técnica de
+ * Chakay, que dice "1 año" (AUDITORIA §6.3b). Ver `PENDIENTES.md` §2.3 y
+ * `content/paginas/garantia.md`.
  * `borrador: true` es el mecanismo exacto para eso: se renderiza en
  * desarrollo (volumen realista para diseñar) y se omite en el build de
  * producción (ARCHITECTURE.md §1.6). El esquema de `PreguntaFrecuente` no
@@ -114,24 +125,24 @@ const faq: PreguntaFrecuente[] = [
     borrador: false,
   },
   {
-    // Publicada con 12 meses (07-09-2026, provisorio). Ver cabecera.
+    // 12 meses CONFIRMADOS por Ignacio el 09-09-2026. Ver cabecera.
     id: 'equipos-con-garantia',
     tema: 'garantia',
     orden: 11,
     pregunta: '¿Cuentan los equipos Waiki con garantía?',
     respuesta:
       'Sí. Todos los equipos Waiki Chile tienen 12 meses de garantía por defectos de fabricación, contados desde la compra. La rejilla del quemador queda fuera: es una pieza de desgaste, no un defecto.',
-    borrador: true,
+    borrador: false,
   },
   {
-    // Publicada con 12 meses (07-09-2026, provisorio). Ver cabecera.
+    // 12 meses CONFIRMADOS por Ignacio el 09-09-2026. Ver cabecera.
     id: 'en-que-consiste-garantia',
     tema: 'garantia',
     orden: 12,
     pregunta: '¿En qué consiste la garantía de los equipos Waiki?',
     respuesta:
       'Cubre desperfectos de fabricación durante 12 meses desde la compra. Si surge un problema, primero se intenta resolver por llamada o videollamada; si no es posible, se evalúa si corresponde una reparación o el reemplazo de piezas.',
-    borrador: true,
+    borrador: false,
   },
   {
     id: 'visitas-tecnicas-costo',

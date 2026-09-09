@@ -68,19 +68,17 @@
  * distintos en dos momentos distintos, y el vigente es el que dio el dueño.
  * Los $45.000 quedan registrados acá como el histórico, no en el sitio.
  *
- * ⚠️ Ese mensaje del dueño se recibió **antes** de que se supiera que hay dos
- * controladores, así que decía "el controlador" sin distinguir. Se le asigna
- * a este porque es el que estaba publicado cuando lo escribió y el que el
- * sitio anterior cotizaba en la página `/regulador-de-tiro/`. Anotado en
- * `PENDIENTES.md` para confirmar que los $85.000 son de este y no del manual.
+ * ✅ **Confirmado por Ignacio el 09-09-2026: "45.000 el manual, 85.000 el
+ * automático".** Ese mensaje del dueño se había recibido antes de que se
+ * supiera que hay dos controladores y decía "el controlador" sin distinguir;
+ * la asignación que hicimos —a este, por ser el que estaba publicado y el que
+ * cotizaba `/regulador-de-tiro/`— resultó correcta. Deja de ser una
+ * suposición nuestra.
  *
- * ⚠️ `incluyeIva: true` **sigue siendo una inferencia, no un dato**. Ni la
- * fuente rescatada ("$45.000, adicional al equipo Waiki") ni el mensaje del
- * dueño mencionan el IVA. Se asume incluido porque todos los demás precios
- * de la empresa se declaran así (Chakay "$1.010.000 IVA incluido", Nahuen
- * "$790.000 IVA incluido", rejilla "$37.000 a $40.000 IVA incluido") y
- * porque un precio a consumidor final en Chile se publica con IVA. Está
- * anotado en `PENDIENTES.md` para confirmar.
+ * ✅ `incluyeIva: true` **confirmado el 09-09-2026** por Ignacio: "todos los
+ * precios con IVA". Hasta ese día era una inferencia nuestra —ni la fuente
+ * rescatada ("$45.000, adicional al equipo Waiki") ni el mensaje del dueño
+ * mencionaban el IVA— y estaba anotado como tal. Ahora es un dato.
  *
  * ⚠️ La placa declara además "DIN 4795", "Ø80" y un rango de depresión de
  * 10–35 Pa. **El Ø80 no se incorporó a `especificaciones`**: es el diámetro

@@ -72,11 +72,16 @@
  *     ser un dato huérfano visible para cualquiera que amplíe la imagen.
  *
  * `content/productos/nahuen.ts` quedó publicado el mismo día en ese mismo
- * monto. ⚠️ Efecto que conviene que la empresa mire, anotado en
- * `PENDIENTES.md §2.1`: **el sitio muestra dos equipos al mismo precio donde
- * el más chico incluye más.** Este cubre 20 a 50 m² con kit y controlador;
- * Nahuen cubre 40 a 70 m² sin nada. Es lo que dicen las fuentes y así se
- * publica, pero cualquiera que compare las dos fichas lo va a notar.
+ * monto, y el 09-09-2026 Ignacio confirmó que **es deliberado**: *"sí, las
+ * dos nahuen valen lo mismo"*. Se le planteó explícitamente que el sitio
+ * queda mostrando dos equipos al mismo precio donde el más chico incluye más
+ * —este cubre 20 a 50 m² con kit de caños y controlador manual; Nahuen cubre
+ * 40 a 80 m² sin nada— y que cualquiera que compare las dos fichas lo va a
+ * notar. Es una decisión comercial de la empresa, tomada a la vista de eso, y
+ * deja de ser un pendiente.
+ *
+ * ✅ `incluyeIva: true` reconfirmado el 09-09-2026: *"todos los precios con
+ * IVA"*.
  *
  * `incluyeIva: true` **ya no es inferencia**: el 08-09-2026 el dueño escribió
  * *"faltaría el precio $790.000 IVA incluído. Este equipo se debe solicitar

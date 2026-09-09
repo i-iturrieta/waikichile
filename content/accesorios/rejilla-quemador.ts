@@ -19,6 +19,18 @@
  * esta pieza. No cuenta como fotografía real del accesorio (mismo criterio
  * que Nahuen y el controlador de presión). Vuelve a `borrador: false` en
  * cuanto exista una fotografía real de `accesorio-rejilla-1.jpg`.
+ *
+ * **Precio $40.000 IVA incluido, confirmado por Ignacio el 09-09-2026**, y
+ * la ficha **sigue en `borrador: true`** — que es la única razón por la que
+ * ese precio no está hoy en el sitio. Sus palabras: *"dejemos la rejilla en
+ * 40.000 por ahora. No podemos subirlo porque no tenemos imágenes, pero sí
+ * vale 40.000"*. Se deja escrito el monto para que el día que llegue la foto
+ * la ficha se publique con un solo cambio de `borrador`, sin tener que
+ * volver a preguntar el precio.
+ *
+ * El dato rescatado del sitio anterior daba un rango de **$37.000 a
+ * $40.000** (FAQ del sitio viejo). Ignacio fijó el extremo superior; no es
+ * que se haya elegido el mayor de los dos, es el precio que él confirmó.
  */
 
 import type { Accesorio } from '../../lib/contenido/esquemas.ts';
@@ -30,7 +42,10 @@ const rejillaQuemador: Accesorio = {
   descripcion:
     'La rejilla del quemador es la pieza que se desgasta con el uso normal del equipo. Se fabrica en acero inoxidable refractario y se recomienda cambiarla cada 1 a 2 años, según la intensidad de uso y la calidad del pellet.\n\n' +
     'Es la única pieza de repuesto que necesita el equipo en condiciones normales de uso. No tiene garantía: es un consumible, y su desgaste no se considera un defecto de fabricación.',
-  precio: { tipo: 'consultar' },
+  // Confirmado por Ignacio el 09-09-2026. No se ve en el sitio todavía
+  // porque la ficha está en `borrador: true` por falta de foto — ver la nota
+  // de cabecera.
+  precio: { tipo: 'fijo', monto: 40000, incluyeIva: true },
   superficieRecomendada: null,
   medidas: null,
   especificaciones: [

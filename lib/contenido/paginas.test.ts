@@ -56,7 +56,10 @@ describe('paginaNosotros / paginaGarantia (contenido real, Bloque 3b)', () => {
     expect(paginaNosotros.html.length).toBeGreaterThan(0);
   });
 
-  // Este guardián ha cambiado tres veces, y cada vez por una decisión real:
+  // Este guardián ha cambiado cuatro veces, y cada vez por una decisión real.
+  // La secuencia importa más que el estado actual, porque este dato es una
+  // obligación legal frente al consumidor y ya se movió en las dos
+  // direcciones:
   //
   //   1. Antes del 07-09-2026 vigilaba que la página siguiera en borrador y
   //      que su cuerpo no publicara ningún plazo, porque había 6 y 12 meses
@@ -67,21 +70,27 @@ describe('paginaNosotros / paginaGarantia (contenido real, Bloque 3b)', () => {
   //      tercera fuente: su FAQ, editado hasta julio de 2025, dice **6 meses**
   //      de forma explícita y en dos preguntas distintas. Con dos fuentes
   //      diciendo 6 (ese FAQ) y dos diciendo 12 (el manual impreso y la ficha
-  //      de Chakay), Ignacio decidió retirar la página hasta que la clienta
-  //      confirme. Ver `contenido-rescatado/wordpress-original/HALLAZGOS.md`.
+  //      de Chakay), Ignacio decidió retirar la página hasta confirmar. Ver
+  //      `contenido-rescatado/wordpress-original/HALLAZGOS.md`.
+  //   4. El 09-09-2026 Ignacio confirma **12 meses**. La página se publica y
+  //      el guardián vuelve a vigilar el plazo, ahora de forma definitiva: el
+  //      FAQ del sitio anterior que decía 6 meses queda como obsoleto o
+  //      incorrecto.
   //
-  // Un plazo de garantía es una obligación legal frente al consumidor: se
-  // publica cuando se sabe, no mientras se averigua. El guardián vuelve a su
-  // forma original — que no haya ningún plazo publicado — y con la página se
-  // retiraron también las dos preguntas del FAQ que afirmaban los 12 meses.
-  it('paginaGarantia está en borrador y su cuerpo no publica ningún plazo', () => {
-    expect(paginaGarantia.borrador).toBe(true);
+  // Lo que este guardián protege no es "que diga 12": es que la página no
+  // pueda quedar publicada diciendo un plazo distinto del confirmado, ni
+  // volver a quedar publicada sin plazo alguno. Las dos cosas ya pasaron.
+  it('paginaGarantia publica los 12 meses confirmados', () => {
+    expect(paginaGarantia.borrador).toBe(false);
     expect(paginaGarantia.html.length).toBeGreaterThan(0);
 
-    // El plazo de garantía se expresa en meses en todas las fuentes (6 en el
-    // FAQ del sitio anterior, 12 en el manual) o como "1 año" en la ficha de
-    // Chakay. Se prohíben las dos formas.
-    expect(paginaGarantia.html).not.toMatch(/\d+\s*meses?\b/i);
+    // El plazo tiene que estar, y tiene que ser 12 meses.
+    expect(paginaGarantia.html).toMatch(/12\s*meses/i);
+
+    // Y no puede aparecer ningún otro plazo de garantía. Se prohíben las dos
+    // formas en que las fuentes lo expresan: en meses (6 en el FAQ del sitio
+    // anterior) y en años ("1 año", la ficha de Chakay).
+    expect(paginaGarantia.html).not.toMatch(/6\s*meses/i);
     expect(paginaGarantia.html).not.toMatch(/(un|\d+)\s*años?\s+de\s+garant/i);
 
     // Ojo con endurecer esto de más: el cuerpo SÍ dice que la rejilla se

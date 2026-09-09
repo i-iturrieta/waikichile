@@ -76,14 +76,14 @@
  * dice literal "$790.000 IVA incluido". (En la Mini sí lo fue hasta que el
  * dueño lo confirmó por mensaje.)
  *
- * ⚠️ Lo que sí conviene que la empresa mire, y quedó anotado en
- * `PENDIENTES.md §2.1`: **el sitio muestra ahora dos equipos al mismo precio
- * donde el más chico incluye más.** Nahuen cubre 40 a 80 m² y no trae nada;
- * Mini Nahuen cubre 20 a 50 m² y trae kit de caños y controlador manual. Es
- * lo que dicen las fuentes y así se publica, pero cualquier comprador que
- * compare las dos fichas lo va a notar. No es un error nuestro que corregir:
- * es una decisión comercial de ellos que conviene que esté tomada a
- * propósito.
+ * ✅ **Los dos equipos al mismo precio: confirmado deliberado** (Ignacio,
+ * 09-09-2026: "sí, las dos nahuen valen lo mismo"). Se le planteó
+ * explícitamente que el sitio queda mostrando dos equipos en $790.000 donde
+ * el más chico incluye más —Nahuen cubre 40 a 80 m² y no trae nada; Mini
+ * Nahuen cubre 20 a 50 m² y trae kit de caños y controlador manual— y que
+ * cualquier comprador que compare las dos fichas lo va a notar. Es una
+ * decisión comercial de la empresa, tomada a la vista de eso. Deja de ser un
+ * pendiente.
  *
  * Los colores (`Negro`, `Rojo (según stock)`) NO se tocaron a la luz de las
  * fotos: las dos unidades fotografiadas son negras con la tapa lateral roja
@@ -108,10 +108,14 @@ const nahuen: Producto = {
   // regulador manual. `PENDIENTES.md §2.1`.
   precio: { tipo: 'fijo', monto: 790000, incluyeIva: true },
   // 08-09-2026: pasa de 40-70 a 40-80 m². Los 40 a 70 venían de la página
-  // del sitio anterior (07-02-2025); los 40 a 80 vienen de una pieza
-  // gráfica de la propia empresa de marzo de 2025 —más nueva— que está
-  // publicada en la galería como `producto-nahuen-4.jpg`, donde se lee
-  // "para casas de 40 a 80 mt²". Decisión de Ignacio.
+  // del sitio anterior (07-02-2025); los 40 a 80 vienen de una pieza gráfica
+  // de la propia empresa de marzo de 2025 —más nueva— donde se lee "para
+  // casas de 40 a 80 mt²".
+  //
+  // ✅ **Confirmado por Ignacio el 09-09-2026** ("confirmo 40-80 nahuen"), lo
+  // que importa porque la pieza que originó el dato se retiró de la galería
+  // al día siguiente por otro motivo (ver `imagenes`). El dato queda
+  // confirmado por su cuenta, no apoyado en una imagen que ya no está.
   superficieRecomendada: { min: 40, max: 80 },
   // Sin peso documentado en ninguna fuente rescatada — ver nota de cabecera.
   // Ancho/alto/fondo sí están documentados; se listan abajo como
@@ -148,15 +152,24 @@ const nahuen: Producto = {
       archivo: 'producto-nahuen-3.jpg',
       alt: 'Nahuen negro instalado en una cocina, con su salida de humos hacia el techo',
     },
-    // Pieza gráfica de la propia empresa (marzo de 2025). Se publica a
-    // sabiendas de que lleva el precio impreso — decisión de Ignacio,
-    // 08-09-2026— y hoy ese precio coincide con el publicado. Si el precio
-    // cambia, esta imagen hay que sacarla o rehacerla: queda anotado en
-    // `PENDIENTES.md §2.1`.
-    {
-      archivo: 'producto-nahuen-4.jpg',
-      alt: 'Pieza gráfica de Nahuen: el equipo encendido junto a plantas, con el texto “Nahuen a solo $790.000, envío gratis” y la descripción del equipo',
-    },
+    // ⚠️ `producto-nahuen-4.jpg` SE RETIRÓ DE LA GALERÍA EL 09-09-2026, un día
+    // después de publicarla. El archivo queda en disco sin referenciar, igual
+    // que `portada-1.jpg`, por si se decide reponerla.
+    //
+    // El motivo no es el precio impreso —ese coincide con el publicado— sino
+    // el otro texto de la pieza: dice **"ENVÍO GRATIS"** en letras grandes.
+    // El 09-09-2026 Ignacio confirmó que las visitas técnicas y los traslados
+    // **se cobran**, "todo, desde llevar el equipo o mantenerlo", y de hecho
+    // ese mismo día la página de Garantía pasó a decirlo. Ninguna otra fuente
+    // —ni el sitio anterior, ni los textos rescatados, ni el WordPress
+    // original— menciona envío gratuito en ninguna parte: se buscó
+    // explícitamente. Esta pieza era el único lugar donde el sitio prometía
+    // algo gratis, y prometía justo lo que la empresa cobra.
+    //
+    // Se retira porque una promesa comercial visible en una imagen es
+    // exigible, y porque contradecía otra página del mismo sitio. El dato de
+    // superficie que aportaba (40 a 80 m²) no se pierde: sigue en
+    // `superficieRecomendada`, con la pieza citada como fuente más abajo.
   ],
   requiereControlador: false,
   usaCondicionesEstandar: true,

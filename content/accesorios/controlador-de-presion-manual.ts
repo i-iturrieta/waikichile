@@ -26,21 +26,19 @@
  * controlador MANUAL, para casa de $875.000 si desean el controlador
  * automático"*. Los dos existen. Ver `content/productos/mini-nahuen.ts`.
  *
- * **Precio $45.000 IVA incluido**, confirmado por Ignacio el 08-09-2026 al
- * revisar esta ficha. Vale dejar la advertencia escrita porque el número
- * tiene un homónimo peligroso: $45.000 es **exactamente** el monto que el
- * sitio anterior publicaba en `/regulador-de-tiro/` para el OTRO controlador
+ * **Precio $45.000 IVA incluido.** ✅ **Reconfirmado el 09-09-2026**, ya con
+ * los dos controladores a la vista y nombrando cada uno: *"45.000 el manual,
+ * 85.000 el automático"*. Eso cierra la duda que quedó anotada el día
+ * anterior, y vale explicar cuál era, porque el número tiene un homónimo
+ * peligroso: $45.000 es **exactamente** el monto que el sitio anterior
+ * publicaba en `/regulador-de-tiro/` para el OTRO controlador
  * (`contenido-rescatado/DATOS-ESTRUCTURADOS.md`), y que el dueño reemplazó
- * por $85.000 el mismo 08-09-2026. Se le preguntó a Ignacio explícitamente
- * si no era un arrastre del borrador y respondió que el precio del manual es
- * ese. Queda igual en `PENDIENTES.md` para que el dueño confirme los dos
- * montos en un mismo mensaje, porque hoy ningún mensaje suyo distingue entre
- * ambos equipos.
+ * por $85.000. Que los dos montos coincidan no es un arrastre: es
+ * coincidencia, y ahora está confirmada con los dos equipos nombrados.
  *
- * ⚠️ `incluyeIva: true` es **inferencia**, igual que en el automático: nadie
- * lo dijo. Se asume incluido porque así se declaran todos los demás precios
- * de la empresa y porque un precio a consumidor final en Chile se publica
- * con IVA.
+ * ✅ `incluyeIva: true` **confirmado el 09-09-2026** por Ignacio: "todos los
+ * precios con IVA". Hasta ese día era inferencia nuestra, igual que en el
+ * automático.
  *
  * ⚠️ "Acero inoxidable" se lee de la foto (el tramo es cromado/inoxidable),
  * no de una ficha. Anotado en `PENDIENTES.md`.
