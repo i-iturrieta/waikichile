@@ -46,6 +46,45 @@
  * generan variante de 640 px, y ese es el ancho que la tarjeta del home y la
  * galería de la ficha piden en móvil de todos modos.
  *
+ * PRECIO: $790.000 IVA INCLUIDO, publicado el 08-09-2026 — y con eso se
+ * cierra la discusión más larga de esta codebase, que ocupó buena parte de
+ * `PENDIENTES.md §2.1`. Conviene el resumen, porque la conclusión es
+ * contraintuitiva y alguien va a querer "corregirla":
+ *
+ *   - El monto $790.000 aparecía en DOS equipos: acá, por la página del
+ *     sitio anterior del 07-02-2025 (en la misma tabla que las medidas
+ *     50 × 93 × 32 cm y los 40 a 70 m², inequívocamente de este equipo), y
+ *     en `mini-nahuen.ts`, por la ficha técnica que envió la clienta.
+ *   - Durante dos rondas se dio por sentado que **no podían valer lo mismo**
+ *     y que uno de los dos datos estaba arrastrado de una ficha a otra. Sobre
+ *     esa premisa el precio de la Mini se publicó, se revirtió y se volvió a
+ *     publicar.
+ *   - **La premisa era falsa.** Ignacio, 08-09-2026, en dos mensajes: *"la
+ *     mini-nahuen vale 790.000, pero sí incluye el kit de caño y el regulador
+ *     manual. La nahuen normal no"* y, sobre este equipo, *"la nahuen normal
+ *     vale 790.000 a secas, pero no incluye nada"*.
+ *
+ * O sea: los dos equipos cuestan lo mismo y **se diferencian por lo que traen
+ * por ese precio**, no por el precio. Nunca hubo un dato arrastrado.
+ *
+ * Y no es palabra contra nada: el monto de este equipo tiene ahora **dos
+ * fuentes independientes que coinciden exacto** — la página de febrero de
+ * 2025 y la confirmación de Ignacio de hoy. Es el mismo estándar de prueba
+ * que tiene Chakay, el precio mejor respaldado del sitio.
+ *
+ * `incluyeIva: true` **no es inferencia acá**: la página del sitio anterior
+ * dice literal "$790.000 IVA incluido". (En la Mini sí lo fue hasta que el
+ * dueño lo confirmó por mensaje.)
+ *
+ * ⚠️ Lo que sí conviene que la empresa mire, y quedó anotado en
+ * `PENDIENTES.md §2.1`: **el sitio muestra ahora dos equipos al mismo precio
+ * donde el más chico incluye más.** Nahuen cubre 40 a 80 m² y no trae nada;
+ * Mini Nahuen cubre 20 a 50 m² y trae kit de caños y controlador manual. Es
+ * lo que dicen las fuentes y así se publica, pero cualquier comprador que
+ * compare las dos fichas lo va a notar. No es un error nuestro que corregir:
+ * es una decisión comercial de ellos que conviene que esté tomada a
+ * propósito.
+ *
  * Los colores (`Negro`, `Rojo (según stock)`) NO se tocaron a la luz de las
  * fotos: las dos unidades fotografiadas son negras con la tapa lateral roja
  * —una combinación que el dato rescatado no describe— pero corregir el
@@ -60,18 +99,20 @@ const nahuen: Producto = {
   nombre: 'Nahuen',
   tagline: 'El equipo minimalista a pellets, sin electricidad y sin programación.',
   descripcion:
-    'Nahuen es un equipo de tiro natural a pellets, pensado para cabañas y espacios de 40 a 70 m². No es programable, y eso se presenta como ventaja: al no depender de la electricidad, nunca deja de calefaccionar por un corte de luz.\n\n' +
-    'Su entrega es de 1 a 1,5 meses desde la reserva. No incluye kit de caños ni instalación.',
-  // ⚠️ 08-09-2026 — el dueño confirmó el monto, el IVA y las condiciones de
-  // compra de los $790.000, pero NO a qué equipo corresponden: escribió
-  // "faltaría el precio $790.000 IVA incluído. Este equipo se debe solicitar
-  // al fono WhatsApp de la empresa con una reserva del 30% y el saldo
-  // coordinarlo con el área de Venta", diciendo "aca" sin nombrarlo. El monto
-  // sigue calzando con este equipo y con el otro Nahuen, así que sigue en
-  // `consultar`. Cuando llegue la respuesta, todo lo demás ya está: el IVA
-  // está confirmado y las condiciones de compra también. `PENDIENTES.md §2.1`.
-  precio: { tipo: 'consultar' },
-  superficieRecomendada: { min: 40, max: 70 },
+    'Nahuen es un equipo de tiro natural a pellets, pensado para cabañas y espacios de 40 a 80 m². No es programable, y eso se presenta como ventaja: al no depender de la electricidad, nunca deja de calefaccionar por un corte de luz.\n\n' +
+    'Su entrega es de 1 a 1,5 meses desde la reserva. No incluye kit de caños, controlador de presión ni instalación.',
+  // $790.000 IVA incluido — publicado el 08-09-2026. Ver la nota de cabecera:
+  // la colisión con Mini Nahuen no se resolvió descartando un monto, sino
+  // constatando que **los dos equipos valen lo mismo y se diferencian por lo
+  // que incluyen**. Este no incluye nada; la Mini trae kit de caños y
+  // regulador manual. `PENDIENTES.md §2.1`.
+  precio: { tipo: 'fijo', monto: 790000, incluyeIva: true },
+  // 08-09-2026: pasa de 40-70 a 40-80 m². Los 40 a 70 venían de la página
+  // del sitio anterior (07-02-2025); los 40 a 80 vienen de una pieza
+  // gráfica de la propia empresa de marzo de 2025 —más nueva— que está
+  // publicada en la galería como `producto-nahuen-4.jpg`, donde se lee
+  // "para casas de 40 a 80 mt²". Decisión de Ignacio.
+  superficieRecomendada: { min: 40, max: 80 },
   // Sin peso documentado en ninguna fuente rescatada — ver nota de cabecera.
   // Ancho/alto/fondo sí están documentados; se listan abajo como
   // especificaciones sueltas en vez de perderse.
@@ -85,7 +126,11 @@ const nahuen: Producto = {
   colores: ['Negro', 'Rojo (según stock)'],
   plazoEntrega: '1 a 1,5 meses desde la reserva',
   incluye: [],
-  noIncluye: ['Kit de caños', 'Instalación'],
+  // "Controlador de presión" se agrega el 08-09-2026: Ignacio, al confirmar
+  // que la Mini Nahuen sí lo incluye, precisó que "la nahuen normal no". No
+  // se nombra cuál de los dos controladores (ver `content/accesorios/`),
+  // porque lo confirmado es que no viene ninguno.
+  noIncluye: ['Kit de caños', 'Controlador de presión', 'Instalación'],
   imagenes: [
     {
       archivo: 'producto-nahuen-1.jpg',
@@ -94,6 +139,23 @@ const nahuen: Producto = {
     {
       archivo: 'producto-nahuen-2.jpg',
       alt: 'Nahuen encendido contra un muro de cerámica, con su salida de humos de acero hacia el techo',
+    },
+    // Rescatadas del WordPress original el 08-09-2026. La primera es la
+    // única foto que usaba la página `/nahuen-el-equipo-a-pellets-sin-
+    // electricidad/` del sitio anterior, así que la atribución al equipo no
+    // es nuestra. Ver `PENDIENTES.md §1.5`.
+    {
+      archivo: 'producto-nahuen-3.jpg',
+      alt: 'Nahuen negro instalado en una cocina, con su salida de humos hacia el techo',
+    },
+    // Pieza gráfica de la propia empresa (marzo de 2025). Se publica a
+    // sabiendas de que lleva el precio impreso — decisión de Ignacio,
+    // 08-09-2026— y hoy ese precio coincide con el publicado. Si el precio
+    // cambia, esta imagen hay que sacarla o rehacerla: queda anotado en
+    // `PENDIENTES.md §2.1`.
+    {
+      archivo: 'producto-nahuen-4.jpg',
+      alt: 'Pieza gráfica de Nahuen: el equipo encendido junto a plantas, con el texto “Nahuen a solo $790.000, envío gratis” y la descripción del equipo',
     },
   ],
   requiereControlador: false,

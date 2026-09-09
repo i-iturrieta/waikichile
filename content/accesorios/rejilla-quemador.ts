@@ -46,7 +46,7 @@ const rejillaQuemador: Accesorio = {
   // No se reserva un repuesto con un 30% del valor.
   usaCondicionesEstandar: false,
   destacado: false,
-  orden: 2,
+  orden: 3,
   esRepuesto: true,
   vidaUtil: '1 a 2 años',
   borrador: true,

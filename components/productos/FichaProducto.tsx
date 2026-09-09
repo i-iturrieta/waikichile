@@ -44,13 +44,20 @@
  * lista de imágenes se reacomoda a la grilla original (imagen principal
  * grande + miniaturas debajo) con las clases `lg:` — mismos elementos, sin
  * duplicar el DOM, solo cambia `flex`+scroll por `grid`.
+ *
+ * Ronda 09-09-2026: ese layout se movió sin tocarlo a
+ * `components/productos/GaleriaProducto.tsx`, porque las imágenes pasaron a
+ * ser ampliables al hacer clic (pedido de Ignacio) y eso pide estado de
+ * cliente. Esta ficha sigue siendo componente de servidor: la única isla es
+ * la galería. El diálogo ampliado es `components/ui/VisorAmpliado.tsx`, el
+ * mismo que usa la galería de Instalaciones desde el Bloque 9.
  */
 
 import Link from 'next/link';
 import Contenedor from '@/components/ui/Contenedor';
 import Titulo from '@/components/ui/Titulo';
 import Boton from '@/components/ui/Boton';
-import Imagen from '@/components/ui/Imagen';
+import GaleriaProducto from './GaleriaProducto';
 import Tarjeta from '@/components/ui/Tarjeta';
 import type { Producto } from '@/lib/contenido/esquemas';
 import { obtenerAccesorio } from '@/lib/contenido/accesorios';
@@ -69,7 +76,6 @@ export interface FichaProductoProps {
 const ETIQUETA_GARANTIA = 'Garantía';
 
 export default function FichaProducto({ producto, vidaUtil, esRepuesto }: FichaProductoProps) {
-  const [imagenPrincipal, ...imagenesResto] = producto.imagenes;
   const especificacionGarantia = producto.especificaciones.find((e) => e.etiqueta === ETIQUETA_GARANTIA);
   const especificacionesResto = producto.especificaciones.filter((e) => e.etiqueta !== ETIQUETA_GARANTIA);
   const parrafosDescripcion = producto.descripcion.split('\n\n');
@@ -78,41 +84,13 @@ export default function FichaProducto({ producto, vidaUtil, esRepuesto }: FichaP
   return (
     <Contenedor as="article" className="py-10 sm:py-16 lg:py-24">
       <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
-        {/* Galería — ver comentario de cabecera. Sin JavaScript: en mobile
-            es una tira `flex` con scroll-snap nativo (sangrada hasta el
-            borde con el mismo margen que usa `Contenedor`, para que se vea
-            a ancho casi completo); desde `lg:` la misma lista de imágenes
-            pasa a `grid` (imagen principal grande + miniaturas debajo) sin
-            duplicar el DOM. Sin visor interactivo: eso es la isla de
-            cliente de Instalaciones (Bloque 9), no de este bloque. */}
-        <div className="-mx-6 flex snap-x snap-mandatory gap-3 overflow-x-auto px-6 pb-1 md:-mx-16 md:px-16 lg:mx-0 lg:grid lg:snap-none lg:grid-cols-4 lg:gap-4 lg:overflow-visible lg:px-0 lg:pb-0">
-          <div
-            className="relative aspect-[4/5] w-[78%] flex-none snap-center overflow-hidden rounded-imagen-principal border border-superficie shadow-brasa sm:w-[45%] lg:col-span-4 lg:w-full"
-          >
-            <Imagen
-              archivo={imagenPrincipal.archivo}
-              alt={imagenPrincipal.alt}
-              prioridad
-              sizes="(min-width: 1024px) 50vw, 80vw"
-              llenar
-              className="object-cover"
-            />
-          </div>
-          {imagenesResto.map((imagen) => (
-            <div
-              key={imagen.archivo}
-              className="relative aspect-[4/5] w-[78%] flex-none snap-center overflow-hidden rounded-tarjeta border border-superficie shadow-sm sm:w-[45%] lg:col-span-1 lg:w-full"
-            >
-              <Imagen
-                archivo={imagen.archivo}
-                alt={imagen.alt}
-                sizes="(min-width: 1024px) 12vw, 80vw"
-                llenar
-              className="object-cover"
-              />
-            </div>
-          ))}
-        </div>
+        {/* Galería — ver comentario de cabecera. El layout (tira con
+            scroll-snap en móvil, grilla desde `lg:`) se movió tal cual a
+            `GaleriaProducto` en la ronda del 09-09-2026, cuando las imágenes
+            pasaron a ser ampliables: eso obliga a estado de cliente, y esta
+            ficha sigue siendo componente de servidor. El diálogo es el mismo
+            `VisorAmpliado` que usa Instalaciones. */}
+        <GaleriaProducto imagenes={producto.imagenes} nombre={producto.nombre} />
 
         <div className="flex flex-col gap-8">
           <div>
@@ -139,19 +117,26 @@ export default function FichaProducto({ producto, vidaUtil, esRepuesto }: FichaP
               controlador de presión condiciona la compra — obligatorio
               sobre 3,5 m de cañería"; tarea 8.2). Solo Waiki lo dispara hoy.
               El enlace a su ficha es condicional (Bloque 11, tarea 11.6):
-              mientras `controlador-de-presion` esté en `borrador: true` (sin
-              fotografía real todavía, ver content/accesorios/controlador-
-              de-presion.ts) su página no se genera, así que un `<Link>` fijo
-              apuntaría a un 404. `obtenerAccesorio` ya devuelve `undefined`
-              para contenido en borrador (filtrado en el cargador), así que
-              esto se resuelve solo cuando la ficha vuelva a publicarse. */}
+              mientras la ficha del controlador esté en `borrador: true` su
+              página no se genera, así que un `<Link>` fijo apuntaría a un
+              404. `obtenerAccesorio` ya devuelve `undefined` para contenido
+              en borrador (filtrado en el cargador), así que esto se resuelve
+              solo cuando la ficha vuelva a publicarse.
+
+              Apunta al AUTOMÁTICO (08-09-2026). Desde que se descubrió que
+              hay dos controladores hay que elegir uno, y es este: es el que
+              cotizaba la página `/regulador-de-tiro/` del sitio anterior —
+              de donde sale textualmente la regla de los 3,5 metros que este
+              mismo aviso repite— y el que el dueño valorizó en $85.000. El
+              manual no tiene documentada ninguna condición de uso; lo único
+              que se sabe de él es que la Mini Nahuen lo trae incluido. */}
           {producto.requiereControlador && (
             <div className="rounded-r-[10px] border-l-[3px] border-marca bg-marca/10 p-4">
               <p className="text-cuerpo text-texto">
                 <strong>Con cañería de salida sobre 3,5 metros</strong>, este equipo necesita un{' '}
-                {obtenerAccesorio('controlador-de-presion') ? (
+                {obtenerAccesorio('controlador-de-presion-automatico') ? (
                   <Link
-                    href="/accesorios/controlador-de-presion/"
+                    href="/accesorios/controlador-de-presion-automatico/"
                     className="font-semibold text-marca underline-offset-4 hover:underline"
                   >
                     controlador de presión

@@ -64,7 +64,7 @@
 # Páginas de producto individuales
 /nahuen-el-equipo-a-pellets-sin-electricidad/ /productos/nahuen/ 301
 /medidas-de-equipo-wikai-y-chakay/ /productos/chakay/ 301
-/controlador-de-presion-para-cocinas-wikai-y-chakay/ /accesorios/controlador-de-presion/ 301
+/controlador-de-presion-para-cocinas-wikai-y-chakay/ /accesorios/controlador-de-presion-automatico/ 301
 
 # Galerías de fotos y videos de instalaciones — todas confluyen en la
 # galería única del sitio nuevo
@@ -87,7 +87,7 @@
 /my-account/ /contacto/ 301
 
 # Nueva — página que no estaba en el menú del sitio anterior
-/regulador-de-tiro/ /accesorios/controlador-de-presion/ 301
+/regulador-de-tiro/ /accesorios/controlador-de-presion-automatico/ 301
 
 # Nueva — artículo completo, no estaba en el menú del sitio anterior
 /por-que-preferir-pellets/ /blog/por-que-preferir-pellets/ 301
@@ -106,3 +106,10 @@
 # Corrección 08-09-2026 — la entrevista se atribuyó a Disfruta Llanquihue por
 # error durante un día; la hizo Radio Frutillar. El slug cambió con ella.
 /blog/entrevista-disfruta-llanquihue/ /blog/entrevista-radio-frutillar/ 301
+
+# Nueva (08-09-2026) — `controlador-de-presion` se renombró a
+# `controlador-de-presion-automatico` al aparecer el manual como accesorio
+# aparte (ver content/accesorios/controlador-de-presion-automatico.ts). La
+# ruta estuvo publicada un día, y las dos redirecciones del sitio viejo de
+# más arriba apuntaban a ella.
+/accesorios/controlador-de-presion/ /accesorios/controlador-de-presion-automatico/ 301

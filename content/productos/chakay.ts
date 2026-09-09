@@ -54,52 +54,104 @@
  * (kit de caños). Venía del sitio anterior y no hubo que cambiarlo.
  */
 
-import type { Producto } from '../../lib/contenido/esquemas.ts';
+import type { Producto } from "../../lib/contenido/esquemas.ts";
 
 const chakay: Producto = {
-  slug: 'chakay',
-  nombre: 'Chakay',
-  tagline: 'Cocina de tiro natural que calefacciona por radiación y cocina sin horno.',
+  slug: "chakay",
+  nombre: "Chakay",
+  tagline:
+    "Cocina de tiro natural que calefacciona por radiación y cocina sin horno.",
   descripcion:
-    'Chakay es una cocina de tiro natural que calefacciona por radiación y quema pellet o leña. Incorpora una plancha superior de 32 × 42 cm pensada para cocinar sin horno ni cocina eléctrica: se usa con ollas y teteras directamente sobre la plancha. No es un accesorio secundario — es una de las dos funciones principales del equipo.\n\n' +
-    'Se carga, se enciende y la intensidad de la llama se regula con el controlador de presión, que viene incluido. Según su ficha técnica, cubre entre 50 y 120 m².\n\n' +
+    "Chakay es una cocina de tiro natural que calefacciona por radiación y quema pellet o leña. Incorpora una plancha superior de 32 × 42 cm pensada para cocinar sin horno ni cocina eléctrica: se usa con ollas y teteras directamente sobre la plancha. No es un accesorio secundario — es una de las dos funciones principales del equipo.\n\n" +
+    "Se carga, se enciende y la intensidad de la llama se regula con el controlador de presión, que viene incluido. Según su ficha técnica, cubre entre 50 y 120 m².\n\n" +
     // Las condiciones de compra (reserva del 30%, saldo, despacho y
     // documento) salieron de este párrafo el 08-09-2026: ahora viven en
     // `content/condiciones-comerciales.ts` y la ficha las muestra en el
     // bloque "Cómo se compra". Repetirlas acá sería decir dos veces lo mismo
     // en la misma página. Queda solo lo propio de este equipo.
-    'Se fabrica por temporada, con un plazo de 1 mes y medio a 2 meses desde la reserva. El kit de caños no está incluido. Cualquier duda sobre el equipo o la instalación se resuelve por WhatsApp, correo o teléfono.',
+    "Se fabrica por temporada, con un plazo de 1 mes y medio a 2 meses desde la reserva. El kit de caños no está incluido. Cualquier duda sobre el equipo o la instalación se resuelve por WhatsApp, correo o teléfono.",
   // Precio confirmado por la clienta el 08-09-2026 ("la Chakay el precio es
   // de 1.010.000 (clp) iva incluido"). Coincide exactamente con el que
   // publicaba el sitio anterior en `/product/chakay/`
   // (`contenido-rescatado/DATOS-ESTRUCTURADOS.md`, "Producto · Chakay"): dos
   // fuentes independientes en el mismo monto, así que no hay inferencia acá.
-  precio: { tipo: 'fijo', monto: 1010000, incluyeIva: true },
+  precio: { tipo: "fijo", monto: 1010000, incluyeIva: true },
   superficieRecomendada: { min: 50, max: 120 },
   medidas: { ancho: 67, alto: 93, fondo: 32, peso: 120 },
   especificaciones: [
-    { etiqueta: 'Sistema de calefacción', valor: 'Radiación' },
-    { etiqueta: 'Salida de caño', valor: '4 pulgadas' },
-    { etiqueta: 'Plancha de cocción', valor: '32 × 42 cm' },
-    { etiqueta: 'Fabricación del quemador', valor: 'Acero inoxidable' },
-    { etiqueta: 'Rejilla del quemador', valor: 'Acero inoxidable refractario' },
-    { etiqueta: 'Tipo de fabricación', valor: 'Corte láser' },
-    { etiqueta: 'Capacidad de carga', valor: '9 kg' },
-    { etiqueta: 'Consumo promedio', valor: '0,8 a 1,5 kg de pellet por hora' },
-    { etiqueta: 'Rendimiento de un saco de 15 kg', valor: '15 a 16 horas promedio' },
-    { etiqueta: 'Garantía', valor: '1 año por desperfecto de fabricación' },
+    { etiqueta: "Sistema de calefacción", valor: "Radiación" },
+    { etiqueta: "Salida de caño", valor: "4 pulgadas" },
+    { etiqueta: "Plancha de cocción", valor: "32 × 42 cm" },
+    { etiqueta: "Fabricación del quemador", valor: "Acero inoxidable" },
+    { etiqueta: "Rejilla del quemador", valor: "Acero inoxidable refractario" },
+    { etiqueta: "Tipo de fabricación", valor: "Corte láser" },
+    { etiqueta: "Capacidad de carga", valor: "9 kg" },
+    { etiqueta: "Consumo promedio", valor: "0,8 a 1,5 kg de pellet por hora" },
+    {
+      etiqueta: "Rendimiento de un saco de 15 kg",
+      valor: "15 a 16 horas promedio",
+    },
+    { etiqueta: "Garantía", valor: "1 año por desperfecto de fabricación" },
   ],
-  colores: ['Negro', 'Mixto (negro y rojo)'],
-  plazoEntrega: '1 mes y medio a 2 meses',
-  incluye: ['Codo con registro', 'Controlador de presión'],
-  noIncluye: ['Kit de caños'],
+  colores: ["Negro", "Mixto (negro y rojo)"],
+  plazoEntrega: "1 mes y medio a 2 meses",
+  incluye: ["Codo con registro"],
+  noIncluye: ["Controlador de presión", "Kit de caños"],
   // Ver comentario de cabecera (ronda 01-09-2026): banco de fotos
   // reemplazado por el modelo vigente, no el descontinuado.
   imagenes: [
-    { archivo: 'producto-chakay-3.jpg', alt: 'Chakay encendido, vista frontal con la marca visible, modelo actual' },
-    { archivo: 'producto-chakay-4.jpg', alt: 'Chakay encendido, modelo actual, instalado junto a una ventana' },
-    { archivo: 'producto-chakay-5.jpg', alt: 'Chakay encendido, modelo actual, instalado contra una pared clara' },
-    { archivo: 'producto-chakay-6.jpg', alt: 'Chakay en su versión mixta negro y rojo, instalado junto a un comedor' },
+    {
+      archivo: "producto-chakay-3.jpg",
+      alt: "Chakay encendido, vista frontal con la marca visible, modelo actual",
+    },
+    {
+      archivo: "producto-chakay-4.jpg",
+      alt: "Chakay encendido, modelo actual, instalado junto a una ventana",
+    },
+    {
+      archivo: "producto-chakay-5.jpg",
+      alt: "Chakay encendido, modelo actual, instalado contra una pared clara",
+    },
+    {
+      archivo: "producto-chakay-6.jpg",
+      alt: "Chakay en su versión mixta negro y rojo, instalado junto a un comedor",
+    },
+    // Rescatadas del WordPress original el 08-09-2026, de la galería que la
+    // propia ficha de WooCommerce declaraba para este producto. Las tres
+    // llevan la placa de la marca anterior, que es la marca del modelo
+    // VIGENTE: el descontinuado es el que lleva "CHAKAY" grabado (ver
+    // `content/instalaciones.ts`). Se descartaron de esa misma galería las
+    // que muestran el modelo descontinuado. Ver `PENDIENTES.md §1.5`.
+    {
+      archivo: "producto-chakay-7.jpg",
+      alt: "Chakay encendido, modelo actual, instalado en el rincón de un living",
+    },
+    {
+      archivo: "producto-chakay-8.jpg",
+      alt: "Chakay encendido, modelo actual, con su salida de humos hacia el techo",
+    },
+    {
+      archivo: "producto-chakay-9.jpg",
+      alt: "Chakay encendido, modelo actual, instalado contra un muro claro",
+    },
+    // Planos de medidas del fabricante, rescatados de la página "Medidas de
+    // equipo Chakay" del sitio anterior. Ver la nota de cabecera.
+    {
+      archivo: "medidas-chakay-1.png",
+      alt: "Plano de medidas de Chakay: vista frontal de 67 cm de ancho por 93 de alto, vista lateral de 32 cm de fondo, y vista con la puerta de carga abierta",
+    },
+    {
+      archivo: "medidas-chakay-2.png",
+      alt: "Plano de la vista frontal de Chakay, acotada en 67 cm de ancho",
+    },
+    {
+      archivo: "medidas-chakay-3.png",
+      alt: "Plano de la vista lateral de Chakay, acotada en 93 cm de alto, con la entrada de aire abajo y la salida de aire arriba",
+    },
+    {
+      archivo: "medidas-chakay-4.png",
+      alt: "Plano de la vista superior de Chakay, acotada en 32 cm de fondo, con el detalle de la plancha de cocción y el quemador",
+    },
   ],
   requiereControlador: false,
   usaCondicionesEstandar: true,

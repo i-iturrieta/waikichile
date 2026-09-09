@@ -57,6 +57,16 @@ const waiki: Producto = {
     { archivo: 'producto-waiki-2.jpg', alt: 'Waiki instalado y encendido, con un niño abrazando a un gato junto a la estufa' },
     { archivo: 'producto-waiki-3.jpg', alt: 'Waiki instalado, fotografía en blanco y negro con un niño y un gato' },
     { archivo: 'producto-waiki-4.jpg', alt: 'Waiki instalado junto a dos teteras esmaltadas azules, contra una pared de piedra' },
+    // Rescatadas del WordPress original el 08-09-2026: son las 4 fotos que
+    // la ficha de WooCommerce usaba como galería del producto, o sea la
+    // atribución no es nuestra. Ver `PENDIENTES.md §1.5`.
+    { archivo: 'producto-waiki-5.jpg', alt: 'Waiki instalado en una combustión lenta negra, encendido, en el living de una vivienda' },
+    { archivo: 'producto-waiki-6.jpg', alt: 'Waiki instalado en una combustión con frente rojo, con la llama a plena vista tras el vidrio' },
+    { archivo: 'producto-waiki-7.jpg', alt: 'Waiki visto de costado, con la tolva de pellet acoplada al lateral de la combustión' },
+    { archivo: 'producto-waiki-8.jpg', alt: 'Waiki montado sobre una combustión de acero, encendido, contra un muro de albañilería' },
+    // Esquema del propio fabricante: rotula tolva, tiraje, toma de aire,
+    // estación del quemador y limpiador de ceniza sobre una foto real.
+    { archivo: 'esquema-waiki-1.jpg', alt: 'Esquema del equipo Waiki sobre una fotografía, con las partes rotuladas: tolva de 6,5 kg de pellets, tiraje, toma de aire, estación del quemador y limpiador de ceniza' },
   ],
   requiereControlador: true,
   // Waiki no usa las condiciones estándar: su compra no se reserva con el

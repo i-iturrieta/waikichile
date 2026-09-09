@@ -25,49 +25,70 @@
  *     precio, no dos productos). A diferencia de Waiki/Chakay/Nahuen, acá
  *     el kit de caños SÍ viene incluido en el valor base — por eso
  *     `noIncluye` queda vacío.
- *
- * PRECIO: SE PUBLICÓ Y SE REVIRTIÓ EL MISMO DÍA (08-09-2026). Quedó en
- * `consultar`. Vale la historia completa, porque el próximo que lea la ficha
- * de la clienta va a querer publicar los $790.000 otra vez:
- *
- *   1. Se publicó tras el mensaje de la clienta ("la mini Nahuen también
- *      está con precio"), tomando la configuración con controlador MANUAL,
- *      que según Ignacio (07-09-2026) es la única que existe: la variante
- *      automática de $875.000 no está a la venta. Eso sigue siendo cierto y
- *      por eso `incluye` dice "Controlador de presión" a secas.
- *   2. `incluyeIva: true` habría sido INFERENCIA, no dato: la ficha no
- *      menciona el IVA.
- *   3. ⚠️ Y el motivo de fondo de la reversión: **$790.000 es exactamente el
- *      precio que una fuente fechada le da a la Nahuen GRANDE.** No es una
- *      coincidencia suelta — en `contenido-rescatado/DATOS-ESTRUCTURADOS.md`
- *      ("Producto · Nahuen", página del 07-02-2025) ese monto viene en la
- *      misma tabla que las medidas 50 × 93 × 32 cm y los 40 a 70 m², que son
- *      inequívocamente los del equipo grande y son los que esta misma
- *      codebase publica en `nahuen.ts`. O sea: hay evidencia verificable que
- *      ancla ese número a la Nahuen grande, y del otro lado una imagen sin
- *      fecha con el mismo número. Dos productos distintos con el monto
- *      idéntico es la forma que tiene un dato arrastrado de una ficha a otra.
- *
- *      Indicio en contra, que también hay que tener a la vista: la ficha no
- *      dice "$790.000" a secas, dice "con kit de cañaños y controlador
- *      MANUAL", mientras que la Nahuen a $790.000 NO incluía kit ni
- *      instalación. Quien copia un número no suele agregarle una condición
- *      distinta. No alcanza para decidir, sí para no descartar la ficha.
- *
- * **No republicar este precio sin que la clienta lo confirme**, y de paso
- * confirmar el de Nahuen: mientras los dos equipos compartan monto, uno de
- * los dos está mal. Ver `FICHAS-POR-CONFIRMAR.md` y `PENDIENTES.md §2.1`.
- *
- * ⚠️ La ficha técnica fotografiada se publica como imagen de galería
- * (`producto-mini-nahuen-3.jpg`) a pedido explícito de la clienta, y en esa
- * foto se lee el desglose completo, incluido el controlador automático de
- * $875.000. O sea: el texto de la ficha dice un precio y la foto muestra dos.
- * Es visible para cualquiera que amplíe la imagen. Está anotado en
- * `FICHAS-POR-CONFIRMAR.md` para resolverlo con ella — se resuelve sacando la
- * foto o actualizando la ficha impresa, y ninguna de las dos es decisión
- * nuestra.
  *   - No hay peso documentado (igual que Nahuen grande) → `medidas: null`,
  *     ancho/alto/fondo como especificaciones sueltas.
+ *
+ * PRECIO: $790.000 IVA INCLUIDO. Se publicó, se revirtió el mismo día y se
+ * volvió a publicar — todo el 08-09-2026. Vale la historia completa, porque
+ * es el dato más discutido de esta codebase y recién ahora está cerrado:
+ *
+ *   1. Se publicó tras el mensaje de la clienta ("la mini Nahuen también
+ *      está con precio"), tomando la configuración con controlador MANUAL.
+ *   2. Se revirtió a `consultar` horas después, por un motivo serio:
+ *      **$790.000 es exactamente el monto que una fuente fechada le da a la
+ *      Nahuen GRANDE.** En `contenido-rescatado/DATOS-ESTRUCTURADOS.md`
+ *      ("Producto · Nahuen", página del 07-02-2025) viene en la misma tabla
+ *      que las medidas 50 × 93 × 32 cm y los 40 a 70 m², que son
+ *      inequívocamente los del equipo grande. Dos productos con el mismo
+ *      monto es la forma que tiene un dato arrastrado de una ficha a otra, y
+ *      no había cómo saber cuál de los dos estaba mal.
+ *   3. Se volvió a publicar con el detalle que aportó Ignacio el 08-09-2026:
+ *      *"la mini-nahuen vale 790.000, pero sí incluye el kit de caño y el
+ *      regulador manual. La nahuen normal no."*
+ *   4. Y el cierre, poco después, sobre el otro equipo: *"la nahuen normal
+ *      vale 790.000 a secas, pero no incluye nada"*.
+ *
+ * **La colisión nunca existió: los dos equipos valen lo mismo.** Lo que los
+ * diferencia es qué trae cada uno por ese precio. La premisa que sostuvo dos
+ * rondas de análisis —"no pueden valer lo mismo, uno de los dos datos está
+ * arrastrado"— era falsa, y por eso conviene dejarla escrita: era razonable y
+ * era incorrecta. Ninguna de las dos fuentes estaba equivocada.
+ *
+ * Lo que sí resultó decisivo fue el detalle, no el monto:
+ *
+ *   - La ficha nunca dijo "$790.000" a secas: decía "con kit de cañaños y
+ *     controlador MANUAL", mientras que la Nahuen a $790.000 **no incluía kit
+ *     ni instalación**. Ese contraste —anotado en su momento como "indicio
+ *     para no descartar la ficha"— era en realidad la explicación entera.
+ *   - El **controlador manual existe**, y como accesorio aparte
+ *     (`content/accesorios/controlador-de-presion-manual.ts`, 08-09-2026).
+ *     Hasta ese día se creía que había un solo controlador, lo que dejaba la
+ *     mención de la ficha en el aire; ahora encaja.
+ *   - Y por lo mismo encajan los **$875.000 "si desean el controlador
+ *     automático"** que se leen en la foto de la ficha, publicada en la
+ *     galería a pedido de la clienta: describen una configuración de un
+ *     producto que sí existe
+ *     (`content/accesorios/controlador-de-presion-automatico.ts`). Dejan de
+ *     ser un dato huérfano visible para cualquiera que amplíe la imagen.
+ *
+ * `content/productos/nahuen.ts` quedó publicado el mismo día en ese mismo
+ * monto. ⚠️ Efecto que conviene que la empresa mire, anotado en
+ * `PENDIENTES.md §2.1`: **el sitio muestra dos equipos al mismo precio donde
+ * el más chico incluye más.** Este cubre 20 a 50 m² con kit y controlador;
+ * Nahuen cubre 40 a 70 m² sin nada. Es lo que dicen las fuentes y así se
+ * publica, pero cualquiera que compare las dos fichas lo va a notar.
+ *
+ * `incluyeIva: true` **ya no es inferencia**: el 08-09-2026 el dueño escribió
+ * *"faltaría el precio $790.000 IVA incluído. Este equipo se debe solicitar
+ * al fono WhatsApp de la empresa con una reserva del 30% y el saldo
+ * coordinarlo con el área de Venta"*. Ese mensaje decía "aca" sin nombrar el
+ * equipo, y por eso no alcanzaba por sí solo; con el equipo ya identificado,
+ * aporta las tres cosas: monto, IVA y condiciones de compra (que son las
+ * estándar, `usaCondicionesEstandar: true`).
+ *
+ * `incluye` nombra el controlador **manual** desde el 08-09-2026, no
+ * "Controlador de presión" a secas: desde que son dos accesorios distintos,
+ * decirlo a secas sería ambiguo, y la ficha de la clienta especifica cuál.
  *
  * Colores: se infieren de las 2 fotos reales (una unidad negra entera, una
  * mixta negro y rojo) — no vienen listados en la ficha técnica.
@@ -83,20 +104,13 @@ const miniNahuen: Producto = {
   tagline: 'La versión más compacta de Nahuen: tiro natural a pellets, sin electricidad, para espacios chicos.',
   descripcion:
     'Mini Nahuen es la versión más compacta de la línea Nahuen: un equipo de tiro natural a pellets o briquetas, pensado para espacios de 20 a 50 m². No depende de la electricidad, así que sigue calefaccionando aunque se corte la luz.\n\n' +
-    'El valor incluye el kit de caños y el controlador de presión, que en otros equipos se cotiza aparte. La disponibilidad se confirma al consultar por WhatsApp, correo o teléfono.',
-  // Vuelve a 'consultar' el 08-09-2026, el mismo día en que se había
-  // publicado. Ver el comentario de cabecera: el monto descansa en dos
-  // supuestos nuestros, y el segundo es serio — $790.000 es el precio que una
-  // fuente fechada y con medidas verificables le da a la Nahuen GRANDE.
-  // ⚠️ 08-09-2026 — el dueño confirmó el monto, el IVA y las condiciones de
-  // compra de los $790.000, pero NO a qué equipo corresponden: escribió
-  // "faltaría el precio $790.000 IVA incluído. Este equipo se debe solicitar
-  // al fono WhatsApp de la empresa con una reserva del 30% y el saldo
-  // coordinarlo con el área de Venta", diciendo "aca" sin nombrarlo. El monto
-  // sigue calzando con este equipo y con el otro Nahuen, así que sigue en
-  // `consultar`. Cuando llegue la respuesta, todo lo demás ya está: el IVA
-  // está confirmado y las condiciones de compra también. `PENDIENTES.md §2.1`.
-  precio: { tipo: 'consultar' },
+    'El valor incluye el kit de caños y el controlador de presión manual, que en los demás equipos se cotizan aparte. La disponibilidad se confirma al consultar por WhatsApp, correo o teléfono.',
+  // $790.000 IVA incluido — confirmado por Ignacio el 08-09-2026, junto con
+  // el detalle que zanjó la colisión con Nahuen: es el precio de este equipo
+  // *porque* incluye kit de caños y regulador manual, cosa que la Nahuen
+  // grande no. El IVA y las condiciones de compra vienen del mensaje del
+  // dueño del mismo día. Ver la nota de cabecera y `PENDIENTES.md §2.1`.
+  precio: { tipo: 'fijo', monto: 790000, incluyeIva: true },
   superficieRecomendada: { min: 20, max: 50 },
   medidas: null,
   especificaciones: [
@@ -110,7 +124,7 @@ const miniNahuen: Producto = {
   ],
   colores: ['Negro', 'Mixto (negro y rojo)'],
   plazoEntrega: null,
-  incluye: ['Kit de caños', 'Controlador de presión'],
+  incluye: ['Kit de caños', 'Controlador de presión manual'],
   noIncluye: [],
   imagenes: [
     { archivo: 'producto-mini-nahuen-1.jpg', alt: 'Mini Nahuen mixto negro y rojo, instalado y encendido junto a un sillón' },
