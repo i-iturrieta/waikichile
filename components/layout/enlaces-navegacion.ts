@@ -49,6 +49,35 @@
  * un poco de densidad en la barra; el de no tenerlo es que alguien no sepa
  * volver. Se paga la densidad (ver `MenuMovil.tsx` para cómo).
  *
+ * Corrección 10-09-2026 — entra "Opiniones", apuntando a la sección que ya
+ * existía (`/nosotros/#resenas`), no a una ruta propia.
+ *
+ * Motivo: la clienta reportó que en la portada solo salían dos o tres
+ * comentarios "y eran hartos". Lo que veía era cierto, pero el contenido no
+ * faltaba — las 38 reseñas publicadas ya estaban completas en
+ * `/nosotros/#resenas` desde el Bloque 9. Lo que faltaba era **cómo llegar**:
+ * ninguna entrada del menú decía "Opiniones" ni "Comentarios", así que la
+ * única vía era entrar a "Nosotros" y bajar. Quien busca comentarios no
+ * mira ahí.
+ *
+ * Se evaluó crear `/resenas/` con el listado completo y se descartó: habría
+ * duplicado esa sección y competido con la 301 de `/comentarios/`, que
+ * apunta justamente a `/nosotros/#resenas` (`public/_redirects`). Dos URLs
+ * con las mismas 38 reseñas es contenido duplicado y dos lugares que
+ * mantener.
+ *
+ * Va en **principales** y no en secundarios porque, pese a lo que decía el
+ * párrafo de arriba, `MenuMovil.tsx` importa `ENLACES_ENCABEZADO` y
+ * `ENLACE_CONTACTO`, nunca `ENLACES_SECUNDARIOS` — o sea que Garantía y
+ * Preguntas Frecuentes hoy aparecen **solo en el pie**. Dejar ahí Opiniones
+ * la habría escondido justo en el teléfono, que es donde la clienta mira.
+ *
+ * Es el único enlace del nav con fragmento (`#resenas`). El costo es
+ * densidad: la barra de escritorio pasa de 7 a 8 enlaces, y este mismo
+ * archivo cuenta que con 9 se veía desordenada. Se acepta porque "Opiniones"
+ * es corto — la que se partía en dos líneas era "Preguntas Frecuentes", de
+ * 20 caracteres.
+ *
  * "Contacto" sigue fuera de estos grupos a propósito (igual que antes): en
  * el encabezado va subordinado al CTA de WhatsApp, no como parte del nav.
  */
@@ -76,6 +105,7 @@ export const ENLACES_PRINCIPALES: EnlaceNavegacion[] = [
   { href: '/productos/', etiqueta: 'Productos' },
   { href: '/accesorios/', etiqueta: 'Accesorios' },
   { href: '/instalaciones/', etiqueta: 'Instalaciones' },
+  { href: '/nosotros/#resenas', etiqueta: 'Opiniones' },
   { href: '/calculadora/', etiqueta: 'Calculadora' },
   { href: '/nosotros/', etiqueta: 'Nosotros' },
   { href: '/blog/', etiqueta: 'Noticias' },

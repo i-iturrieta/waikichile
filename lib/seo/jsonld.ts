@@ -120,8 +120,55 @@ function urlImagenProducto(producto: Producto): string {
  * `incluyeIva` — `Offer.price` por sí solo no distingue si el monto lleva
  * IVA. Los otros tres equipos siguen en "consultar" y no emiten `offers`.
  */
-export function generarProductJsonLd(producto: Producto, basePath: '/productos' | '/accesorios') {
+/**
+ * Calificación agregada de un producto, para `aggregateRating` (10-09-2026,
+ * junto con `/resenas/`).
+ *
+ * Llega **como parámetro** en vez de que este módulo importe
+ * `lib/contenido/resenas.ts`, y la razón es concreta: ese módulo resuelve su
+ * colección con `await` de nivel superior, igual que `productos.ts` e
+ * `instalaciones.ts`. Importarlo acá le metería ese await al grafo de
+ * `app/layout.tsx`, `app/robots.ts`, `app/sitemap.ts` y `lib/seo/metadata.ts`
+ * —que lo importa casi toda página del sitio— para alimentar un campo de una
+ * sola ruta. `empresa.ts` sí se importa directo justamente porque no lo usa.
+ *
+ * Quien llama (`app/productos/[slug]/page.tsx`) ya tiene el contenido a mano
+ * y filtra por su cuenta.
+ */
+export interface CalificacionAgregada {
+  /** Promedio sin redondear. */
+  promedio: number;
+  total: number;
+}
+
+/**
+ * `aggregateRating` solo cuando hay reseñas que nombran **este** producto.
+ *
+ * El filtro por `producto` del propio contenido no es un detalle: de las 38
+ * reseñas publicadas, 21 dicen explícitamente cuál equipo tienen y 17 no.
+ * Atribuirle a un producto el promedio de las 38 sería declararle a Google
+ * un dato que el cliente nunca dio — la misma regla que ya gobierna
+ * `availability` unas líneas más abajo (se omite, no se inventa).
+ *
+ * `bestRating`/`worstRating` van explícitos aunque 5 y 1 sean los valores
+ * por defecto de schema.org: los validadores de Google los reportan como
+ * advertencia cuando faltan.
+ */
+function aggregateRatingJsonLd(calificacion: CalificacionAgregada | undefined) {
+  if (!calificacion || calificacion.total === 0) return undefined;
+  return {
+    '@type': 'AggregateRating',
+    ratingValue: Number(calificacion.promedio.toFixed(2)),
+    reviewCount: calificacion.total,
+    bestRating: 5,
+    worstRating: 1,
+  };
+}
+
+export function generarProductJsonLd(producto: Producto, basePath: '/productos' | '/accesorios', calificacion?: CalificacionAgregada) {
   const url = `${SITE_URL}${basePath}/${producto.slug}/`;
+
+  const valoracion = aggregateRatingJsonLd(calificacion);
 
   const base = {
     '@context': 'https://schema.org',
@@ -131,6 +178,7 @@ export function generarProductJsonLd(producto: Producto, basePath: '/productos' 
     image: [urlImagenProducto(producto)],
     url,
     brand: { '@type': 'Brand', name: 'Waiki Chile' },
+    ...(valoracion ? { aggregateRating: valoracion } : {}),
   };
 
   if (producto.precio.tipo !== 'fijo') {

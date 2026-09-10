@@ -30,6 +30,7 @@ import Visor from '@/components/instalaciones/Visor';
 import FichaProducto from '@/components/productos/FichaProducto';
 import { obtenerProducto, obtenerSlugsProductos } from '@/lib/contenido/productos';
 import { instalaciones } from '@/lib/contenido/instalaciones';
+import { resumirResenasDeProducto } from '@/lib/contenido/resenas';
 import { generarProductJsonLd } from '@/lib/seo/jsonld';
 import { construirMetadata } from '@/lib/seo/metadata';
 
@@ -58,7 +59,13 @@ export default async function PaginaProducto({ params }: ParametrosRuta) {
   const producto = obtenerProducto(slug);
   if (!producto) notFound();
 
-  const productoJsonLd = generarProductJsonLd(producto, '/productos');
+  // `aggregateRating` del JSON-LD: solo las reseñas que nombran este equipo
+  // (ver `resumirResenasDeProducto`). Se filtra acá y no dentro de
+  // `lib/seo/jsonld.ts` porque ese módulo no puede importar contenido con
+  // `await` de nivel superior sin arrastrarlo a todo el sitio — el porqué
+  // está en el comentario de `CalificacionAgregada`.
+  const valoracion = resumirResenasDeProducto(producto.slug);
+  const productoJsonLd = generarProductJsonLd(producto, '/productos', valoracion);
 
   // Galería de instalaciones de este producto (content/instalaciones.ts,
   // filtrada por `producto === slug`). Reutiliza el mismo `Visor` con

@@ -53,11 +53,20 @@
  * El texto completo de las nueve está en
  * `contenido-rescatado/wordpress-original/RESENAS.md`. Ver `PENDIENTES.md`.
  *
- * --- La que está en borrador: la única negativa ---------------------------
- * Luis M. (30-05-2025), 1 estrella, por la demora de un repuesto. Es la
- * única reseña no positiva de las 48 y es perfectamente publicable: queda en
- * borrador porque mostrarla o no es una decisión de la empresa sobre su
- * propia reputación, no nuestra. Basta cambiar `borrador` a `false`.
+ * --- La negativa: borrada por decisión del cliente (10-09-2026) ----------
+ * De las 48 rescatadas, una era negativa: Luis M. (30-05-2025), 1 estrella,
+ * por la demora de un repuesto. Estuvo en `borrador: true` desde el Bloque
+ * 3b esperando que la empresa decidiera, y el 10-09-2026 Ignacio pidió
+ * borrarla. Se eliminó de este archivo.
+ *
+ * **No se perdió:** su texto completo sigue en
+ * `contenido-rescatado/wordpress-original/RESENAS.md`, que es el volcado
+ * íntegro de las 48 y no se toca. Si algún día se quiere reponer, se copia
+ * de ahí.
+ *
+ * Consecuencia: hoy **no queda ninguna reseña en borrador**. Las 38 de este
+ * archivo son las 38 que se publican, y `filtrarPublicables` ya no descarta
+ * ninguna.
  *
  * --- Respuestas de la empresa --------------------------------------------
  * Las 13 respuestas de la empresa no se modelan (ARCHITECTURE.md §3): casi
@@ -161,20 +170,6 @@ const resenas: Resena[] = [
     producto: 'waiki',
     autorizada: true,
     borrador: false,
-  },
-  {
-    // La única reseña negativa de las 48. Queda en borrador esperando que
-    // Ignacio decida: mostrarla le da credibilidad al conjunto, y a la vez
-    // es la reputación de la empresa. No es decisión nuestra.
-    autor: 'Luis M.',
-    fecha: '2025-05-30',
-    calificacion: 1,
-    titulo: 'Pésima post venta.',
-    cuerpo:
-      'Pague un repuesto el martes y recién me lo envían a Temuco el viernes. O sea, el lunes recién lo tendré. Una semana después. Para dar precios son ágiles pero luego ni contestan. Piensen en este comentario cuando tengan que decidir si comprar o no',
-    ciudad: 'Temuco',
-    autorizada: true,
-    borrador: true,
   },
   {
     autor: 'Bárbara S.',

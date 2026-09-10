@@ -4,8 +4,7 @@
  *
  * Consume `resenas` de `lib/contenido/resenas.ts`, que ya viene filtrado por
  * `autorizada: true` *siempre* (desarrollo y producción — no es lo mismo que
- * `borrador`, ver ese archivo) y por `borrador` según el entorno. Hoy son
- * las 5 reseñas rescatadas del sitio anterior, publicadas con nombre parcial.
+ * `borrador`, ver ese archivo) y por `borrador` según el entorno.
  *
  * El componente decide solo si tiene algo que mostrar (`return null`), igual
  * que `LineasProducto` y `UltimasEntradas`: `app/page.tsx` no necesita
@@ -39,10 +38,31 @@
  * la visibilidad. `aria-hidden` no hace falta: `display:none` ya la saca del
  * árbol de accesibilidad. Aparece recién en `lg` y no en `md` para que
  * nunca quede una tarjeta sola en una segunda fila de la grilla de dos.
+ *
+ * --- El enlace al listado completo (10-09-2026) ---------------------------
+ *
+ * La clienta reportó que "en la portada solo salen 2 o 3 comentarios y eran
+ * hartos". Tenía razón en lo que veía, pero el problema **no era que
+ * faltaran**: las 38 publicadas ya estaban completas en `/nosotros/#resenas`
+ * desde el Bloque 9, que además es el destino de la 301 de `/comentarios/`
+ * (`public/_redirects`). El problema era que desde acá no había cómo llegar,
+ * y "Opiniones" no aparecía en el menú: quedaban escondidas dentro de
+ * "Nosotros", donde nadie que busque comentarios va a mirar.
+ *
+ * Por eso la corrección es un enlace, no una página nueva ni un tope más
+ * alto. Treinta y ocho testimonios completos en Inicio lo convierten en un
+ * muro de texto; y crear una segunda página de reseñas habría duplicado
+ * `/nosotros/#resenas` y peleado con su propia 301.
+ *
+ * El total sale de `resumenResenas`, no escrito a mano: si mañana se publica
+ * una más, el enlace se actualiza solo. El promedio se trunca con el mismo
+ * criterio que usa `app/nosotros/page.tsx` (piso a un decimal) para que el
+ * mismo número no aparezca como "4,9" en una página y "4,97" en la otra.
  */
 
+import Link from 'next/link';
 import { IconoEstrella } from '@/components/ui/iconos';
-import { resenas } from '@/lib/contenido/resenas';
+import { resenas, resumenResenas } from '@/lib/contenido/resenas';
 
 /** Tope de tarjetas en escritorio. En móvil se ven las dos primeras. */
 const MAXIMO_VISIBLES = 3;
@@ -51,6 +71,7 @@ export default function Resenas() {
   if (resenas.length === 0) return null;
 
   const visibles = resenas.slice(0, MAXIMO_VISIBLES);
+  const promedio = (Math.floor(resumenResenas.promedio * 10) / 10).toFixed(1).replace('.', ',');
 
   return (
     <section className="border-y border-borde-suave bg-superficie-baja px-5 py-[34px] md:px-8 lg:px-16 lg:py-20">
@@ -88,6 +109,17 @@ export default function Resenas() {
             </figure>
           ))}
         </div>
+
+        {resumenResenas.total > MAXIMO_VISIBLES ? (
+          <p className="mt-5 lg:mt-8">
+            <Link
+              href="/nosotros/#resenas"
+              className="inline-flex min-h-11 items-center rounded-[10px] border border-borde px-4 text-[15px] font-semibold text-texto transition-colors hover:bg-superficie-alta"
+            >
+              Ver las {resumenResenas.total} opiniones · {promedio} de 5
+            </Link>
+          </p>
+        ) : null}
       </div>
     </section>
   );

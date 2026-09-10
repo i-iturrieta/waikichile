@@ -54,25 +54,27 @@ describe('resenas: autorizada no es lo mismo que borrador', () => {
 
 describe('resenas (colección real, content/resenas.ts)', () => {
   // Eran 5 hasta el 08-09-2026, cuando se recuperaron las 48 del sitio
-  // anterior desde el WordPress que seguía vivo. De esas 48, 39 entran a
-  // `content/resenas.ts` (38 publicadas + 1 en borrador, la única negativa) y
-  // 9 quedan fuera porque nombran la marca anterior y `guardia.test.ts` no la
-  // admite en `content/`. La cabecera de `content/resenas.ts` lo detalla.
+  // anterior desde el WordPress que seguía vivo. De esas 48 quedan 38 en
+  // `content/resenas.ts`: 9 fuera porque nombran la marca anterior y
+  // `guardia.test.ts` no la admite en `content/`, y 1 —la única negativa—
+  // borrada el 10-09-2026 a pedido de Ignacio (su texto sigue en
+  // `contenido-rescatado/wordpress-original/RESENAS.md`).
   //
-  // Los tests corren en desarrollo, donde `filtrarPublicables` deja pasar los
-  // borradores: por eso acá son 39 y no 38.
-  it('trae las 39 reseñas del archivo, todas ya autorizadas (nombre parcial)', () => {
-    expect(resenas).toHaveLength(39);
+  // Ya no hay ninguna en borrador, así que el número es 38 tanto en
+  // desarrollo como en producción — antes eran 39 en desarrollo, donde
+  // `filtrarPublicables` deja pasar los borradores.
+  it('trae las 38 reseñas del archivo, todas ya autorizadas (nombre parcial)', () => {
+    expect(resenas).toHaveLength(38);
     expect(resenas.every((r) => r.autorizada)).toBe(true);
   });
 
-  // La reseña de 1 estrella es la única que NO debe publicarse todavía: es
-  // decisión de la empresa. Si alguien la despublica por error, o publica una
-  // negativa nueva sin pasar por esa decisión, este test avisa.
-  it('la única reseña negativa sigue en borrador', () => {
+  // La única negativa de las 48 se borró por decisión de la empresa. Este
+  // test ya no vigila que siga en borrador —no existe—, sino que no entre
+  // una negativa nueva sin pasar por esa misma decisión: si mañana se agrega
+  // una reseña de 1 a 3 estrellas, acá se entera alguien antes de publicarla.
+  it('no hay reseñas negativas publicadas', () => {
     const negativas = resenas.filter((r) => r.calificacion < 4);
-    expect(negativas).toHaveLength(1);
-    expect(negativas[0]!.borrador).toBe(true);
+    expect(negativas).toEqual([]);
   });
 
   // Ninguna reseña puede reintroducir la marca anterior. `guardia.test.ts` ya
