@@ -154,13 +154,30 @@ export default function Pie() {
             {/* Facebook: sin enlace a propósito — ver comentario de cabecera. */}
           </div>
 
-          <div className="flex flex-col gap-1 text-[12.5px] text-claro/75 lg:flex-row lg:gap-4">
+          {/* `lg:pr-20` reserva el rincón inferior derecho, que en desktop lo
+              ocupa el botón flotante de WhatsApp (fixed bottom-6 right-6, 56px).
+              Sin esto, lo último de esta fila queda debajo del botón: le pasaba
+              al crédito de abajo y le pasaría también a la razón social el día
+              que se active. */}
+          <div className="flex flex-col gap-1 text-[12.5px] text-claro/75 lg:flex-row lg:gap-4 lg:pr-20">
             <p className="mt-1.5 lg:mt-0">© {anioActual} Waiki Chile. Todos los derechos reservados.</p>
             {mostrarRazonSocial && (
               <p>
                 {empresa.razonSocial} — RUT {empresa.rut}
               </p>
             )}
+            {/* Crédito del estudio que hizo el sitio. Va como <p> hermano para
+                que entre en la misma fila que el resto en desktop y se apile
+                solo en móvil, igual que los otros dos. Enlace normal, sin
+                nofollow y sin abrir pestaña: es una referencia real. */}
+            <p>
+              <a
+                href="https://celeri.cl"
+                className="underline underline-offset-4 opacity-70 transition-opacity hover:opacity-100"
+              >
+                Diseño y desarrollo por Celeri
+              </a>
+            </p>
           </div>
         </div>
 
