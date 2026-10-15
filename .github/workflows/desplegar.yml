@@ -1,0 +1,43 @@
+# Despliegue automático a Cloudflare Workers.
+#   - push a `main`        → sitio principal (Worker `waikichile`, waikichile.cl)
+#   - push a otra rama     → sitio de prueba (Worker `waikichile-dev`)
+#     https://waikichile-dev.spike-workers.workers.dev
+# Ambos se construyen igual que producción, para que la clienta revise
+# exactamente lo que va a salir. Necesita el secreto CLOUDFLARE_API_TOKEN.
+name: Desplegar
+
+on:
+  push:
+    branches: ['**']
+  workflow_dispatch:
+
+concurrency:
+  group: desplegar-${{ github.ref_name == 'main' && 'principal' || 'prueba' }}
+  cancel-in-progress: false
+
+jobs:
+  desplegar:
+    runs-on: ubuntu-latest
+    env:
+      SITIO_PRODUCCION: 'true'
+      NEXT_PUBLIC_SITE_URL: https://waikichile.cl
+      CLOUDFLARE_ACCOUNT_ID: 8096ce60971001d03b15e03b9d23c9fc
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.5.2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test
+      - run: pnpm build
+      - name: Desplegar al sitio principal
+        if: github.ref_name == 'main'
+        run: npx wrangler deploy
+      - name: Desplegar al sitio de prueba
+        if: github.ref_name != 'main'
+        run: npx wrangler deploy --name waikichile-dev
