@@ -63,6 +63,7 @@ import type { Producto } from '@/lib/contenido/esquemas';
 import { obtenerAccesorio } from '@/lib/contenido/accesorios';
 import { formatearPrecio } from './formatearPrecio';
 import CondicionesCompra from './CondicionesCompra';
+import KitCanos from './KitCanos';
 
 export interface FichaProductoProps {
   producto: Producto;
@@ -74,6 +75,8 @@ export interface FichaProductoProps {
 }
 
 const ETIQUETA_GARANTIA = 'Garantía';
+// Ítem de `noIncluye` que activa el recuadro del kit (`content/kit-canos.ts`).
+const ITEM_KIT_CANOS = 'Kit de caños';
 
 export default function FichaProducto({ producto, vidaUtil, esRepuesto }: FichaProductoProps) {
   const especificacionGarantia = producto.especificaciones.find((e) => e.etiqueta === ETIQUETA_GARANTIA);
@@ -299,6 +302,8 @@ export default function FichaProducto({ producto, vidaUtil, esRepuesto }: FichaP
               )}
             </div>
           )}
+
+          {producto.noIncluye.includes(ITEM_KIT_CANOS) && <KitCanos />}
 
           {producto.usaCondicionesEstandar && <CondicionesCompra />}
         </div>
